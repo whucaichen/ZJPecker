@@ -1,0 +1,7606 @@
+
+///////////////////////////////////////////////////////////////////////////
+//
+//					Self Action Begin 
+//
+//					自定义控件Action 
+//
+///////////////////////////////////////////////////////////////////////////
+
+/*[AmountInput]----------------------------------------------*/
+var strFKey;
+var strEnterData;
+var strKeyTitle;
+var arrKey = new Array(40);
+var strUserDefinedKeys;
+var intMaxKeys;
+var intMinKeys;
+var blnAutoEnd;
+var strTerminalKey;
+var blnFKey;
+var intPressedNum;
+var intCanceledPos;
+var strRetValue;
+var intRealNum;
+var intPoint;
+var strLeftAmt,strRightAmt;
+var blnPos;
+var blnAmtEnd;
+var strUserActiveKeys;
+var strLastFKey;
+strLastFKey = "";
+
+var wait = require('wait.for');
+var varTimeOut = null;
+function EntryAction()
+{
+	varTimeOut = setTimeout(State_TimeOut,45000);
+	var ExecCmd = "ShowInfo('InputCrossTransferAmount');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+
+	var strFunParam
+	var Result
+	var strKeyMap
+	var blnFlag
+	strFunParam = ""
+	strKeyTitle = ""
+	strFKey = ""
+	strKeyMap = ""
+	strKeySet = ""
+	blnFKey = false
+	intPressedNum = 0
+	intCanceledPos = 0
+	intRealNum = 0
+	intPoint = 0
+	strLeftAmt = "0"
+	strRightAmt = "00"
+	strEnterData = ""
+	blnPos = true
+	blnAmtEnd = false
+	strUserActiveKeys = ""
+	Result = H_Display()
+	/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights Of PinPad Continuous"
+		GuideLights.SetPinPadLight "Continuous"
+	End If*/
+	strFunParam = InputKey()
+	arrFunParam = PipeToArray(strFunParam)
+	
+	if (arrFunParam.length != 4)
+	{
+	//	clearTimeout(varTimeOut);
+       	//	changeStatus('DeviceError');
+	//	return;
+	}
+	
+	strUserDefinedKeys = arrFunParam[3]+","+arrFunParam[4];
+	blnFlag = PressedKeyIsInSet("CLEAR",strUserDefinedKeys);
+	if (blnFlag == false)
+		strUserDefinedKeys = strUserDefinedKeys + "," + "CLEAR";
+	
+	blnFlag = PressedKeyIsInSet("BACKSPACE",strUserDefinedKeys);
+	if (blnFlag == false)
+		strUserDefinedKeys = strUserDefinedKeys + "," + "BACKSPACE";
+		
+	//strUserActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+	//console.log("strUserActiveKeys = [" + strUserActiveKeys + "]");
+
+	/*Result = ChkTerminalKey(CStr(arrFunParam(4)), strFKey)
+	If Result = False Then
+		EntryAction = "DeviceError"
+		Exit Function
+	Else*/
+		strKeyMap = KeyMapping();
+		if (strKeyMap != "")
+		{
+			/*Result = ChkMap(strFunParam, strKeyMap)
+			If Trim(UCase(Result)) <> "CHKOK" Then
+				If Trim(UCase(Result)) = "MAPERROR" Then
+					EntryAction = "DeviceError"
+					Exit Function
+				ElseIf Trim(UCase(Result)) = "PARAMERR" Then
+					EntryAction = "DeviceError"
+					Exit Function
+				ElseIf Trim(UCase(Result)) = "REMARKERR" Then
+					EntryAction = "DeviceError"
+					Exit Function
+				ElseIf Trim(UCase(Result)) = "KEYNOTMATCHING" Then
+					EntryAction = "DeviceError"
+					Exit Function
+				Else
+					EntryAction = "DeviceError"
+					Exit Function
+				End If
+			End If*/
+		}
+		//Result = DealKeyMap(strKeyMap, arrKey)
+		arrKey = ["","","","","","CLEAR","","ENTER","","","","","","","","","","","","","","","","","","","","","","","","","ENTER","CANCEL","CLEAR","BACKSPACE","HELP"];
+
+		/*If Trim(UCase(Result)) = "ERROR" Then
+			EntryAction = "DeviceError"
+			Exit Function
+		End If*/
+
+		if (((arrFunParam[2]).toUpperCase()).trim() == "TRUE")
+		{
+			//获得ENTER功能键对应的Map说明
+			strKeyTitle = arrKey[33];
+		}
+
+		if (strFKey.trim() == "")
+			strTerminalKey = "ENTER";
+		else
+		{
+			strTerminalKey = arrFunParam[4];
+			//blnFKey = PressedKeyIsInSet(strFKey,pinpad.CpKeysSupported);
+		}
+		
+		if ((arrFunParam[1]).trim() == "" || parseInt(arrFunParam[1]) < 4)
+		{
+			changeStatus('DeviceError');
+			return;
+		}
+		else
+		{
+			if ((arrFunParam[0]).trim() == "")
+				intMinKeys = 0;
+			else
+				intMinKeys = arrFunParam[0];
+	
+			intMinKeys = arrFunParam[0];
+			intMaxKeys = arrFunParam[1];
+			blnAutoEnd = arrFunParam[2];
+			
+			webuikit.on('KeyPressed', PinPad_KeyPressed);
+			pinpad.on('KeyPressed', PinPad_KeyPressed);
+			pinpad.on('Cancelled', PinPad_Cancelled);
+			//console.log("Call PinPad.UserEntry:  100 " + (arrFunParam[2]) + " "+ strUserActiveKeys + " " + strTerminalKey);
+			//pinpad.UserEntry(100,false, strUserActiveKeys, "", -1);
+			pinpad.UserEntry(100,false, "NUMBERS,CANCEL,CLEAR,F6,F7,F8", "", -1);
+			changeStatus('RESERVE');
+		}
+	//End If
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+	if (tempArray.length < 0)
+	{
+		return false;
+	}
+	for (var I = 0; I<(tempArray.length); I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+		
+	}
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+
+	arrayMyKeySet = strMyKeySet.split(",");
+	for (var J = 0; J<arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+	return false;
+}
+
+function PinPad_KeyPressed(Key, KeyCode)
+{
+	var I;
+	var blnFlag
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+
+	/*if (keytmp == "F8")
+		ShowPressButton(Key,"goBackButton",strLastFKey)
+	else
+		ShowPressButton(Key,"",strLastFKey)*/
+
+	console.log("Key = "+ keytmp + " strUserDefinedKeys = ["+strUserDefinedKeys+"]");
+
+	if (strFKey == "")
+	{
+		if (keytmp == strFKey && blnFKey == false)
+		{
+			for (I=1; I<= 32; I++)
+			{
+				strKeyTitle = arrKey[I];
+				if (keytmp == "F"+I.toString())
+				{
+					blnFlag = Data.setValue("outparam1", strEnterData);
+					blnFlag = Data.setValue("转账金额", strEnterData);
+					intCanceledPos = 8;
+					strRetValue = strKeyTitle;
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+				}
+			}
+		}
+	}
+	intPressedNum = intPressedNum + 1;
+	blnFlag = PressedKeyIsInSet(keytmp,strUserDefinedKeys);
+	if (blnFlag == false)
+		changeStatus('RESERVE');
+	else
+	{
+		if (keytmp == "ENTER")
+		{
+			intCanceledPos = 9;
+			//strRetValue = arrKey[33];
+			strRetValue = "ENTER";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "CANCEL")
+		{
+			intCanceledPos = 2;
+			//strRetValue = arrKey[34];
+			strRetValue = "CANCEL";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "CLEAR")
+		{
+			intCanceledPos = 3;
+			//strRetValue = arrKey[35];
+			strRetValue = "CLEAR";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "BACKSPACE")
+		{
+			intCanceledPos = 4;
+			//strRetValue = arrKey[35];
+			strRetValue = "CLEAR";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "HELP")
+		{
+			intCanceledPos = 5;
+			//strRetValue = arrKey[37];
+			strRetValue = "HELP";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else
+		{
+			var tmp;
+			tmp = keytmp.substr(0, 1);
+			if (tmp.toUpperCase() != "F")
+			{
+				if (keytmp == ".")
+				{
+					intPoint = intPoint + 1;
+					blnPos = false;
+				}
+				else
+				{
+					if (blnPos == false)
+					{
+						intRealNum = intRealNum + 1;
+						if (keytmp == "00")
+						{
+							strRightAmt = "00";
+							blnAmtEnd = true;
+						}
+						else
+						{
+							if (intRealNum == 1)
+								strRightAmt = keytmp + strRightAmt.right(1);
+							else if (intRealNum == 2)
+								strRightAmt = strRightAmt.left(1) + keytmp;
+							else
+								blnAmtEnd = true;
+						}
+					}
+					else
+					{
+						if (strLeftAmt.length < intMaxKeys - 3)
+						{
+							if (keytmp == "00" || keytmp == "0" )
+							{
+								if (strLeftAmt == "0")
+								{
+									strLeftAmt = "0";
+								}
+								else
+								{
+									if ((strLeftAmt.length == intMaxKeys - 4) && keytmp == "00")
+									{
+									}
+									else
+									{
+										strLeftAmt = strLeftAmt + keytmp;
+									}
+							
+								}
+							}
+							else
+							{
+								if (strLeftAmt == "0")
+									strLeftAmt = keytmp;
+								else
+									strLeftAmt = strLeftAmt + keytmp;
+							
+							}
+						}
+					}
+				}
+				if (strEnterData.length < intMaxKeys)
+				{
+					if (blnAmtEnd == false)
+						strEnterData = strLeftAmt + "." + strRightAmt;
+				}
+				else if (strEnterData.length == intMaxKeys) 
+				{
+					if (blnAmtEnd == false && blnPos == false)
+						strEnterData = strLeftAmt + "." + strRightAmt;
+				}
+				Result = DisplayInputInfo(strEnterData);
+				if (blnAmtEnd == true ||  strEnterData.length == intMaxKeys)
+				{
+					if (blnAutoEnd == true)
+					{
+						intCanceledPos = 10;
+						strRetValue = arrKey[33];
+						blnFlag = Data.setValue("outparam1", strEnterData);
+						blnFlag = Data.setValue("转账金额", strEnterData);
+						pinpad.CancelUserEntry();
+						changeStatus('RESERVE');
+						return;
+					}
+				}
+				changeStatus('RESERVE');
+			}
+			else
+			{
+				/*for (I=1; I<=32;I++)
+				{
+					if (keytmp.toUpperCase() == "F"+I.toString())
+					{
+						strKeyTitle = arrKey[I];
+						if (strFKey == keytmp)
+							intCanceledPos = 11;
+						else
+							intCanceledPos = 6;
+						
+						strRetValue = arrKey[I];
+						pinpad.CancelUserEntry();
+						changeStatus('RESERVE');
+						return;
+					}
+				}
+*/
+
+				if (keytmp.toUpperCase() == "F7")
+				{
+					intCanceledPos = 6;
+					strRetValue = "取消";
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+
+					
+				}
+				else if(keytmp.toUpperCase() == "F8")
+				{
+					intCanceledPos = 6;
+					strRetValue = "确认";
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+				}
+				else if(keytmp.toUpperCase() == "F6")
+				{
+					intCanceledPos = 6;
+					strRetValue = "更正";
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+				}
+			}
+		}
+	}
+	if (intPressedNum == 100)
+	{
+		intCanceledPos = 7;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	changeStatus('RESERVE');
+
+}
+
+function DisplayInputInfo(info)
+{
+	var strScript = "document.getElementsByName('MyInput')[0].value = '"+info+"';";
+	strScript = strScript + "document.getElementById('MyUnit').value ='"+info+"';";
+	var res = webuikit.runScript("DisplayAny", strScript);
+	console.log(res);
+}
+
+/*Function PinPad_FatalError(FRsult)
+Dim blnFlag
+Dim strDevErrInfo
+Dim strDevErrCode
+If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+IE.Trace "Set GuideLights Of PinPad OFF"
+GuideLights.SetPinPadLight "OFF"
+End If
+strDevErrInfo = "PIN000999"
+blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+blnFlag = Data.SetValue("outparam2", strDevErrInfo)
+PinPad_FatalError = "DeviceError"
+End Function
+Function PinPad_DeviceError()
+Dim wsappath
+Dim strFileName
+Dim blnFlag
+Dim strDeviceName
+Dim strDevErrInfo
+Dim strDevErrCode
+If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+IE.Trace "Set GuideLights Of PinPad OFF"
+GuideLights.SetPinPadLight "OFF"
+End If
+strDeviceName = "PinPad"
+blnFlag = Data.GetValue("wsappath", wsappath)
+blnFlag = Data.GetValue("deverrcodepath", strFileName)
+strFileName = Trim(strFileName)
+strFileName = CombineFileName(wsappath,strFileName)
+blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+strDevErrInfo = "PIN111111"
+End If
+strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+blnFlag = Data.SetValue("outparam2", strDevErrInfo)
+PinPad_DeviceError = "DeviceError"
+End Function*/
+
+/*function State_TimeOut()
+{
+	intCanceledPos = 1;
+	strRetValue = "TimeOut";
+	pinpad.CancelUserEntry();
+	changeStatus("RESERVE");
+}*/
+
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	webuikit.runScript('DisplayAny', scripttmp);
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+function PinPad_Cancelled()
+{
+	console.log("******PinPad_Cancelled intCanceledPos = [" + intCanceledPos + "]");
+	/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights Of PinPad OFF"
+		GuideLights.SetPinPadLight "OFF"
+	End If*/
+	
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	
+	Data.setValue("udf_转账金额", strEnterData);
+	
+	if (intCanceledPos == 1)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 2)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 3)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 4)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 5)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 6)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 7)
+	{
+		intPressedNum = 0;
+		/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+			IE.Trace "Set GuideLights Of PinPad Continuous"
+			GuideLights.SetPinPadLight "Continuous"
+		End If*/
+		console.log("intPressedNum = 100,So Call PinPad.UserEntry:  100 " + blnAutoEnd + " "+ strUserActiveKeys);
+		pinpad.UserEntry(100,false, strUserActiveKeys, "", -1);
+		changeStatus("RESERVE");
+		return;
+	}
+	else if (intCanceledPos == 8)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 9)
+	{
+		if (strEnterData.length >= intMinKeys)
+		{
+			blnFlag = Data.setValue("outparam1", strEnterData);
+			blnFlag = Data.setValue("转账金额", strEnterData);
+			clearTimeout(varTimeOut);
+			changeStatus(strRetValue);
+			return;
+		}
+		else
+		{
+			intPressedNum = 0;
+			/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+				IE.Trace "Set GuideLights Of PinPad Continuous"
+				GuideLights.SetPinPadLight "Continuous"
+			End If*/
+			pinpad.UserEntry(100,false, strUserActiveKeys, "", -1);
+			changeStatus("RESERVE");
+			return;
+		}
+	}
+	else if (intCanceledPos == 10)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 11)
+	{
+		if (strEnterData.length >= intMinKeys) 
+		{
+			blnFlag = Data.setValue("outparam1", strEnterData);
+			blnFlag = Data.setValue("转账金额", strEnterData);
+			clearTimeout(varTimeOut);
+			changeStatus(strRetValue);
+			return;
+		}
+		else
+		{
+			intPressedNum = 0;
+			/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+				IE.Trace "Set GuideLights Of PinPad Continuous"
+				GuideLights.SetPinPadLight "Continuous"
+			End If*/
+			pinpad.UserEntry(100,false, strUserActiveKeys, "", -1);
+			changeStatus("RESERVE");
+			return;
+		}
+	}
+	changeStatus("RESERVE");
+}
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet
+	var arrayActiveRet
+	var blnFlag
+	var strkeysupport
+	strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+	for (var I =0; I< arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right((strActiveRet.length) - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left((strActiveRet.length) - 1);
+
+	return strActiveRet;
+}
+
+function InputKey()
+{
+	return "4|12|true|F7,F6,F8,ENTER,NUMBERS,CANCEL,CLEAR|ENTER";
+}
+
+function KeyMapping()
+{
+	return "F1,取消|F4,确认|F6,更正|F8,取消|ENTER,确认|CANCEL,取消|CLEAR,更正";
+}
+
+function H_Display()
+{
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+	return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+	return this.slice(0, n);
+}
+
+EntryAction();
+/*[ATMRestartCUINFO]----------------------------------------------*/
+function EntryAction(){
+	var strFormName,strFieldName,strFieldData;
+	var PhysicalFlag;
+	var arrBillCassette;
+	var arrCasseteStatus = new Array(4); 
+	var arrCurrCount = new Array(4); 
+	var strCassStatus, strCassCount,strJPPrintType;
+	strFormName = "SingleLineJPForm";
+	PhysicalFlag = Data.getValue("PublicInfoUsePhysicalFlag");
+
+	/*
+	if (PhysicalFlag == "1")
+		blnFlag = CompPUCashUnitInfo(strRetractCassette, arrBillCassette);
+	else
+		blnFlag = CompCashUnitInfo(strRetractCassette, arrBillCassette);
+	arrCasseteStatus[0] = (arrBillCassette[0]).substring(6, 2);
+	arrCasseteStatus[1] = (arrBillCassette[1]).substring(6, 2);
+	arrCasseteStatus[2] = (arrBillCassette[2]).substring(6, 2);
+	arrCasseteStatus[3] = (arrBillCassette[3]).substring(6, 2);
+	arrCurrCount[0] = (arrBillCassette[0]).substring(12, 4);
+	arrCurrCount[1] = (arrBillCassette[0]).substring(12, 4);
+	arrCurrCount[2] = (arrBillCassette[0]).substring(12, 4);
+	arrCurrCount[3] = (arrBillCassette[0]).substring(12, 4);
+	//ATM的钞箱状态
+	strCassStatus = arrCasseteStatus[0]+"-"+arrCasseteStatus[1]+"-"+arrCasseteStatus[2]+"-"+arrCasseteStatus[3];
+	//ATM的剩余钞数
+	strCassCount = arrCurrCount[0]+"-"+arrCurrCount[1]+"-"+arrCurrCount[2]+"-"+arrCurrCount[3];
+	*/
+
+	strJPPrintType = Data.getValue("JournalPrintType");
+	if (strJPPrintType == "")
+		strJPPrintType="EngInfo";
+		
+	if (strJPPrintType = "ChnInfo")
+	{
+		JPData = "SingleLineData=<钞箱状态:"+strCassStatus+">";
+		//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName);
+		JPData2 = "SingleLineData=<钞箱张数:"+strCassCount+">";
+		//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData2, TmpFileName);
+	}
+	else
+	{
+		JPData = "SingleLineData=<FEEDER:"+strCassStatus+">";
+		//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName);
+		JPData2 = "SingleLineData=<CASS:"+strCassCount+">";
+		//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData2, TmpFileName);
+	}
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[CardReaderChk]----------------------------------------------*/
+function EntryAction(){
+	var Result = "";
+	var strCardReaderStatus, strCardReaderMediaStatus;
+	if ((Result.toUpperCase()).trim() == "INNERERROR")
+	{
+		console.log("PUB003", "<ChkCardReader>: Call H_Display Failed, Return----INNERERROR");
+		changeStatus('INNERERROR');
+		return;
+	}
+
+	strCardReaderStatus = cardreader.StDeviceStatus;
+	//不存在该设备
+	if (strCardReaderStatus == "NODEVICE") 
+	{
+		changeStatus('NoDevice');
+		return;
+	}
+	else if (strCardReaderStatus == "FATAL")   							//设备错误
+	{
+		changeStatus('DeviceError');
+		return;
+	}
+	else if (strCardReaderStatus == "HEALTHY")
+	{
+		//卡回收箱已满
+		if (cardreader.StBinStatus == "BINFULL")
+		{
+			changeStatus('BINFull');
+			return;
+		}
+		strCardReaderMediaStatus = cardreader.StMediaStatus;
+		if (strCardReaderMediaStatus == "INJAWS")
+		{
+			changeStatus('InJaws');
+			return;
+		}
+		else if (strCardReaderMediaStatus == "PRESENT" || strCardReaderMediaStatus == "JAMMED")      	//设备内有卡存在	
+		{
+			changeStatus('MediaExist');
+			return;
+		}
+		else if (cardreader.CpCanEject == false)						//设备没有Eject的功能
+		{
+			changeStatus('NoEjectCap');
+			return;
+		}
+		else if (cardreader.CpCanCapture == false)					//设备没有Capture的功能
+		{
+			changeStatus('NoCaptureCap');
+			return;
+		}
+		else
+		{
+			changeStatus('DeviceOk');
+			return;
+		}
+	}
+	else
+	{
+		changeStatus('NoDevice');
+		return;
+	}
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[CashMix]----------------------------------------------*/
+function EntryAction()
+{
+	var Amount, Money;
+	var blnFlag;
+	var strMixAlgorithm;
+	Amount = Data.getValue("udf_WAmount");
+	if (typeof(parseInt(Amount)) != "number" || Amount.trim() == "")
+	{
+		changeStatus('MixError');
+		return;
+	}
+	Money = "GBP";                      //Data.getValue("inparam2");
+	strMixAlgorithm = "1";                   //Data.getValue("inparam3");
+	strMixAlgorithm = strMixAlgorithm.trim();
+	/*blnFlag = CheckAlgorithm(strMixAlgorithm);
+	if (blnFlag == false)
+	{
+		changeStatus('MixError');
+		return;
+	}*/
+	console.log("CashDispenser Call Mix "+Amount+" "+Money+" "+strMixAlgorithm);
+	cashdispenser.on('MixComplete', CashDispenser_MixComplete);
+	cashdispenser.Mix(parseInt(Amount), Money, strMixAlgorithm);
+	changeStatus('RESERVE');
+}
+
+function CashDispenser_MixComplete(MixArray)
+{
+	var arrKind, arrNoteValue, arrMoney;
+	var I, J;
+	var blnFlag;
+	var strNoteCounts;
+	var IntNoteCounts;
+	var MaxCount;
+	var nLogicalCashUnits;
+	J = 0;
+	strNoteCounts = "";
+	IntNoteCounts = 0;
+	Data.setValue("udf_NoteCounts", MixArray);
+	console.log("CashDispenser MixComplete");
+/*	arrKind = cashdispenser.CUType;
+	arrNoteValue = cashdispenser.CUNoteValue;
+	arrMoney = cashdispenser.CUCurrency;
+	nLogicalCashUnits = cashdispenser.NumLogicalCashUnits;
+	for (I = 0; I< nLogicalCashUnits; I++)
+	{
+		if(I != nLogicalCashUnits-1) 
+			strNoteCounts = strNoteCounts+MixArray[I]+",";
+		else
+			strNoteCounts = strNoteCounts+MixArray[I];
+
+		IntNoteCounts = IntNoteCounts+parseInt(MixArray[I]);
+	}
+	MaxCount = Data.getValue("maxwithdrawalcount");
+	if (typeof(MaxCount) != "number")
+		MaxCount = 40;
+
+	if (IntNoteCounts > parseInt(MaxCount))
+	{
+		cashdispenser.removeAllListeners('MixComplete');
+		changeStatus('MixError');
+		return;
+	}
+	blnFlag = Data.setValue("outparam1", strNoteCounts);
+	I = 0;
+	while (I < nLogicalCashUnits)
+	{
+		if (arrKind[I] != "RETRACTCASSETTE" && arrKind[I] != "REJECTCASSETTE")
+		{
+			J = J + 1;
+			if (J > 4)
+			{
+				console.log("J = "+ J +"> 4,So Exit Do");
+				break;
+			}
+			blnFlag = Data.setValue("trs_币种"+J.toString(), (arrMoney[I]).toString());
+			blnFlag = Data.setValue("trs_面值"+J.toString(), (arrNoteValue[I]).toString());
+			blnFlag = Data.setValue("trs_张数"+J.toString(), (MixArray[I]).toString());
+		}
+		I = I + 1;
+	}*/
+	cashdispenser.removeAllListeners('MixComplete');
+	changeStatus('MixOk');
+}
+
+function CashDispenser_NotDispensable()
+{
+	changeStatus('MixError');
+}
+
+function CashDispenser_FatalError(FRsult)
+{
+	changeStatus('MixError');
+}
+
+function CheckAlgorithm(strAlgorithm)
+{
+	var intNum;
+	var strMixNumber;
+	var arrMixNumber;
+	
+	intNum = cashdispenser.NumMixAlgorithmsAndTables;
+	arrMixNumber = cashdispenser.MixNumber;
+	for (var I = 0; I<intNum; I++)
+	{
+		if (strAlgorithm == arrMixNumber[I]) 
+			return true;
+	}
+	return false;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[CashSelect]----------------------------------------------*/
+var wait = require('wait.for');
+var xmlDoc;
+var xmlNode;
+var lngSingleAmt;
+var strUserDefinedKeys;
+var strUserActiveKeys;
+var strFKey;
+var strEnterData;
+var strKeyTitle;
+var arrKey = new Array(40);
+var intMaxKeys;
+var intMinKeys;
+var intUserValidKey;
+var blnAutoEnd;
+var strTerminalKey;
+var blnFKey;
+var intPressedNum;
+var intCanceledPos;
+var strRetValue;
+var strCardKind;
+var strKind;
+var strLastFKey;
+strLastFKey = "";
+
+var fs = require('fs');
+var select = require('xpath.js');
+var DOMParser = require('xmldom').DOMParser;
+
+var varTimeOut = null;
+function EntryAction()
+{
+	varTimeOut = setTimeout(State_TimeOut,45000);
+	var ExecCmd = "ShowInfo('selectcashpage');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+	var TotalAmount;
+	var blnFlag;
+	var strFileName;
+	var strChn;
+	var strEng;
+	var wsappath;
+	var Result;
+	var HResult;
+	var strSingleAmt;
+	var strFunParam;
+	var strKeyMap;
+	strFunParam = "";
+	strBTID = "";
+	strEnterData = "";
+	strKeyTitle = "";
+	strFKey = "";
+	strKeyMap = "";
+	strKeySet = "";
+	blnFKey = false;
+	intUserValidKey = 0;
+	intPressedNum = 0;
+	intCanceledPos = 0;
+	strUserActiveKeys = "";
+	console.log("Call GetCUAmount()");
+	//TotalAmount = GetCUAmount();
+	TotalAmount = '5000';
+	//blnFlag = PlayAudioFile("selectcash.wav");
+	strCardKind = Data.getValue("cst_卡种类型");
+	//strCardKind = strCardKind.trim();
+	strCardKind = "";
+	if (strCardKind == "")
+		strKind = "5";
+	else
+		strKind = strCardKind.substr(0, 1);
+
+	console.log("卡种性质: "+strKind);
+	
+	strSingleAmt = Data.getValue("maxwithdrawalamt");
+	if (strSingleAmt == null)
+		strSingleAmt = "2500";
+	
+	if (strSingleAmt.trim() == "")
+		lngSingleAmt = 0;
+	else
+		lngSingleAmt = parseInt(strSingleAmt);
+
+	var lngMaxSupAmt;
+	var I,J;
+	var strSingleNum;
+	var lngSingleNum;
+	var intCUNum;
+	var intMaxNoteValue;
+	var arrKind, arrNoteValue,arrCurrCount, arrCUStatus;
+	arrKind = cashdispenser.CUType;
+	arrCurrCount = cashdispenser.CUCurrentCount;
+	arrNoteValue = cashdispenser.CUNoteValue;
+	arrCUStatus = cashdispenser.CUStatus;
+	//intMaxNoteValue = arrNoteValue[0];
+	intMaxNoteValue = 100;
+	J = 1;
+	intCUNum = cashdispenser.NumLogicalCashUnits;
+	/*for (I = 0; I < intCUNum; I++)
+	{
+		if (arrKind[I] != "RETRACTCASSETTE" && arrKind[I] != "REJECTCASSETTE")
+		{
+			console.log("CashUnit"+J+"－CUStatus:"+arrCUStatus[I]);
+			console.log("CashUnit"+J+"－NoteValue:"+arrNoteValue[I]);
+			console.log("CashUnit"+J+"－CurrCount:"+arrCurrCount[I]);
+			J = J+1;
+			if (arrCUStatus[I] == "HEALTHY" || arrCUStatus[I] == "FULL" || arrCUStatus[I] == "HIGH" || arrCUStatus[I] == "LOW")
+			{
+				if (intMaxNoteValue < arrNoteValue[I])
+					intMaxNoteValue = arrNoteValue[I];
+			}
+		}
+	}
+*/
+	
+	console.log("MaxNoteValue:"+intMaxNoteValue);
+
+	strSingleNum = Data.getValue("maxwithdrawalcount");
+	if (strSingleNum == null)
+	{
+		strSingleNum="50";
+		//return;
+	}
+	
+	if (strSingleNum.trim() == "")
+		lngSingleNum = 0;
+	else
+		lngSingleNum = parseInt(strSingleNum);
+
+	console.log("maxwithdrawalcount:"+lngSingleNum);
+	
+	//计算最大支持出钞金额(最大出钞张数*最大支持币值)
+	lngMaxSupAmt = lngSingleNum * intMaxNoteValue;
+	if (lngSingleAmt > lngMaxSupAmt)
+		lngSingleAmt = lngMaxSupAmt;
+
+	if (lngSingleAmt > parseInt(TotalAmount))
+		lngSingleAmt = parseInt(TotalAmount);
+
+	console.log("MaxSupAmt:"+lngSingleAmt);
+	blnFlag = Data.setValue("udf_lngMaxAmt", lngSingleAmt);
+	
+	strFunParam = InputKey();
+	console.log("Get InputKey: "+strFunParam);
+	arrFunParam = PipeToArray(strFunParam);
+	/*if (arrFunParam.length != 4)
+	{
+		changeStatus('DeviceError');
+		return;
+	}
+*/
+	
+	strUserDefinedKeys = arrFunParam[3] + "," + arrFunParam[4];
+	blnFlag = PressedKeyIsInSet("CLEAR",strUserDefinedKeys);
+	if (blnFlag == false)
+		strUserDefinedKeys = strUserDefinedKeys + "," + "CLEAR";
+	
+	blnFlag = PressedKeyIsInSet("BACKSPACE",strUserDefinedKeys);
+	if (blnFlag == false)
+		strUserDefinedKeys = strUserDefinedKeys + "," + "BACKSPACE";
+	
+	
+	if (((arrFunParam[2]).toUpperCase()).trim() == "TRUE")
+		strKeyTitle = arrKey[33];
+	
+	strTerminalKey = arrFunParam[4];
+	//blnFKey = PressedKeyIsInSet(strTerminalKey, pinpad.CpKeysSupported);
+	if ((arrFunParam[1]).trim() == "" || parseInt(arrFunParam[1]) == 0)
+	{
+		changeStatus('DeviceError');
+		return;
+	}
+	else
+	{
+		if ((arrFunParam[0]).trim() == "")
+			intMinKeys = 0;
+		else
+			intMinKeys = arrFunParam[0];
+
+		intMinKeys = arrFunParam[0];
+		intMaxKeys = arrFunParam[1];
+		blnAutoEnd = arrFunParam[2];
+		changeStatus('RESERVE');
+	}
+
+	strFileName = "../cfg/CashAmount.xml";
+	
+	var varContent = fs.readFileSync(strFileName, 'utf-8');
+	xmlDoc = new DOMParser({locator:null,checkLater:true}).parseFromString(varContent);
+	var strMyNode = "//servicepagechoice/cash";
+	xmlNode = select(xmlDoc,strMyNode);
+	if  (xmlNode.length >1 || xmlNode.length <0)
+	{
+		changeStatus('DeviceError');
+		return;
+	}
+	else
+	{
+		var attrid = xmlNode[0].getAttribute('id');
+		var strpagename;
+		if (attrid != "")
+		{
+			strpagename = attrid;
+			HResult = H_DisplayTitle(strpagename);
+		}
+		
+		webuikit.on('KeyPressed', PinPad_KeyPressed);
+		pinpad.on('KeyPressed', PinPad_KeyPressed);
+		pinpad.on('Cancelled', PinPad_Cancelled);
+		
+		Result = DisplayCash(TotalAmount);
+		changeStatus(Result);
+		return;
+	
+	}
+}
+
+function DisplayInputInfo(info)
+{
+	var strScript = "document.getElementsByName('MyInput')[0].value = '"+info+"';";
+	strScript = strScript + "document.getElementById('MyUnit').value ='"+info+"';";
+	var res = webuikit.runScript("DisplayAny", strScript);
+	console.log(res);
+}
+
+function DisplayCash(Amt)
+{
+	var strKeyValue = "";
+	var strVisible;
+	var blnFlag;
+	var Result;
+	var strTmp;
+	var strLength;
+	var strAmount;
+	var strRType;
+	var arrVisible = new Array(32);
+	var arrSrc = new Array(32);
+	var strSelected;
+	var intFKeyNum;
+	var currNode;
+	var strcurrNodeName;
+	var intnodeNameLen;
+	var currSerialNo;
+	var objNodeList;
+	
+	//strSelected = "//servicepagechoice/cash/*"
+	var  objNodeList = xmlNode[0].childNodes;
+	intFKeyNum = objNodeList.length;
+	if (intFKeyNum < 1)
+	{
+		return "DeviceError";
+	}
+	
+	for(var J = 0; J<=31; J++)
+	{
+		arrVisible[J] = "hidden";
+	}
+	
+	for (var K = 0; K<intFKeyNum; K++)
+	{
+		var currNode = objNodeList[K];
+		strcurrNodeName = currNode.nodeName;
+		if(strcurrNodeName != "#text")
+		{
+			intnodeNameLen = (strcurrNodeName.trim()).length;
+			if (intnodeNameLen == 2)
+			{
+				currSerialNo = parseInt(strcurrNodeName.substr(1,1));
+			}
+			else if (intnodeNameLen == 3)
+			{
+				currSerialNo = parseInt(strcurrNodeName.substr(1,2));
+			}
+			else
+			{
+				return "DeviceError";
+			}
+			
+			if (currSerialNo > 32)
+			{
+				return "DeviceError";
+			}
+		
+			strTmp = "//servicepagechoice/cash/"+strcurrNodeName;
+			xmlNode = select(xmlDoc,strTmp);
+			strLength = xmlNode.length;
+			if (strLength > 1 || strLength < 0)
+			{
+				return "DeviceError";
+			}
+		
+			strRType = xmlNode[0].getAttribute('resulttype');
+			if (strRType.toLowerCase() == "transaction")
+			{
+				strAmount =  xmlNode[0].getAttribute('amount');
+				if (strAmount != "")
+				{
+					/*if (typeof(strAmount) != "number" )
+					{
+						return "DeviceError";
+					}
+*/
+					
+					var pNode;
+					if (parseInt(strAmount) > parseInt(Amt))
+					{
+						strAmount = xmlNode[0].setAttribute('visibility', "hidden");
+					}
+					if (parseInt(strAmount) > lngSingleAmt)
+					{
+						strAmount = xmlNode[0].setAttribute('visibility', "hidden");
+					}
+				}
+			}
+			
+			strVisible = xmlNode[0].getAttribute('visibility');
+			arrVisible[currSerialNo-1] = strVisible;
+			arrSrc[currSerialNo-1] =  xmlNode[0].getAttribute('src');
+			if (strVisible.toLowerCase() != "visible" && strVisible != "" && strVisible.toLowerCase() != "hidden")
+			{
+				return "DeviceError";
+			}
+
+			if (strVisible.toLowerCase() == "visible" || strVisible == "")
+				strKeyValue = strKeyValue + strcurrNodeName + ",";
+
+		}
+	}
+	
+	H_DisplayService(arrVisible, arrSrc);
+	
+	/*if GuideLights.StPinPadLightStatus = "HEALTHY" Then
+	IE.Trace "Set GuideLights Of PinPad Continuous"
+	GuideLights.SetPinPadLight "Continuous"
+	End If*/
+	
+	strUserDefinedKeys = strUserDefinedKeys+","+strKeyValue;
+	strUserActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+	console.log("Call PinPad.UserEntry"+" 100"+" false "+ strUserActiveKeys +" "+" -1");
+	pinpad.UserEntry(100, false, strUserActiveKeys, "", -1);
+	return "RESERVE";
+}
+
+function GetCUAmount()
+{
+	var I, TotalAmount;
+	var arrKind, arrCurrCount, arrNoteValue, arrCUStatus;
+	var intNum;
+	I = 0;
+	TotalAmount=0;
+	arrKind = cashdispenser.CUType;
+	arrCurrCount = cashdispenser.CUCurrentCount;
+	arrNoteValue = cashdispenser.CUNoteValue;
+	arrCUStatus = cashdispenser.CUStatus;
+	intNum = cashdispenser.NumLogicalCashUnits;
+	while (I < intNum)
+	{
+		if (arrKind[I] != "RETRACTCASSETTE" && arrKind[I] != "REJECTCASSETTE")
+		{
+			if (arrCUStatus[I] == "HEALTHY" || arrCUStatus[I] == "FULL" || arrCUStatus[I] == "HIGH" || arrCUStatus[I] == "LOW")
+				TotalAmount = TotalAmount + parseInt(arrNoteValue[I]) * parseInt(arrCurrCount[I]);
+		}
+		I = I + 1;
+	}
+	
+	return TotalAmount;
+}
+
+function ShowPressButton(strFKey,strSpecial,strLastFKey)
+{
+	if (strFKey.trim() != "" && (strFKey.trim()).left(1) == "F")
+	{
+		var strButtonName;
+		if (strSpecial.trim() != "" && strSpecial.trim() != "goBackButton" )
+		{
+			strButtonName = strSpecial;
+		}
+		else
+		{
+			if(strFKey=="F1" || strFKey=="F3" || strFKey=="F5" || strFKey=="F7")
+			{
+				strButtonName = "BtnLeft_Down.gif";
+			}
+			else if(strFKey=="F2" || strFKey=="F4" || strFKey=="F6" || strFKey=="F8")
+			{
+				strButtonName = "BtnRight_Down.gif";
+			}
+			else
+			{
+				console.log("Fkey is invalid ["+strFKey+"]");
+				return;
+			}
+
+		}
+		
+		var bRet,strResult,strWsapPath,strLanguage;
+		strWsapPath = "..\\page";
+		bRet = Sysobj.iFunction("PATHFILEEXISTS",strWsapPath+"\\button\\"+strButtonName);
+		if (bRet == false)
+		{
+			//console.log("File Not Exist ["+strWsapPath+"\button\"+strButtonName+"]");
+			return;
+		}
+	}
+
+}
+
+function PinPad_KeyPressed(Key, KeyCode)
+{
+	var strResultType, strResult, strAmount;
+	var tmpPageId;
+	var blnFlag;
+	var strTmp;
+	var strLength;
+	var strSelected;
+	var intFKeyNum;
+	var currNode;
+	var strcurrNodeName;
+	var intnodeNameLen;
+	var currSerialNo;
+	var objNodeList;
+	
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+	console.log("PinPad_KeyPressed " + keytmp);
+	
+	if (keytmp == "F8")
+		ShowPressButton(keytmp,"goBackButton",strLastFKey);
+	else
+		ShowPressButton(keytmp,"",strLastFKey);
+
+	console.log("Key = "+keytmp+" strUserDefinedKeys = ["+strUserDefinedKeys+"]");
+	intPressedNum = intPressedNum + 1;
+	
+	blnFlag = PressedKeyIsInSet(keytmp,strUserDefinedKeys);
+	if (blnFlag == false)
+	{
+		changeStatus('RESERVE');
+		return;
+	}
+	else
+	{
+		if (keytmp.toUpperCase() == "ENTER")
+		{
+			intCanceledPos = 9;
+			strRetValue = "Enter";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp.toUpperCase() == "CANCEL")
+		{
+			intCanceledPos = 6;
+			strRetValue = "Cancel";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp.toUpperCase() == "CLEAR")
+		{
+			intCanceledPos = 8;
+			strRetValue = "Clear";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp.toUpperCase() == "BACKSPACE")
+		{
+			intCanceledPos = 4;
+			strRetValue = "Clear";
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if(keytmp.toUpperCase() == "HELP")
+		{
+			intCanceledPos = 5;
+			strRetValue = arrKey[37];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else
+		{
+			var tmp;
+			tmp = keytmp.substr(0, 1);
+			if (tmp.toUpperCase() != "F")
+			{
+				if ((intUserValidKey + (keytmp).length ) <= intMaxKeys)
+				{
+					strEnterData = strEnterData + keytmp;
+					intUserValidKey = intUserValidKey + keytmp.length;
+				}
+	
+				DisplayInputInfo(strEnterData);
+				if (intUserValidKey == intMaxKeys)
+				{
+					if (blnAutoEnd == true)
+					{
+						intCanceledPos = 10;
+						strRetValue = arrKey[33];
+						blnFlag = Data.setValue("udf_WAmount", strEnterData);
+						pinpad.CancelUserEntry();
+						changeStatus('RESERVE');
+						return;
+					}
+				}
+				changeStatus('RESERVE');
+			}
+			else
+			{
+				for (I=1; I<=32; I++)
+				{
+					if (keytmp.toUpperCase() == "F"+I.toString())
+					{
+						if (keytmp.toString() == "F8")
+						{
+							intCanceledPos = 9;
+							strRetValue = "Enter";
+							pinpad.CancelUserEntry();
+							changeStatus('RESERVE');
+							return;
+						}
+			
+						strSelected = "//servicepagechoice/cash";
+						xmlNode = select(xmlDoc,strSelected);
+						var  objNodeList = xmlNode[0].childNodes;
+						intFKeyNum = objNodeList.length;
+						if (intFKeyNum < 1)
+						{
+							strRetValue = "DeviceError";
+							pinpad.CancelUserEntry();
+							changeStatus('RESERVE');
+							return;
+						}
+
+						for (K = 0; K< intFKeyNum; K++)
+						{
+							var currNode = objNodeList[K];
+							strcurrNodeName = currNode.nodeName;
+							if(strcurrNodeName != "#text")
+							{
+								intnodeNameLen = (strcurrNodeName.trim()).length;
+								if (intnodeNameLen == 2)
+								{
+									currSerialNo = parseInt(strcurrNodeName.substr(1,1));
+								}
+								else if (intnodeNameLen == 3)
+								{
+									currSerialNo = parseInt(strcurrNodeName.substr(1,2));
+								}
+								else
+								{
+									strRetValue = "DeviceError";
+									pinpad.CancelUserEntry();
+									changeStatus('RESERVE');
+									return;
+								}
+								if (currSerialNo > 32)
+								{
+									strRetValue = "DeviceError";
+									pinpad.CancelUserEntry();
+									changeStatus('RESERVE');
+									return;
+								}
+								if (keytmp == strcurrNodeName.trim())
+								{
+									strTmp = "//servicepagechoice/cash/"+strcurrNodeName;
+									xmlNode = select(xmlDoc,strTmp);
+									strLength = xmlNode.length;
+									if (strLength > 1 || strLength < 0)
+									{
+										strRetValue = "DeviceError";
+										pinpad.CancelUserEntry();
+										changeStatus('RESERVE');
+										return;
+									}
+								
+									strResultType = xmlNode[0].getAttribute('resulttype');
+									
+									strResult = xmlNode[0].getAttribute('result');
+									strRetValue = "金额已选择";
+									if(keytmp == "F7")
+									{
+										strRetValue = "返回主菜单";
+									}
+									if (strResultType.toLowerCase() == "transaction")
+									{
+										strAmount = xmlNode[0].getAttribute('amount');
+										
+										blnFlag = Data.setValue("udf_WAmount", strAmount);
+										intCanceledPos = 2;
+										console.log("Call PinPad.CancelUserEntry");
+										pinpad.CancelUserEntry();
+										changeStatus('RESERVE');
+										return;
+									}
+									else if (strResultType.toLowerCase() == "page")
+									{
+										intCanceledPos = 3;
+										pinpad.CancelUserEntry();
+										changeStatus('RESERVE');
+										return;
+									}
+									else if ((strResultType.toLowerCase()).trim() == "action")
+									{
+										intCanceledPos = 4;
+										pinpad.CancelUserEntry();
+										changeStatus('RESERVE');
+										return;
+									}
+									else
+									{
+										intCanceledPos = 5;
+										pinpad.CancelUserEntry();
+										changeStatus('RESERVE');
+										return;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if (intPressedNum == 100)
+	{
+		intCanceledPos = 7;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	changeStatus('RESERVE');
+}
+
+/*function PinPad_FatalError(FRsult)
+{
+	Dim blnFlag
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+	IE.Trace "Set GuideLights Of PinPad OFF"
+	GuideLights.SetPinPadLight "OFF"
+	End If
+	strDevErrInfo = "PIN000999"
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam2", strDevErrInfo)
+	PinPad_FatalError = "DeviceError"
+}
+
+function PinPad_DeviceError()
+{
+	var wsappath
+	var strFileName
+	var blnFlag
+	var strDeviceName
+	var strDevErrInfo
+	var strDevErrCode
+	If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+	IE.Trace "Set GuideLights Of PinPad OFF"
+	GuideLights.SetPinPadLight "OFF"
+	End If
+	strDeviceName = "PinPad"
+	blnFlag = Data.GetValue("wsappath", wsappath)
+	blnFlag = Data.GetValue("deverrcodepath", strFileName)
+	strFileName = Trim(strFileName)
+	strFileName = CombineFileName(wsappath,strFileName)
+	blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+	strDevErrInfo = "PIN111111"
+	End If
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam2", strDevErrInfo)
+	PinPad_DeviceError = "DeviceError"
+}
+
+function State_TimeOut()
+{
+	intCanceledPos = 1;
+	strRetValue = "TimeOut";
+	pinpad.CancelUserEntry();
+	changeStatus('RESERVE');
+}*/
+
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+function PinPad_Cancelled()
+{
+	console.log("************PinPad_Cancelled**************");
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+
+	/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+	IE.Trace "Set GuideLights Of PinPad OFF"
+	GuideLights.SetPinPadLight "OFF"
+	End If*/
+	
+	var blnFlag;
+	//blnFlag = StopAudioFile()
+	console.log("PinPad_Cancelled intCanceledPos = [" + intCanceledPos + "]");
+	if (intCanceledPos == 1)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 2)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 3)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 4)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 5)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 6)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 7)
+	{
+		intPressedNum = 0;
+	
+		/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights Of PinPad Continuous"
+		GuideLights.SetPinPadLight "Continuous"
+		End If*/
+		
+		console.log("intPressedNum = 100,So Call PinPad.UserEntry:  100 " + blnAutoEnd + " "+ strUserActiveKeys);
+		pinpad.UserEntry(100,false, strUserActiveKeys, "", -1);
+
+		changeStatus("RESERVE");
+		return;
+	}
+	else if (intCanceledPos == 8)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 9)
+	{
+		intUserValidKey = intMinKeys;
+		if (intUserValidKey >= intMinKeys) 
+		{
+			clearTimeout(varTimeOut);
+			blnFlag = Data.setValue("udf_WAmount", strEnterData);
+			changeStatus(strRetValue);
+			return;
+		}
+		else
+		{
+			intPressedNum = 0;
+			/*if GuideLights.StPinPadLightStatus = "HEALTHY" Then
+				IE.Trace "Set GuideLights Of PinPad Continuous"
+				GuideLights.SetPinPadLight "Continuous"
+			End If*/
+			pinpad.UserEntry(100,false,strUserActiveKeys, "", -1);
+			changeStatus("RESERVE");
+			return;
+		}
+	}
+	else if (intCanceledPos == 10)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	clearTimeout(varTimeOut);
+	changeStatus(strRetValue);
+}
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet
+	var arrayActiveRet
+	var blnFlag
+	var strkeysupport
+	//strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+	for (var I =0; I< arrayActiveRet.length; I++)
+	{
+		//blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		//if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right((strActiveRet.length) - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left((strActiveRet.length) - 1);
+
+	return strActiveRet;
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+	if (tempArray.length < 0)
+	{
+		return false;
+	}
+	for (var I = 0; I<(tempArray.length); I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+		
+	}
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+
+	arrayMyKeySet = strMyKeySet.split(",");
+	for (var J = 0; J<arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+	return false;
+}
+
+function InputKey()
+{
+	return "2|4|false|0,1,2,3,4,5,6,7,8,9,00,ENTER,CANCEL,CLEAR|ENTER";
+}
+
+function KeyMapping()
+{
+	return "ENTER,确认|CANCEL,取消|CLEAR,更正";
+}
+
+function H_DisplayTitle(strpagename)
+{
+}
+
+function H_DisplayService(arrVisible, arrSrc)
+{
+}
+
+function HOut_Display()
+{
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[ChangePage]----------------------------------------------*/
+function EntryAction()
+{
+	var pageurl = Data.getValue("udf_windowName");
+	var objname = webuikit.jumpPage(pageurl, "http://localhost:8080/DisplayAny.html");
+	Data.setValue("udf_windowName", objname);
+
+	changeStatus('Ok');
+	return;
+}
+
+EntryAction();
+/*[CheckBrowserMemory]----------------------------------------------*/
+function EntryAction(){
+	var strStateFlag;
+	var strSleepTime;
+	var blnFlag;
+	strSleepTime = 0;
+
+	strStateFlag = Data.getValue("resetbrowsercomplete");
+	if (strStateFlag == "")
+		strStateFlag = "0";
+
+	console.log("resetbrowsercomplete = ["+ strStateFlag +"]");
+
+	var strCanUseIe;
+	strCanUseIe = Data.getValue("IfCanUseIe");
+	if (strCanUseIe == "")
+		strCanUseIe = "0";
+
+	if (strCanUseIe.trim() == "1")
+	{
+		//Timer.ResetTimer CLng(2000);
+		changeStatus('RESERVE');
+		return;
+	}
+	else
+	{
+		strCanUseIe = "1";
+		console.log("客户状态机 USE IE");
+		strCanUseIe = Data.setValue("IfCanUseIe");
+	}
+
+	//blnFlag = Sysobj.CheckProcessMemoryExceed("iexplore.exe")
+
+	console.log("Do not need IE Restart");
+	strCanUseIe = "";
+	strCanUseIe = Data.setValue("IfCanUseIe");
+	blnFlag = Data.setValue("IfRestartIe", "") ;
+	changeStatus('Ok');
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[CheckCardAndCashExit]----------------------------------------------*/
+function EntryAction(){
+	//进入管理员模式时检查是否有卡和钞票
+	var strFormName, JPData, TmpFileName, strTmp;
+	var blnFlag;
+	var ExcludeTimeOut;
+	var strPrintindex;
+	var stCardReaderMediaStatus;
+	var stCardReaderStackerStatus;
+	var stCashAcceptorEscrowStatus;
+	var stCashAcceptorShutterStatus;
+	var stCashAcceptorTransportStatus;
+	var stCashAcceptorInputOutputStatus;
+	strFormName = "SingleLineJPForm";
+	stCardReaderMediaStatus = cardreader.StMediaStatus;
+	if (stCardReaderMediaStatus != "" && stCardReaderMediaStatus != "NOTPRESENT")
+	{
+		strPrintindex = "CardReader:"+stCardReaderMediaStatus;
+		//blnFlag = GetPrintInfo(strPrintindex,strTmp)
+		JPData = "SingleLineData=<"+strTmp+">"	;
+		//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+	}
+	if (cashdispenser.StDeviceStatus != "NODEVICE")
+	{
+		stCardReaderStackerStatus = cashdispenser.StStackerStatus;
+		if (stCardReaderStackerStatus != "EMPTY") 
+		{
+			strPrintindex = "STACKER"+stCardReaderStackerStatus;
+			//blnFlag = GetPrintInfo(strPrintindex,strTmp);
+			JPData = "SingleLineData=<"+strTmp+">"	;
+			//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+		}
+	}
+
+	if (cashacceptor.StDeviceStatus != "NODEVICE")
+	{
+		stCashAcceptorEscrowStatus = cashacceptor.StEscrowStatus;
+		if (stCashAcceptorEscrowStatus != "EMPTY" && stCashAcceptorEscrowStatus != "UNKNOWN")
+		{
+			strPrintindex = "ESCROW"+stCashAcceptorEscrowStatus;
+			//blnFlag = GetPrintInfo(strPrintindex,strTmp)
+			JPData = "SingleLineData=<"+strTmp+">"	;
+			//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+		}
+		stCashAcceptorShutterStatus = cashacceptor.StShutterStatus;
+		if (stCashAcceptorShutterStatus != "CLOSED" && stCashAcceptorShutterStatus != "UNKNOWN")
+		{
+			strPrintindex = "SHUTTER"+stCashAcceptorShutterStatus;
+			//blnFlag = GetPrintInfo(strPrintindex,strTmp)
+			JPData = "SingleLineData=<"+strTmp+">"	;
+			//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+		}
+		stCashAcceptorTransportStatus = cashacceptor.StTransportStatus;
+		if (stCashAcceptorTransportStatus != "HEALTHY" && stCashAcceptorTransportStatus != "UNKNOWN")
+		{
+			strPrintindex = "TRANSPORT"+stCashAcceptorTransportStatus;
+			//blnFlag = GetPrintInfo(strPrintindex,strTmp)
+			JPData = "SingleLineData=<"+strTmp+">"	;
+			//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+		}
+		stCashAcceptorInputOutputStatus = cashacceptor.StInputOutputStatus;
+		if (stCashAcceptorInputOutputStatus != "EMPTY" && stCashAcceptorInputOutputStatus != "UNKNOWN")
+		{
+			strPrintindex = "INOUTPUT"+stCashAcceptorInputOutputStatus;
+			//blnFlag = GetPrintInfo(strPrintindex,strTmp)
+			JPData = "SingleLineData=<"+strTmp+">"	;
+			//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+		}	
+		if (cashacceptor.CpShutterControlSupported == true)
+		{
+			strPrintindex = "SHUTTERSUPP";
+			//blnFlag = GetPrintInfo(strPrintindex,strTmp)
+			JPData = "SingleLineData=<"+strTmp+">";	
+			//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+		}
+		else
+		{
+			strPrintindex = "SHUTTERNOTSUPP";
+			//blnFlag = GetPrintInfo(strPrintindex,strTmp)
+			JPData = "SingleLineData=<"+strTmp+">"	;
+			//blnFlag = SysObj.RecEleSameJPLog("", strFormName, JPData, TmpFileName)
+		}
+	}
+	Data.setValue("SupportAutoRecord", "1");
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[CompareDataValue]----------------------------------------------*/
+function EntryAction(){
+	var strParm1Value, strParm2Value,strParm3Value;
+	var intMode;
+	var blnFlag;
+	strParm1Value = Data.getValue("inparam1");
+	if (strParm1Value == "")
+	{
+		console.log("APPXXX", "<CompareDataConsistency>: GetValue inparam1 Failed, Return----INNERERROR");
+		changeStatus('INNERERROR');
+		return;
+	}
+	strParm2Value = Data.getValue("inparam2");
+	if (strParm2Value == "")
+	{
+		console.log("APPXXX", "<CompareDataConsistency>: GetValue inparam2 Failed, Return----INNERERROR");
+		changeStatus('INNERERROR');
+		return;
+	}
+	strParm3Value = Data.getValue("inparam3");
+	if (strParm3Value == "")
+	{
+		console.log("APPXXX", "<CompareDataConsistency>: GetValue inparam3 Failed, Return----INNERERROR");
+		changeStatus('INNERERROR');
+		return;
+	}
+	console.log("inparam1 = " + strParm1Value + ", inparam2 = "+strParm2Value + ", inparam3 = " + strParm3Value);
+	if (strParm3Value == "0")
+		intMode = 0;
+	else
+		intMode = 1;
+
+	if (strParm1Value != strParm2Value)
+	{
+		changeStatus('Differ');
+		return;
+	}
+	else
+	{
+		changeStatus('Same');
+		return;
+	}
+}
+
+EntryAction();
+/*[ComposeBootATMLData]----------------------------------------------*/
+function EntryAction(){
+	var blnFlag;
+	var strSerialNo;
+	var strTrsDate, strAtmTime;
+	var strTrsTime;
+	var strBankId, strType;
+	var strAtmId;
+	var strVersion;
+	var strLocalPort;
+	var arrBillCassette;
+	var arrCasseteStatus = new Array(4);
+	var arrCurrCount = new Array(4);
+	var strCassStatus, strCassCount, strCashAddTime, strCashAddDate;
+	var strFieldName, strFieldData;
+	var strPrintData;
+	var strDesFlag;
+	//开机时的交易流水号
+	strSerialNo = Data.getValue("cyc_系统跟踪号");
+	//开机的日期
+	var date = new Date();
+	strAtmTime = date.Format("yyyyMMddhhmmss");
+	strTrsDate = strAtmTime.substring(1, 4)+"/"+strAtmTime.substring(5, 2)+"/"+strAtmTime.substring(7, 2);
+	strTrsTime = strAtmTime.substring(9, 2)+":"+strAtmTime.substring(11, 2)+":"+strAtmTime.substring(13, 2);
+	//ATM所属的银行号
+	strBankId = Data.getValue("bankno");
+	//ATM号
+	strAtmId = Data.getValue("deviceno");
+	//ATMC的软件版本号
+	strVersion = Data.getValue("atm_软件版本");
+	//ATMC的机器类型
+	strType = Data.getValue("atm_机器类型");
+	strDesFlag = Data.getValue("desflag");
+	var PhysicalFlag;
+	PhysicalFlag = Data.getValue("PublicInfoUsePhysicalFlag");
+	/*
+	if (PhysicalFlag == "1") 
+		blnFlag = CompPUCashUnitInfo(strRetractCassette, arrBillCassette);
+	else	
+		blnFlag = CompCashUnitInfo(strRetractCassette, arrBillCassette);
+
+	arrCasseteStatus[0] = (arrBillCassette[0]).substring(6, 2);
+	arrCasseteStatus[1] = (arrBillCassette[1]).substring(6, 2);
+	arrCasseteStatus[2] = (arrBillCassette[2]).substring(6, 2);
+	arrCasseteStatus[3] = (arrBillCassette[3]).substring(6, 2);
+
+	arrCurrCount[0] = (arrBillCassette[0]).substring(12, 4);
+	arrCurrCount[1] = (arrBillCassette[0]).substring(12, 4);
+	arrCurrCount[2] = (arrBillCassette[0]).substring(12, 4);
+	arrCurrCount[3] = (arrBillCassette[0]).substring(12, 4);
+
+	//ATM的钞箱状态
+	strCassStatus = arrCasseteStatus[0]+"-"+arrCasseteStatus[1]+"-"+arrCasseteStatus[2]+"-"+arrCasseteStatus[3];
+	//ATM的剩余钞数
+	strCassCount = arrCurrCount[0]+"-"+arrCurrCount[1]+"-"+arrCurrCount[2]+"-"+arrCurrCount[3];
+	*/
+	//本次的加钞时间
+	strCashAddTime = Data.getValue("加钞时间");
+	console.log("加钞时间 is: "+strCashAddTime);
+	if (strCashAddTime.length != 14)
+		strCashAddDate = "";
+	else
+	{
+		//加钞日期转为"YYYY/MM/DD "格式
+		strCashAddDate =strCashAddTime.substring(1, 4)+"/"+strCashAddTime.substring(5, 2)+"/"+strCashAddTime.substring(7, 2);
+		//加钞时间转为"HH:MM:SS "格式
+		strCashAddTime = strCashAddTime.substring(9, 2)+":"+strCashAddTime.substring(11, 2)+":"+strCashAddTime.substring(13, 2)
+	}
+
+	var TrnsNo = "000000";
+		
+	bRetCode = true;//SysObj.iFunction("GETKALVERSION",strInparam,outResult);
+	outResult = "3.1.0";
+	if (bRetCode != true)
+		outResult = "";
+
+	console.log("kal version is: " + outResult);
+	if (outResult != "")
+	{
+		arroutResult = outResult.split("|");
+		if (arroutResult.length > 0)
+			strKalVersion = arroutResult[1];
+	}
+
+	strFieldName = "TrnsNo|Date|Time|BankNo|ATMNo|Ver|BDate|BTime|ATMType|KALVersion|DESFLAG";
+	strFieldData = strSerialNo +"|"+ strTrsDate +"|"+ strTrsTime +"|"+ strBankId +"|"+ strAtmId +
+	"|"+ strVersion +"|"+ strCashAddDate +"|"+ strCashAddTime +"|"+ strType+"|"+strKalVersion+"|"+strDesFlag;
+
+	console.log("Call ComposeJPData");
+	//blnFlag = ComposeJPData(strFieldName, strFieldData, strPrintData);
+	strPrintData = strFieldName+strFieldData;
+	console.log("strPrintData is: "+strPrintData);
+	blnFlag = Data.setValue("outparam1", strPrintData);
+	//ATM的开机时间
+	blnFlag = Data.setValue("outparam2", strAtmTime);
+	changeStatus('Ok');
+}
+
+Date.prototype.Format = function(fmt)
+{
+	var o = {
+	"M+" : this.getMonth()+1,                 //月份
+	"d+" : this.getDate(),                    //日
+	"h+" : this.getHours(),                   //小时
+	"m+" : this.getMinutes(),                 //分
+	"s+" : this.getSeconds(),                 //秒
+	"q+" : Math.floor((this.getMonth()+3)/3), //季度
+	"S"  : this.getMilliseconds()             //毫秒
+	};
+	if(/(y+)/.test(fmt))
+		fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+	for(var k in o)
+		if(new RegExp("("+ k +")").test(fmt))
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+	return fmt;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+EntryAction();
+/*[ComposeIPConfigInfo]----------------------------------------------*/
+function EntryAction(){
+	var blnFlag;
+	var sAtmpIP,sAtmpPort,sAtmpFPort,sAtmpTimeout;
+	var sAtmvIP,sAtmvPort,sAtmvFport,sAtmvTimeout;
+	var sLocalPort,sTel;
+	var sprintbuf;
+	//ATMPIP
+	sAtmpIP = Data.getValue("atmpip");
+	//ATMPPORT
+	sAtmpPort = Data.getValue("atmpport");
+	//ATMPFILEPORT
+	sAtmpFPort = Data.getValue("atmpfileport");
+	//ATMPTIMEOUT
+	sAtmpTimeout = Data.getValue("atmptimeout");
+	//ATMVIP
+	sAtmvIP = Data.getValue("atmvip");
+	//ATMVPORT
+	sAtmvPort = Data.getValue("atmvport");
+	//ATMVFPORT
+	sAtmvFport = Data.getValue("atmvfileport");
+	//ATMVTIMEOUT
+	sAtmvTimeout = Data.getValue("atmvtimeout");
+	//LOCALPORT
+	sLocalPort = Data.getValue("local4pport");
+	//TEL
+	sTel = Data.getValue("服务电话");
+	var jpprinttype;
+	jpprinttype = Data.getValue("JournalPrintType");
+	if (jpprinttype == "ChnInfo")
+		sprintbuf = "ATMPIP=<前置IP:"+sAtmpIP+">,ATMPPORT=<前置端口:"+sAtmpPort+">,ATMPFPORT=<前置文件端口:"+sAtmpFPort+">,ATMPTIMEOUT=<前置超时时间:"+sAtmpTimeout+">,ATMVIP=<监控IP:"+sAtmvIP+">,ATMVPORT=<监控端口:"+sAtmvPort+">,ATMVFPORT=<监控文件端口:"+sAtmvFport+">,ATMVTIMEOUT=<监控超时时间:"+sAtmvTimeout+">,LOCALPORT=<本地端口:"+sLocalPort+">,TEL=<联系电话:"+sTel+">";
+	else
+		sprintbuf = "ATMPIP=<ATMP:"+sAtmpIP+">,ATMPPORT=<ATMPPORT:"+sAtmpPort+">,ATMPFPORT=<ATMPFPORT:"+sAtmpFPort+">,ATMPTIMEOUT=<ATMPTIMEOUT:"+sAtmpTimeout+">,ATMVIP=<ATMV:"+sAtmvIP+">,ATMVPORT=<ATMVPORT:"+sAtmvPort+">,ATMVFPORT=<ATMVFPORT:"+sAtmvFport+">,ATMVTIMEOUT=<ATMVTIMEOUT:"+sAtmvTimeout+">,LOCALPORT=<LOCALPORT:"+sLocalPort+">,TEL=<TEL:"+sTel+">";
+
+	blnFlag = Data.setValue("udf_ipconfigprintbuf", sprintbuf);
+	console.log("sprintbuf :"+sprintbuf);
+	changeStatus('Ok');
+}
+EntryAction();
+/*[ComposeWithDrawalData]----------------------------------------------*/
+function EntryAction()
+{
+	var blnFlag;
+	var arrInfo = new Array(5);
+	
+	for (var I=1 ; I<= 4;I++)
+	{
+		//钞箱I的币种
+		arrInfo[I] = Data.getValue("trs_币种"+I.toString());
+		blnFlag = Data.setValue("币种"+I.toString(), arrInfo[I]);
+		//钞箱I的面值
+		arrInfo[I] = Data.getValue("trs_面值"+I.toString());
+		blnFlag = Data.setValue("面值"+I.toString(), arrInfo[I]);
+		//钞箱I的Mix张数
+		arrInfo[I] = Data.getValue("trs_张数"+I.toString());
+		blnFlag = Data.setValue("张数"+I.toString(), arrInfo[I]);
+	}
+	
+	//保存取款冲正所需数据至硬盘
+        var strTrsName;
+        var strTransAmt;
+        var strAccount;
+        var strSerialNo;
+        var strSaveData;
+        var strAccType, strCardType, strCardCode, strTrack2, strTrack3;
+
+	strTrsName = Data.getTrsName();
+	strTransAmt = Data.getValue("udf_WAmount16");
+	Data.setValue("交易金额", strTransAmt);
+
+ //     strTransAmt = Data.getValue("交易金额");
+        
+	Data.setValue("cst_交易帐号", "8888888888888888");
+        strAccount = Data.getValue("cst_交易帐号");
+  //    strAccount = "8888888888888888";
+        strSerialNo = Data.getValue("cyc_系统跟踪号");
+
+	Data.setValue("账户类型", "普通卡");
+        strAccType = Data.getValue("账户类型");
+      //  strAccType = "普通卡";
+	Data.setValue("卡种类型", "5");
+        strCardType = Data.getValue("卡种类型");
+     //   strCardType = "5";
+        strCardCode = Data.getValue("发卡行代码");
+        strTrack2 = Data.getValue("二磁道");
+        strTrack2 = Data.getValue("cst_二磁道");
+        strTrack3 = Data.getValue("三磁道");
+        strTrack3 = Data.getValue("cst_三磁道");
+        strSaveData = strTransAmt +"|"+ strSerialNo +"|"+ strAccount +"|"+ strTrsName +"|"+ strAccType +"|"+ strCardType +
+        "|"+ strCardCode +"|"+ strTrack2 +"|"+ strTrack3;
+	
+	console.log("---------"+strSaveData);
+        blnFlag = Data.setValue("cyc_冲正数据", strSaveData);
+
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[CompStartDeviceStatus]----------------------------------------------*/
+function EntryAction(){	
+	var blnFlag;
+	var strDevErrCode = "";
+
+	var strDevCode;
+	var arrDevCode;
+	var strDevName;
+	strDevCode = Data.getValue("设备模块组包");
+	if (strDevCode == null)
+	{
+		strDevCode = "PIN=1,IDC=1,JPR=0,CDM=0,CIM=0,RPR=1,DEP=0,FUN=1";
+		console.log("strDevCode:"+strDevCode);
+	}
+	console.log("设备模块组包:"+strDevCode);
+	arrDevCode = (strDevCode.trim()).split(",");
+	for (var I=0; I< arrDevCode.length; I++)
+	{
+		strDevName = (arrDevCode[I]).trim();
+		if ((strDevName.right(1)).trim() == "1")
+		{
+			if (strDevErrCode.trim() == "")
+				strDevErrCode = (strDevName.left(3)).trim() +"000000";
+			else
+				strDevErrCode = strDevErrCode+(strDevName.left(3)).trim()+"000000";
+		}
+	}
+	console.log("cyc_硬件故障代码:"+strDevErrCode);
+	blnFlag = Data.setValue("cyc_硬件故障代码", strDevErrCode);
+	//end
+
+	if (pinpad.StDeviceStatus == "HEALTHY")
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"PIN000000");
+	else
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"PIN000999");
+		
+	if (cardreader.StDeviceStatus == "HEALTHY")
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"IDC000000");
+	else 
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"IDC000999");
+
+	/*if (receiptprinter.StDeviceStatus == "HEALTHY")
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"RPR000000");
+	else
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"RPR000999");
+	*/
+	var strUseJPR;
+	strUseJPR = Data.getValue("jpprintflag");
+	if (strUseJPR.trim() =="3" || (strUseJPR).trim() =="1")
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"JPR000000");
+	/*else if (JournalPrinter.StDeviceStatus == "HEALTHY")
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"JPR000000");*/
+	else 
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"JPR000999");
+
+	var strCDMflag;
+	strCDMflag = Data.getValue("是否组取款模块状态");
+	if (strCDMflag == null)
+		strCDMflag = "1";
+	if (strCDMflag.trim() != "0") 
+	{
+		if (cashdispenser.StDeviceStatus == "HEALTHY") 
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"CDM000000");
+		else
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"CDM000999");	
+	}
+
+	var strCIMflag;
+	strCIMflag = Data.getValue("是否组实时存款状态");
+	if (strCIMflag == null)
+		strCIMflag = "1";
+	if (strCIMflag.trim() != "0") 
+	{
+		if (cashacceptor.StDeviceStatus == "HEALTHY")
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"CIM000000");
+		else
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"CIM000999");	
+	}
+
+	var strDEPflag;
+	strDEPflag = Data.getValue("是否组信封存款状态");
+	if (strDEPflag == null)
+		strDEPflag = "1";
+	if (strDEPflag.trim() != "0")
+	{
+		/*if (Depository.StDeviceStatus == "HEALTHY")
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"DEP000000");
+		else
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"DEP000999");*/
+	}
+	console.log("cyc_硬件故障代码:"+strDevErrCode);
+	blnFlag = Data.setValue("cyc_硬件故障代码", strDevErrCode);
+	changeStatus('Ok');
+}
+
+function CombineDevErrCode(strDevErrCode,strCurErrCode)
+{
+	var intPos;
+	var strSearched,strModuleName;
+	if (strDevErrCode.trim() == "")
+		strDevErrCode = strCurErrCode;
+	else
+	{
+		strModuleName = strCurErrCode.left(3);
+		intPos = strDevErrCode.indexOf(strModuleName);
+		if (intPos != -1)
+			strDevErrCode = strDevErrCode.left(intPos - 1) + strCurErrCode + strDevErrCode.substring(intPos + 9,strDevErrCode.length-intPos-8);
+	}
+	if (strDevErrCode.length > 100)
+		strDevErrCode = strDevErrCode.length(99);
+	return strDevErrCode;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+	return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+	return this.slice(0, n);
+}
+
+EntryAction();
+/*[ConvertToSixteenAmount]----------------------------------------------*/
+function EntryAction()
+{
+        var blnFlag;
+        var strAmount, strDestAmt;
+        strAmount = Data.getValue("udf_WAmount");
+        strDestAmt = ToSixteenAmount(strAmount);
+        blnFlag = Data.setValue("udf_WAmount16", strDestAmt);
+        changeStatus('Ok');
+}
+
+function ToSixteenAmount(strAmount)
+{
+	var strRetAmount = "";
+	var blnFlag;
+	var MyPos;
+	var strTemp;
+	var intNum;
+	strRetAmount = "";
+	strTemp = "";
+	intNum = 0;
+	if (strAmount.trim() == "")
+	{
+		strRetAmount = "0000000000000000";
+		return strRetAmount;
+	}
+	else
+	{
+		blnFlag = typeof(parseInt(strAmount));
+		if (blnFlag != "number")
+		{
+			strRetAmount = "0000000000000000";
+			return strRetAmount;
+		}
+	}
+	for (I = 0; I< strAmount.length; I++)
+	{
+		if (strAmount.substr(I,1) == ".")
+			intNum = intNum + 1;
+	}
+	if (intNum == 0)
+	{
+		strRetAmount = ("0000000000000000"+strAmount).right(16);
+		return strRetAmount;
+	}
+	MyPos = strAmount.indexOf(".");
+	strTemp = strAmount.substr(0,MyPos);
+	strRetAmount = ("00000000000000"+strTemp).right(14);
+	strTemp = strAmount.right(strAmount.length - MyPos-1);
+	strRetAmount = strRetAmount+(strTemp+"00").left(2);
+	return strRetAmount;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+	return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+	return this.slice(0, n);
+}
+
+EntryAction();
+/*[CreateWindow]----------------------------------------------*/
+function EntryAction(){
+	var PageName;
+	PageName = Data.getValue("inparam1");
+	if (PageName.trim() == "")
+	{
+		changeStatus('Ok');
+		return;
+	}
+	else
+	{
+		var objName = null;
+		objName = webuikit.createWindow("http://localhost:8080/"+PageName, 200, 100, 800, 600);
+		Data.setValue("udf_windowName", objName);
+		changeStatus('Ok');
+		return;
+	}
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[CWDPresentCashDeal]----------------------------------------------*/
+var wait = require('wait.for');
+var strCpCanDetectCashTaken;
+var varTimeOut = null;
+function EntryAction()
+{
+	varTimeOut = setTimeout(State_TimeOut,45000);
+	var ExecCmd = "ShowInfo('PleaseTakeCash');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+	strCpCanDetectCashTaken = cashdispenser.CpCanDetectCashTaken;
+	Result = H_Display();
+	blnFlag = Data.setValue("udf_cwcflag", "1");
+	cashdispenser.on('CashPresented', CashDispenser_CashPresented);
+	cashdispenser.on('CashTaken', CashDispenser_CashTaken);
+	console.log("Call CashDispenser.Present -1");
+	cashdispenser.Present(-1);
+	changeStatus('RESERVE');
+}
+
+function CashDispenser_CashPresented()
+{
+	var Result
+	var blnFlag
+	//blnFlag = PlayAudioFile("pleasetakecash.wav")
+	console.log("CashDispenser Cash Presented Cash Ok");
+	var StrShutterStatus
+	StrShutterStatus = cashdispenser.StShutterStatus;
+	console.log("StrShutterStatus : "+StrShutterStatus);
+	if (StrShutterStatus == "OPEN")
+	{
+		blnFlag = Data.setValue("udf_ShutterStatus", "1");
+	}
+	else if (StrShutterStatus == "CLOSED")
+	{
+		blnFlag = Data.setValue("udf_ShutterStatus", "0");
+	}
+	else
+	{
+		blnFlag = Data.setValue("udf_ShutterStatus", "");
+	}
+	blnFlag = Data.setValue("udf_cwcflag", "0");
+	if (strCpCanDetectCashTaken == false)
+	{
+		clearTimeout(varTimeOut);
+		cashdispenser.removeAllListeners('CashPresented');
+		cashdispenser.removeAllListeners('CashTaken');
+		changeStatus('Taken');
+		return;
+	}
+	else
+	{
+		/*if GuideLights.StNoteDispenserLightStatus = "HEALTHY" Then
+			IE.Trace "Set GuideLights of NoteDispenserLight MEDIUM"
+			GuideLights.SetNoteDispenserLight "MEDIUM"
+		End If*/
+	//	Timer.ResetTimer CLng(-1)
+		Result = H_Modi_Display();
+		changeStatus('RESERVE');
+		return;
+	}
+}
+
+function CashDispenser_CashTaken()
+{
+	var blnFlag;
+//	blnFlag = StopAudioFile()
+	/*If GuideLights.StNoteDispenserLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights of NoteDispenserLight OFF"
+		GuideLights.SetNoteDispenserLight "OFF"
+	End If*/
+	clearTimeout(varTimeOut);
+	cashdispenser.removeAllListeners('CashPresented');
+	cashdispenser.removeAllListeners('CashTaken');
+	changeStatus('Taken');
+}
+
+/*function CashDispenser_DeviceError()
+{
+	Dim wsappath
+	Dim strFileName
+	Dim blnFlag
+	Dim strDeviceName
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	If GuideLights.StNoteDispenserLightStatus = "HEALTHY" Then
+	IE.Trace "Set GuideLights of NoteDispenserLight OFF"
+	GuideLights.SetNoteDispenserLight "OFF"
+	End If
+	strDeviceName = "CashDispenser"
+	blnFlag = Data.GetValue("wsappath", wsappath)
+	blnFlag = Data.GetValue("deverrcodepath", strFileName)
+	strFileName = Trim(strFileName)
+	strFileName = CombineFileName(wsappath,strFileName)
+	blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+	strDevErrInfo = "CDM111111"
+	End If
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	CashDispenser_DeviceError = "DeviceError"
+}
+function CashDispenser_FatalError(FRsult)
+{
+	Dim blnFlag
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	If GuideLights.StNoteDispenserLightStatus = "HEALTHY" Then
+	IE.Trace "Set GuideLights of NoteDispenserLight OFF"
+	GuideLights.SetNoteDispenserLight "OFF"
+	End If
+	strDevErrInfo = "CDM000999"
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	CashDispenser_FatalError = "FatalError"
+}
+
+function State_TimeOut()
+{
+	IE.Trace "Call CashDispenser.CancelWaitForCashTaken"
+	CashDispenser.CancelWaitForCashTaken
+	State_TimeOut = "RESERVE"
+}*/
+
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	cashdispenser.removeAllListeners('CashPresented');
+	cashdispenser.removeAllListeners('CashTaken');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+/*function CashDispenser_WaitCancelled()
+{
+	If GuideLights.StNoteDispenserLightStatus = "HEALTHY" Then
+	IE.Trace "Set GuideLights of NoteDispenserLight OFF"
+	GuideLights.SetNoteDispenserLight "OFF"
+	End If
+	CashDispenser_WaitCancelled = "TimeOut"
+}*/
+function H_Display()
+{
+}
+function H_Modi_Display()
+{
+}
+
+EntryAction();
+/*[DisInfoAndSelect]----------------------------------------------*/
+var arrKey = new Array(40);
+var strUserDefinedKeys;
+var intPressedNum;
+var intCanceledPos;
+var strRetValue;
+var strUserActiveKeys;
+var strLastFKey;
+strLastFKey = "";
+
+var wait = require('wait.for');
+var varTimeOut = null;
+function EntryAction()
+{
+	varTimeOut = setTimeout(State_TimeOut,30000);
+	var ExecCmd = "ShowInfo('ConfirmTFR');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+	var zzzh = (Data.getValue("udf_转账账号"));
+	var zzje = (Data.getValue("udf_转账金额"));
+	Data.setValue("udf_WAmount", zzje);
+	Data.setValue("交易金额", zzje);
+	Data.setValue("对方帐号", zzzh);
+	Data.setValue("cst_交易帐号", "8888888888888888");
+	
+	var strScript = "document.getElementById('TRFAcc').innerText='" + zzzh + "'; document.getElementById('TRFAmount').innerText='" + zzje +"';";
+	webuikit.runScript("DisplayAny", strScript);
+	
+	var arrInputKey;
+	var strInputKey;
+	var strKeyMap;
+	var Result;
+	var HResult;
+	var strKeySet;
+	HResult = H_Display();
+	Result = "";
+	intPressedNum = 0;
+	intCanceledPos = 0;
+	strUserActiveKeys = "";
+	strInputKey = InputKey();
+	arrInputKey = PipeToArray(strInputKey);
+	if (arrInputKey.length != 4 )
+	{
+		clearTimeout(varTimeOut);
+       		changeStatus('DeviceError');
+	//	return;
+	}
+	strUserDefinedKeys = arrInputKey[3];
+	//strUserActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+	strKeyMap = KeyMapping();
+	if (strKeyMap != "" )
+	{
+		/*Result = ChkMap(strInputKey, strKeyMap)
+		If Trim(UCase(Result)) <> "CHKOK" Then
+			If Trim(UCase(Result)) = "MAPERROR" Then
+				EntryAction = "DeviceError"
+				Exit Function
+			ElseIf Trim(UCase(Result)) = "PARAMERR" Then
+				EntryAction = "DeviceError"
+				Exit Function
+			ElseIf Trim(UCase(Result)) = "REMARKERR" Then
+				EntryAction = "DeviceError"
+				Exit Function
+			ElseIf Trim(UCase(Result)) = "KEYNOTMATCHING" Then
+				EntryAction = "DeviceError"
+				Exit Function
+			Else
+				EntryAction = "DeviceError"
+				Exit Function
+			End If
+		End If*/
+	}
+	/*Result = DealKeyMap(strKeyMap, arrKey)
+	If Trim(UCase(Result)) = "ERROR" Then
+		EntryAction = "DeviceError"
+		Exit Function
+	End If*/
+	arrKey = ["","","","","","CLEAR","","ENTER","","","","","","","","","","","","","","","","","","","","","","","","","ENTER","CANCEL","CLEAR","BACKSPACE","HELP"];
+	webuikit.on('KeyPressed', PinPad_KeyPressed);
+	pinpad.on('KeyPressed', PinPad_KeyPressed);
+	pinpad.on('Cancelled', PinPad_Cancelled);
+	//console.log("Call PinPad.UserEntry " + strUserActiveKeys);
+	//pinpad.UserEntry(100, false, strUserActiveKeys, "", -1);
+	pinpad.UserEntry(100,false, "F7,F8", "", -1);
+	changeStatus('RESERVE');
+}
+
+function PinPad_KeyPressed(Key, KeyCode)
+{
+	var I
+	var blnFlag
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+
+//	Call ShowPressButton(Key,"",strLastFKey)
+	intPressedNum = intPressedNum + 1;
+	blnFlag = PressedKeyIsInSet(keytmp,strUserDefinedKeys);
+	if (blnFlag == false)
+		changeStatus('RESERVE');
+	else
+	{
+		if (keytmp == "ENTER" )
+		{
+			intCanceledPos = 4;
+			strRetValue = arrKey[33];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "CANCEL")
+		{
+			intCanceledPos = 5
+			strRetValue = arrKey[34];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "CLEAR")
+		{
+			intCanceledPos = 6
+			strRetValue = arrKey[35];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "BACKSPACE")
+		{
+			intCanceledPos = 7
+			strRetValue = arrKey[35];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "HELP")
+		{
+			intCanceledPos = 8
+			strRetValue = arrKey[37];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else
+		{
+			if(keytmp.toUpperCase() == "F8")
+			{
+				intCanceledPos = 6;
+				strRetValue = "确认";
+				pinpad.CancelUserEntry();
+				changeStatus('RESERVE');
+				return;
+			}
+			else if(keytmp.toUpperCase() == "F7")
+			{
+				intCanceledPos = 6;
+				strRetValue = "取消";
+				pinpad.CancelUserEntry();
+				changeStatus('RESERVE');
+				return;
+			}
+			/*for (I = 1; I<= 32;I++)
+			{
+				if (keytmp == "F"+I.toString())
+				{
+					intCanceledPos = 2;
+					strRetValue = arrKey[I];
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+				}
+			}*/
+		}
+	}
+	
+	if (intPressedNum == 100)
+	{
+		intCanceledPos = 3;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	changeStatus('RESERVE');
+}
+
+/*function State_TimeOut()
+{
+	intCanceledPos = 1
+	strRetValue = "TimeOut"
+	PinPad.CancelUserEntry
+	State_TimeOut = "RESERVE"
+}*/
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+function PinPad_Cancelled()
+{
+	console.log("PinPad_PinCancelled intCanceledPos = [" + intCanceledPos + "]");
+	if (intCanceledPos == 1)
+	{
+		clearTimeout(varTimeOut);
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 2)
+	{
+		clearTimeout(varTimeOut);
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 3)
+	{
+		intPressedNum = 0;
+		pinpad.UserEntry(100, false, strUserActiveKeys, "", -1);
+		changeStatus("RESERVE");
+		return;
+	}
+	else if (intCanceledPos == 4)
+	{
+		clearTimeout(varTimeOut);
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 5)
+	{
+		clearTimeout(varTimeOut);
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 6)
+	{
+		clearTimeout(varTimeOut);
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 7)
+	{
+		clearTimeout(varTimeOut);
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 8)
+	{
+		clearTimeout(varTimeOut);
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus(strRetValue);
+		return;
+	}
+
+	changeStatus("RESERVE");
+}
+
+/*Function PinPad_FatalError(FResult)
+Dim blnFlag
+Dim strDevErrInfo
+Dim strDevErrCode
+strDevErrInfo = "PIN000999"
+blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+PinPad_FatalError = "DeviceError"
+End Function
+Function PinPad_DeviceError()
+Dim wsappath
+Dim strFileName
+Dim blnFlag
+Dim strDeviceName
+Dim strDevErrInfo
+Dim strDevErrCode
+strDeviceName = "PinPad"
+blnFlag = Data.GetValue("wsappath", wsappath)
+blnFlag = Data.GetValue("deverrcodepath", strFileName)
+strFileName = Trim(strFileName)
+strFileName = CombineFileName(wsappath,strFileName)
+blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+strDevErrInfo = "PIN111111"
+End If
+strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+PinPad_DeviceError = "DeviceError"
+End Function*/
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet
+	var arrayActiveRet
+	var blnFlag
+	var strkeysupport
+	strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+	for (var I =0; I< arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right((strActiveRet.length) - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left((strActiveRet.length) - 1);
+
+	return strActiveRet;
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+	if (tempArray.length < 0)
+	{
+		return false;
+	}
+	for (var I = 0; I<(tempArray.length); I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+		
+	}
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+
+	arrayMyKeySet = strMyKeySet.split(",");
+	for (var J = 0; J<arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+	return false;
+}
+
+function H_Display()
+{
+}
+
+function InputKey()
+{
+	return "|||F7,F8|";
+}
+
+function KeyMapping()
+{
+	return "F6,继续服务|F8,取回磁卡"
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+	return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+	return this.slice(0, n);
+}
+
+EntryAction();
+/*[DisPageInfoHTML]----------------------------------------------*/
+function EntryAction(){
+	var ResultSI;
+	var ActiveValue;
+	var blnFlag;
+	var PageName;
+	var TimeOut;
+	PageName = Data.getValue("inparam1");
+	if (PageName.trim() == "")
+	{
+		changeStatus('Ok');
+		return;
+	}
+	else
+	{
+		//ResultSI = IeShowInfo(PageName);
+		var ExecCmd = "ShowInfo('" + PageName + "');";
+		var winname = Data.getValue("udf_windowName");
+		var Result = webuikit.runScript(winname, ExecCmd);
+
+		changeStatus('Ok');
+		return;
+	}
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[DisplayFormatInfo]----------------------------------------------*/
+function EntryAction(){
+	var ResultSI;
+	var blnFlag;
+	var PageName,RStr;
+	var TimeOut;
+
+	PageName = Data.getValue("inparam1");
+	TimeOut = Data.getValue("inparam2");
+	PageName.trim();
+	TimeOut.trim();
+
+	if (TimeOut == "")
+		TimeOut = 3000;
+	else
+	{
+		blnFlag = true;
+		
+		for(var I = 1; I<TimeOut.length; I++)
+		{
+			RStr = TimeOut[I];
+			if (typeof(RStr) == "number")
+			{
+				blnFlag = false;
+				break;
+			}
+		}
+		if (blnFlag == false) 
+			TimeOut = 3000;
+	}
+
+	if (parseInt(TimeOut) <= 1000)
+		TimeOut = 3000;
+
+	if (PageName == "")
+	{
+		changeStatus('TimeOut');
+	}
+	else
+	{
+		console.log("Call IeShowInfo--"+PageName);
+		//ResultSI = IeShowInfo(PageName);
+		//Timer.ResetTimer(parseInt(TimeOut));
+		changeStatus('RESERVE');
+	}
+}
+
+function State_TimeOut()
+{
+	changeStatus('TimeOut');
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[DisplayWaitCustom]----------------------------------------------*/
+function EntryAction()
+{
+    var objname = webuikit.jumpPage("DisplayAny", "http://localhost:8080/WaitCard.html");
+    Data.setValue("udf_windowName", objname);
+    var ExecCmd = "DisplayATMNoAndTel();";
+    var Result = webuikit.runScript("WaitCard", ExecCmd);
+
+     var ResultSI;
+     var ActiveValue;
+     var blnFlag;
+     var PageName;
+     var TimeOut;
+
+     PageName = Data.getValue("inparam1");
+     console.log("PageName is: "+PageName);
+
+     if (PageName.trim() == "")
+     {
+	 changeStatus('Ok');
+	 return;
+     }
+     else
+     {
+	   //  ResultSI = IeShowInfo(PageName)
+	     changeStatus('Ok');
+     }
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[DisTransInfoAndSelectAction]----------------------------------------------*/
+var ntype = 0;
+var varTimeOut = null;
+
+function EntryAction(){
+	varTimeOut = setTimeout(State_TimeOut, 30000);
+	var ExecCmd = "ShowInfo('SelectServiceInq');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+
+	var zhye = parseInt(Data.getValue("接收_帐户余额"));
+	var kyye = parseInt(Data.getValue("接收_可用余额"));
+	console.log("***********************************");
+	console.log("帐户余额: " + zhye);
+	console.log("可用余额: " + kyye);
+	console.log("***********************************");
+
+	var strScript = "document.getElementById('OPList1').style.display = 'block';document.getElementById('OPList2').style.display = 'block';document.getElementById('INQContent1').innerText='" + zhye + "';";
+	strScript = strScript + "document.getElementById('INQContent2').innerText='" + kyye +"';";
+	webuikit.runScript("DisplayAny", strScript);
+	var arrKey = new Array(40);
+	var strUserDefinedKeys;
+	var intPressedNum;
+	var intCanceledPos;
+	var strRetValue;
+	var strUserActiveKeys;
+	var F1ActiveFlag,F2ActiveFlag,F3ActiveFlag,F4ActiveFlag;
+	var F5ActiveFlag,F6ActiveFlag,F7ActiveFlag,F8ActiveFlag;
+	var strLastFKey;
+	strLastFKey = "";
+	var arrInputKey;
+	var strInputKey;
+	var strKeyMap;
+	var Result;
+	var HResult;
+	var strKeySet;
+	Result = "";
+	intPressedNum = 0;
+	intCanceledPos = 0;
+	strUserActiveKeys = "";
+	strInputKey = InputKey();
+	arrInputKey = PipeToArray(strInputKey);
+	/*if (arrInputKey.length != 4)
+	{
+		changeStatus('DeviceError');
+		return;
+	}*/
+
+	strUserDefinedKeys = arrInputKey[3];
+	//strUserActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+	strKeyMap = KeyMapping();
+	/*if (strKeyMap != "")
+	{
+		Result = "CHKOK";
+		if (Result != "CHKOK")
+		{
+			if (Result != "MAPERROR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "PARAMERR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "REMARKERR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "KEYNOTMATCHING")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+		}
+	}*/
+	webuikit.on('KeyPressed', onKeyPressed);
+	console.log("Call DealKeyMap()"+"  KeyMap: "+strKeyMap);
+	Result = "OK";
+	console.log("Call PinPad.UserEntry " + strUserActiveKeys);
+	pinpad.on('KeyPressed', onKeyPressed);
+	pinpad.on('Cancelled', PinPad_Cancelled);
+	strUserActiveKeys = "F7,F8";
+	pinpad.UserEntry(100, false, strUserActiveKeys, "", 30000);
+	changeStatus('RESERVE');
+}
+
+function onKeyPressed(Key, KeyCode)
+{
+	var blnFlag;
+	var strTmpPressKey;
+
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+	console.log("onKeyPressed " + keytmp);
+
+	if (keytmp == "F8")
+	{
+		ntype = 1;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else if(keytmp == "F7")
+	{
+		ntype = 2;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+}
+
+function PinPad_Cancelled()
+{
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	clearTimeout(varTimeOut);
+	if(ntype == 1)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus('继续交易');
+		return;
+	}
+	else if(ntype == 2)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus('退卡');
+		return;
+	}
+}
+
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+/*function PinPad_KeyPressed(Key, KeyCode)
+{
+	var I;
+	var blnFlag;
+	var StrActiveFlag;
+	Call ShowPressButton(Key,"",strLastFKey)
+	intPressedNum = intPressedNum + 1
+	blnFlag = PressedKeyIsInSet(Key,strUserDefinedKeys)
+	Select Case Key
+	Case "F1"
+	StrActiveFlag = F1ActiveFlag
+	Case "F2"
+	StrActiveFlag = F2ActiveFlag
+	Case "F3"
+	StrActiveFlag = F3ActiveFlag
+	Case "F4"
+	StrActiveFlag = F4ActiveFlag
+	Case "F5"
+	StrActiveFlag = F5ActiveFlag
+	Case "F6"
+	StrActiveFlag = F6ActiveFlag
+	Case "F7"
+	StrActiveFlag = F7ActiveFlag
+	Case "F8"
+	StrActiveFlag = F8ActiveFlag
+	Case Else
+	StrActiveFlag = 1
+	End Select
+	If blnFlag = False Or StrComp(StrActiveFlag,"0",1) = 0 Then
+	PinPad_KeyPressed = "RESERVE"
+	Else
+	For I = 1 To 32
+	If Key = "F"&I Then
+	intCanceledPos = 2
+	strRetValue = arrKey(I)
+	PinPad.CancelUserEntry
+	PinPad_KeyPressed = "RESERVE"
+	changeStatus('RESERVE');
+	Exit Function
+	End If
+	Next
+	End If
+	If intPressedNum = 100 Then
+	intCanceledPos = 3
+	PinPad.CancelUserEntry
+	PinPad_KeyPressed = "RESERVE"
+	Exit Function
+	End If
+	PinPad_KeyPressed = "RESERVE"
+}
+
+function State_TimeOut()
+{
+//intCanceledPos = 1
+//strRetValue = "TimeOut"
+//PinPad.CancelUserEntry
+//State_TimeOut = "RESERVE"
+    webuikit.removeAllListeners('KeyPressed');
+    pinpad.removeAllListeners('KeyPressed');
+    pinpad.removeAllListeners('Cancelled');
+    clearTimeout(varTimeOut);
+    changeStatus('TimeOut');
+}
+
+function PinPad_Cancelled()
+{
+	Dim HResult
+	HResult = HOut_Display()
+	IE.Trace "PinPad_PinCancelled intCanceledPos = [" & intCanceledPos & "]"
+	If CInt(intCanceledPos) = 1 Then
+	PinPad_Cancelled = strRetValue
+	Exit Function
+	ElseIf CInt(intCanceledPos) = 2 Then
+	PinPad_Cancelled = strRetValue
+	Exit Function
+	ElseIf CInt(intCanceledPos) = 3 Then
+	intPressedNum = 0
+	IE.Trace "intPressedNum = 100,So Call PinPad.UserEntry Again"
+	PinPad.UserEntry 100, CBool(false), strUserActiveKeys, "", CLng(-1)
+	PinPad_Cancelled = "RESERVE"
+	Exit Function
+	End If
+	PinPad_Cancelled = "RESERVE"
+}
+
+function PinPad_FatalError(FResult)
+{
+	Dim blnFlag
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	strDevErrInfo = "PIN000999"
+	HResult = HOut_Display()
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	PinPad_FatalError = "DeviceError"
+}
+
+function PinPad_DeviceError()
+{
+	Dim wsappath
+	Dim strFileName
+	Dim blnFlag
+	Dim strDeviceName
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	strDeviceName = "PinPad"
+	HResult = HOut_Display()
+	blnFlag = Data.GetValue("wsappath", wsappath)
+	blnFlag = Data.GetValue("deverrcodepath", strFileName)
+	strFileName = Trim(strFileName)
+	strFileName = CombineFileName(wsappath,strFileName)
+	blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+	strDevErrInfo = "PIN111111"
+	End If
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	PinPad_DeviceError = "DeviceError"
+}*/
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet
+	var arrayActiveRet
+	var blnFlag
+	var strkeysupport
+	strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+	for (var I =0; I< arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right((strActiveRet.length) - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left((strActiveRet.length) - 1);
+
+	return strActiveRet;
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+	if (tempArray.length < 0)
+	{
+		return false;
+	}
+	for (var I = 0; I<(tempArray.length); I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+		
+	}
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+
+	arrayMyKeySet = strMyKeySet.split(",");
+	for (var J = 0; J<arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+	return false;
+}
+
+function H_Display()
+{
+}
+
+function HOut_Display()
+{
+}
+
+function InputKey()
+{
+	return "|||F6,F8|";
+}
+function KeyMapping()
+{
+	return "F6,继续服务|F8,取回磁卡";
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+return this.slice(0, n);
+}
+
+EntryAction();
+/*[ExitCard]----------------------------------------------*/
+function EntryAction()
+{
+    var Result;
+    if (cardreader.StDeviceStatus != "HEALTHY")
+    {
+        changeStatus('DeviceError');
+        return;
+    }
+    if (cardreader.CpCanEject == false)
+    {
+        changeStatus('CardTaken');
+        return;
+    }
+    
+    var ExecCmd = "ShowInfo('WaitForEjectCard');";
+    var winname = Data.getValue("udf_windowName");
+    var Result = webuikit.runScript(winname, ExecCmd);
+    
+    if (cardreader.StMediaStatus == "NOTPRESENT")
+    {
+        changeStatus('CardTaken');
+        return;
+    }
+    
+    cardreader.on('CardEjected', CardReader_CardEjected);
+    cardreader.on('CardTaken', CardReader_CardTaken);
+    cardreader.Eject(-1);
+
+    changeStatus('RESERVE');
+}
+
+function CardReader_CardEjected()
+{
+    var ExecCmd = "ShowInfo('Pic_TransactionCompleted');";
+    var winname = Data.getValue("udf_windowName");
+    var Result = webuikit.runScript(winname, ExecCmd);
+    changeStatus('RESERVE');
+}
+
+function CardReader_CardTaken()
+{
+    var blnFlag;
+    //blnFlag = StopAudioFile();
+    cardreader.removeAllListeners('CardEjected');
+    cardreader.removeAllListeners('CardTaken');
+    changeStatus('CardTaken');
+}
+
+function CardReader_DeviceError()
+{
+    changeStatus('DeviceError');
+}
+
+function CardReader_FatalError(FRsult)
+{
+    changeStatus('DeviceError');
+}
+
+function State_TimeOut()
+{
+    changeStatus('TimeOut');
+}
+
+function H_Display()
+{
+}
+
+function H_ModiDisplay()
+{
+}
+
+EntryAction();
+/*[FixSingleLineJPData]----------------------------------------------*/
+function EntryAction(){
+	var jpdata = "";
+	var fieldname;
+	var strSysTime, strTrsTime = "";
+	var strPrintindex;
+	strPrintindex = Data.getValue("inparam1");
+	console.log("----------------"+strPrintindex);
+	//var blnFlag = GetPrintInfo(strPrintindex, jpdata);
+	fieldname = Data.getValue("inparam2");
+	console.log("----------------"+fieldname);
+	var jpdatafix;
+	jpdatafix = fieldname + "=<" + strTrsTime + " " + jpdata + ">";
+	var blnFlag = Data.setValue("outparam1", jpdatafix);
+	console.log("----------------"+blnFlag);
+	//根据打印信息的标识取到打印信息的级别在datamodel中保存
+	var strLevel = "";
+	//blnFlag = GetPrintLevel(strPrintindex, strLevel);
+	blnFlag = Data.setValue("CurInfoPrtLevel", strLevel);
+	console.log("----------------"+blnFlag);
+	changeStatus("Ok");
+}
+
+EntryAction();
+/*[GetWithDrawalFlag]----------------------------------------------*/
+function EntryAction()
+{
+	var blnFlag;
+	var strUseFlag, RStr;
+        strUseFlag = Data.getValue("取款使用的算法");
+	blnFlag = true;
+	for (var I = 0; I<(strUseFlag.trim()).length; I++)
+	{
+		RStr = strUseFlag.substr(I, 1);
+		if(typeof(RStr) != "number")
+		{
+			blnFlag = false;
+			break;
+		}
+	}
+	if(blnFlag == false)
+		strUseFlag = "1";
+	
+	/*if (CheckAlgorithm(strUseFlag.trim()) == false)
+		strUseFlag = "1";*/
+
+	console.log("取款使用的算法 is: "+strUseFlag);
+	blnFlag = Data.setValue("outparam1", strUseFlag.trim());
+        blnFlag = Data.setValue("取款使用的分发与呈送方法", strUseFlag);
+        console.log("取款使用的分发与呈送方法 is: "+strUseFlag);
+        
+        if (strUseFlag.trim() == "1" )
+        {
+        	changeStatus('UsePresent');
+        }
+        else if (strUseFlag.trim() == "2")
+        {
+        	changeStatus('UseDispenseAndPresent');
+        }
+       	else
+       	{
+        	changeStatus('UnKnown');
+ 	}        
+}
+
+function CheckAlgorithm(strAlgorithm)
+{
+	var intNum;
+	var strMixNumber;
+	var arrMixNumber;
+	
+	intNum = cashdispenser.NumMixAlgorithmsAndTables;
+	arrMixNumber = cashdispenser.MixNumber;
+	for (var I = 0; I<intNum; I++)
+	{
+		if (strAlgorithm == arrMixNumber[I]) 
+			return true;
+	}
+	return false;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[IfCardExist]----------------------------------------------*/
+function EntryAction(){	
+	var stCardReaderMediaStatus;
+	stCardReaderMediaStatus = cardreader.StMediaStatus;
+	if (stCardReaderMediaStatus == "PRESENT" || stCardReaderMediaStatus == "JAMMED")
+	{
+		changeStatus('Exist');	
+		return;
+	}
+	else
+	{
+		changeStatus('NotExist');
+		return;
+	}
+}
+	
+EntryAction();
+/*[InitDataModel]----------------------------------------------*/
+function EntryAction(){
+	var blnFlag;
+	var strdata;
+	var arrDataStr;
+
+	strdata = Data.getValue("inparam1");
+	arrDataStr = strdata.split(",");
+	for (var I = 0; I<arrDataStr.length; I++)
+	{
+		//if ((arrDataStr[I]).trim() != "")
+			//blnFlag = Data.Clear((arrDataStr[I]).trim());
+	}
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[InputDataSupportBackspace]----------------------------------------------*/
+var strFKey;
+var strEnterData;
+var strKeyTitle;
+var arrKey = new Array(40);
+var strUserDefinedKeys;
+var intMaxKeys;
+var intMinKeys;
+var intUserValidKey;
+var blnAutoEnd;
+var strTerminalKey;
+var blnFKey;
+var intPressedNum;
+var intCanceledPos;
+var strRetValue;
+var strBackspaceKey;
+var strUserActiveKeys;
+var nFlagNo;
+var strDefaultAcc;
+
+var strLastFKey;
+strLastFKey = "";
+var wait = require('wait.for');
+var varTimeOut = null;
+function EntryAction()
+{
+	varTimeOut = setTimeout(State_TimeOut,45000);
+	var ExecCmd = "ShowInfo('InputTFRAccount');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+	var strFunParam;
+	var Result;
+	var strKeyMap;
+	var blnFlag;
+
+	strFunParam = "";
+	strBTID = "";
+	strEnterData = "";
+	strKeyTitle = "";
+	strFKey = "";
+	strKeyMap = "";
+	strKeySet = "";
+	blnFKey = false;
+	intUserValidKey = 0;
+	intPressedNum = 0;
+	intCanceledPos = 0;
+	strUserActiveKeys = "";
+	
+	strBackspaceKey = Data.getValue("inparam1");
+	Result = H_Display();
+	strFunParam = InputKey();
+	console.log("Get InputKey: "+strFunParam);
+	
+	//增加点密码键盘灯
+	/*if GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights of PinPad Continuous"
+		GuideLights.SetPinPadLight "Continuous"
+	End If */
+
+	/*arr(0): 最小输入长度,没有为空
+	arr(1): 最多输入个数
+	arr(2): 是否自动结束标志(true/false)
+	arr(3): 允许输入键的集合
+	arr(4): 结束键集合*/
+	arrFunParam = PipeToArray(strFunParam);
+	
+	if (arrFunParam.length != 4)
+	{
+		//clearTimeout(varTimeOut);
+       		//changeStatus('DeviceError');
+	//	return;
+	}
+	
+	strUserDefinedKeys = arrFunParam[3]+","+arrFunParam[4];
+	blnFlag = PressedKeyIsInSet("CLEAR",strUserDefinedKeys);
+	if (blnFlag == false)
+		strUserDefinedKeys = strUserDefinedKeys + "," + "CLEAR";
+	
+	blnFlag = PressedKeyIsInSet("BACKSPACE",strUserDefinedKeys);
+	if (blnFlag == false)
+		strUserDefinedKeys = strUserDefinedKeys + "," + "BACKSPACE";
+	
+	blnFlag = PressedKeyIsInSet(strBackspaceKey,strUserDefinedKeys);
+	if (blnFlag == false)
+		strUserDefinedKeys = strUserDefinedKeys + "," + strBackspaceKey;
+	
+	//strUserActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+	//console.log("strUserActiveKeys = [" + strUserActiveKeys + "]");
+
+	//检查结束键集合的合法性, 如果有F1~F32的功能键存在, 将F?键值赋给strFKey返回
+	//arrFunParam(4) -- 结束键集合
+//	strFKey = ChkTerminalKey(arrFunParam[4]);
+/*	if (Result == false)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus('DeviceError');
+		return;
+	}
+	else	
+	{
+*/
+		//生成保存名，值的数组
+		strKeyMap = KeyMapping();
+
+		if (strKeyMap != "")
+		{
+			//检查KeyMapping的合法性,参数一:InputKey对应的数组arrInputKey, 参数二:KeyMapping对应的数组arrKeyMap
+			/*Result = ChkMap(strFunParam, strKeyMap);
+			If Trim(UCase(Result)) <> "CHKOK" Then
+				If Trim(UCase(Result)) = "MAPERROR" Then
+					EntryAction = "DeviceError"
+       					Exit Function
+				ElseIf Trim(UCase(Result)) = "PARAMERR" Then
+					EntryAction = "DeviceError"
+       					Exit Function
+				ElseIf Trim(UCase(Result)) = "REMARKERR" Then
+					EntryAction = "DeviceError"
+       					Exit Function
+				ElseIf Trim(UCase(Result)) = "KEYNOTMATCHING" Then
+					EntryAction = "DeviceError"
+       					Exit Function
+				Else
+					EntryAction = "DeviceError"
+       					Exit Function
+				End If
+			End If*/
+		}	
+		
+		//获得功能键对应的Mapping功能说明
+		//Result = DealKeyMap(strKeyMap, arrKey);
+		arrKey = ["","","","","","CLEAR","","ENTER","","","","","","","","","","","","","","","","","","","","","","","","","ENTER","CANCEL","CLEAR","BACKSPACE","HELP"];
+		/*if (Result.toUpperCase() == "ERROR")
+		{
+			clearTimeout(varTimeOut);
+			changeStatus('DeviceError');
+			return;
+		}
+*/
+			
+		if (((arrFunParam[2]).toUpperCase()).trim() == "TRUE")
+		{
+			//获得ENTER功能键对应的Map说明
+			strKeyTitle = arrKey[33];
+		}
+		
+		//UserEntry参数含义:
+		//     最多输入个数, 是否自动结束标志(true/false), 允许输入键的集合, 结束键集合
+		if (strFKey.trim() == "")
+		{
+			strTerminalKey = "ENTER";
+		}
+		else
+		{
+			strTerminalKey = arrFunParam[4];
+			//blnFKey = PressedKeyIsInSet(strFKey,pinpad.CpKeysSupported);
+		}
+					
+		//如果最大输入个数为0或者为空,则抛出异常
+		if ((arrFunParam[1]).trim() == "" || parseInt(arrFunParam[1]) == 0)
+		{
+			clearTimeout(varTimeOut);
+			changeStatus('DeviceError');
+			return;
+		}
+		else
+		{
+			if ((arrFunParam[0]).trim() == "")
+				intMinKeys = 0;
+			else
+				intMinKeys = arrFunParam[0];
+
+			intMinKeys = arrFunParam[0];
+			intMaxKeys = arrFunParam[1];
+			blnAutoEnd = arrFunParam[2];
+			
+			webuikit.on('KeyPressed', PinPad_KeyPressed);
+			pinpad.on('KeyPressed', PinPad_KeyPressed);
+			pinpad.on('Cancelled', PinPad_Cancelled);
+			//console.log("Call PinPad.UserEntry:  100 " + arrFunParam[2] + " "+ strUserActiveKeys + " " + strTerminalKey);
+			pinpad.UserEntry(100,false, "NUMBERS,CANCEL,CLEAR,F5,F6,F7,F8", "", -1);
+  //ENTER
+
+			changeStatus('RESERVE');
+		}
+	//}
+}
+
+function CommaToArray(instring)
+{
+	var outArray;
+	instring.trim();
+	outArray = instring.split(",");
+	return outArray;
+}
+
+function DealKeyMap(strKeyMap, OutArray)
+{
+	var arrKeySet;
+	var arrFirst;
+	var arrSecond;
+	var arrKeyMap;
+	var strFirst;
+	var strSecond;
+	var J, K, M;
+	var Result;
+	var strKeySet = "";
+	for (var J = 1; J< 32; J++)
+	{
+		strKeySet = strKeySet+"F"+J.toString()+",";
+	}
+	strKeySet = strKeySet+"ENTER+CANCEL,"+"CLEAR,"+"BACKSPACE,"+"HELP";
+	strFirst = "";
+	strSecond = "";
+	if (strKeyMap.trim() == "")
+		return "Error";
+	else
+	{
+		var arrTmp;
+		arrTmp = PipeToArray(strKeyMap);
+		for (var J = 0;  J<arrTmp.length; J++)
+		{
+			if (arrTmp[J] == "")
+				return "Error";
+			else if (arrTmp[J].indexOf(",") == -1 )
+				return "Error";
+			else
+			{
+				var arrTmp1;
+				arrTmp1 = CommaToArray(arrTmp[J]);
+				if (arrTmp1.length > 1)
+					return "Error";
+			}
+		}
+	}
+
+	arrKeySet = CommaToArray(strKeySet);
+	arrKeyMap = PipeToArray(strKeyMap);
+
+	for (var J = 0; J< arrKeyMap.length; J++)
+	{
+		var arrExch;
+		arrExch = CommaToArray(arrKeyMap[J]);
+		if (J != arrKeyMap.length-1)
+		{
+			strFirst = strFirst + arrExch[0] + ",";
+			strSecond = strSecond + arrExch[arrKeyMap.length-1] + ",";
+		}
+		else
+		{
+			strFirst = strFirst + arrExch[0];
+			strSecond = strSecond + arrExch[arrKeyMap.length-1];
+		}
+	}
+
+	arrFirst = CommaToArray(strFirst);
+	arrSecond = CommaToArray(strSecond);
+
+	for (var K = 0; K<arrFirst.length; K++)
+	{
+		for (var M =0; M< arrKeySet.length; M++)
+		{
+			if (arrFirst[K].toUpperCase()== arrKeySet[M].toUpperCase())
+			{
+				if (strSecond.trim() == "" || arrSecond[K].trim() == "")
+					OutArray[M+1] = arrKeySet[M];
+				else
+					OutArray[M+1] = arrSecond[K];
+			}
+		}
+	}
+
+	return "Ok";
+}
+
+function ChkTerminalKey(KeyValue)
+{
+	var ValidKey;
+	var I;
+	if (KeyValue == "")
+		return null;
+
+	var arrTerminal = CommaToArray(KeyValue);
+	if (arrTerminal.length != 1 )
+		return null;
+		
+	if (arrTerminal.length == 1)
+	{
+		if (((arrTerminal[0]).toUpperCase()).trim() == "ENTER")
+		{
+			for (I = 1; I<= 32; I++)
+			{
+				if ((arrTerminal[1]).toUpperCase() == "F"+I.toString())
+				{
+					ValidKey = "F"+I.toString();
+					return ValidKey;
+				}
+			}
+			return null;
+		}
+		else if (((arrTerminal[1]).toUpperCase()).trim()  == "ENTER")
+		{
+			for (I = 1; I<= 32; I++)
+			{
+				if ((arrTerminal[0]).toUpperCase() == "F"+I.toString())
+				{
+					ValidKey = "F"+I.toString();
+					return ValidKey;
+				}
+			}
+			return null;
+		}
+		else
+			return null;
+	}
+}
+
+function ShowPressButton(strFKey,strSpecial,strLastFKey)
+{
+	if (strFKey.trim() != "" && (strFKey.trim()).left(1) == "F")
+	{
+		var strButtonName;
+		if (strSpecial.trim() != "" && strSpecial.trim() != "goBackButton" )
+		{
+			strButtonName = strSpecial;
+		}
+		else
+		{
+			if(strFKey=="F1" || strFKey=="F3" || strFKey=="F5" || strFKey=="F7")
+			{
+				strButtonName = "BtnLeft_Down.gif";
+			}
+			else if(strFKey=="F2" || strFKey=="F4" || strFKey=="F6" || strFKey=="F8")
+			{
+				strButtonName = "BtnRight_Down.gif";
+			}
+			else
+			{
+				console.log("Fkey is invalid ["+strFKey+"]");
+				return;
+			}
+
+		}
+		
+		var bRet,strResult,strWsapPath,strLanguage;
+		strWsapPath = "..\\page";
+		bRet = Sysobj.iFunction("PATHFILEEXISTS",strWsapPath+"\\button\\"+strButtonName);
+		if (bRet == false)
+		{
+			//console.log("File Not Exist ["+strWsapPath+"\button\"+strButtonName+"]");
+			return;
+		}
+	}
+}
+
+function PinPad_KeyPressed(Key, KeyCode)
+{
+	var I;
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+	console.log("PinPad_KeyPressed " + keytmp);
+	
+	var blnFlag;
+	/*if (keytmp == "F5" || keytmp == "F8")
+		ShowPressButton(keytmp,"goBackButton",strLastFKey);
+	else
+		ShowPressButton(keytmp,"",strLastFKey);
+*/
+
+	console.log("Key = "+ keytmp + " strUserDefinedKeys = ["+strUserDefinedKeys+"]");
+	//屏幕上存在，而PinPad设备不支持时
+	if (strFKey != "")
+	{
+		if (keytmp == strFKey && blnFKey == false)
+		{
+			for (I=1; I<= 32; I++)
+			{ 
+				strKeyTitle = arrKey[I];
+				if (keytmp.toUpperCase() == "F"+I.toString())
+				{
+					blnFlag = Data.setValue("outparam1", strEnterData);
+					blnFlag = Data.setValue("转账账号", strEnterData);
+					intCanceledPos = 8;
+					strRetValue = strKeyTitle;
+					pinpad.CancelUserEntry();					
+					changeStatus('RESERVE');
+					return;
+				}
+			}
+		}
+	}
+	
+	intPressedNum = intPressedNum + 1;
+		
+	/*blnFlag = PressedKeyIsInSet(keytmp,strUserDefinedKeys);
+	if (blnFlag == false)
+	{
+		changeStatus('RESERVE');
+	}
+	else
+	{
+*/
+		if (keytmp == "ENTER")
+		{
+			intCanceledPos = 9;
+			strRetValue = arrKey[33];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "CANCEL")
+		{
+			intCanceledPos = 2;
+			strRetValue = arrKey[34];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "CLEAR")
+		{
+			intCanceledPos = 3;
+			strRetValue = arrKey[35];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "BACKSPACE")
+		{
+			intCanceledPos = 4
+			strRetValue = arrKey[35];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else if (keytmp == "HELP")
+		{
+			intCanceledPos = 5
+			strRetValue = arrKey[37];
+			pinpad.CancelUserEntry();
+			changeStatus('RESERVE');
+			return;
+		}
+		else
+		{
+			var tmp;
+		
+			tmp = keytmp.substr(0, 1);
+			if (tmp.toUpperCase() != "F")
+			{ 
+				if (intUserValidKey < 0)
+					intUserValidKey = 0;
+	
+				if ( intUserValidKey + keytmp.length <= intMaxKeys)
+				{
+					strEnterData = strEnterData + keytmp
+					intUserValidKey = intUserValidKey + keytmp.length;
+				}
+				
+				console.log( "Comm Action DisplayInputInfo(info) info: "+strEnterData);
+				Result = DisplayInputInfo(strEnterData);			
+				if (intUserValidKey == intMaxKeys)
+				{
+					//输满有效位时自动结束
+					if (blnAutoEnd == true)
+					{
+						intCanceledPos = 10;
+						strRetValue = arrKey[33];					
+						blnFlag = Data.setValue("outparam1", strEnterData);
+						blnFlag = Data.setValue("转账账号", strEnterData);
+						pinpad.CancelUserEntry();
+						changeStatus('RESERVE');
+						return;												
+					}
+				}
+				changeStatus('RESERVE');
+			}
+			else
+			{
+				if (keytmp.toUpperCase() == "F5")
+				{
+					if (strEnterData != "")
+					{
+						strEnterData = strEnterData.left(strEnterData.length-1);
+						intUserValidKey = intUserValidKey -1;
+						DisplayInputInfo(strEnterData);
+						changeStatus('RESERVE');
+						return;	
+					}
+					else 
+					{
+						changeStatus('RESERVE');
+						return;	
+					}
+	
+				}
+				else if (keytmp.toUpperCase() == "F7")
+				{
+					intCanceledPos = 6;
+					strRetValue = "取消";
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+
+					
+				}
+				else if(keytmp.toUpperCase() == "F8")
+				{
+					intCanceledPos = 6;
+					strRetValue = "确认";
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+				}
+				else if(keytmp.toUpperCase() == "F6")
+				{
+					intCanceledPos = 6;
+					strRetValue = "更正";
+					pinpad.CancelUserEntry();
+					changeStatus('RESERVE');
+					return;
+				}
+				/*for (I=1; I<=32; I++)
+				{
+					if (keytmp.toUpperCase() == "F"+I.toString())
+					{
+						if (keytmp == strBackspaceKey)
+						{
+							if (strEnterData != "")
+							{
+								strEnterData = strEnterData.left(strEnterData.length-1);
+								intUserValidKey = intUserValidKey -1;
+								DisplayInputInfo(strEnterData);
+								changeStatus('RESERVE');
+								return;	
+							}
+							else 
+							{
+								changeStatus('RESERVE');
+								return;	
+							}
+						} 
+							
+						strKeyTitle = arrKey[I];
+						if (strFKey == keytmp)
+							intCanceledPos = 11;
+						else
+							intCanceledPos = 6;
+        					
+        					strRetValue = arrKey[I];
+						pinpad.CancelUserEntry();
+						changeStatus('RESERVE');
+						return;
+					}
+				}*/
+			}
+		}
+	//}
+
+	if (intPressedNum == 100)
+	{
+		intCanceledPos = 7;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	changeStatus('RESERVE');
+}
+
+/*Function PinPad_FatalError(FRsult)
+	Dim blnFlag
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	
+	'mod by flmeng at 2010-10-12 for CCB_VX4700_031 begin
+	'增加点密码键盘灯
+	If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights of PinPad OFF"
+		GuideLights.SetPinPadLight "OFF"
+	End If
+	'mod by flmeng at 2010-10-12 for CCB_VX4700_031 end 
+	
+	strDevErrInfo = "PIN000999"    
+        '硬件故障代码 
+        blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+        blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam2", strDevErrInfo)
+       	PinPad_FatalError = "DeviceError"
+End Function
+
+Function PinPad_DeviceError()
+	Dim wsappath
+	Dim strFileName
+	Dim blnFlag
+	Dim strDeviceName
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	
+	'mod by flmeng at 2010-10-12 for CCB_VX4700_031 begin
+	'增加点密码键盘灯
+	If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights of PinPad OFF"
+		GuideLights.SetPinPadLight "OFF"
+	End If
+	'mod by flmeng at 2010-10-12 for CCB_VX4700_031 end 
+	
+	strDeviceName = "PinPad"
+        '获得wsappath环境变量
+	blnFlag = Data.GetValue("wsappath", wsappath)	
+	blnFlag = Data.GetValue("deverrcodepath", strFileName)
+	strFileName = Trim(strFileName)	
+	strFileName = CombineFileName(wsappath,strFileName) 
+	
+	blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+        '硬件故障代码 
+       	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+       	If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+		strDevErrInfo = "PIN111111"
+	End If	
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+        blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam2", strDevErrInfo)
+	PinPad_DeviceError = "DeviceError"
+End Function 
+
+function State_TimeOut()
+{
+	intCanceledPos = 1
+	strRetValue = "TimeOut"
+	PinPad.CancelUserEntry
+	State_TimeOut = "RESERVE"
+}
+*/
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+function PinPad_Cancelled()
+{
+	console.log("-----------------");
+	//增加点密码键盘灯
+	/*if GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights of PinPad OFF"
+		GuideLights.SetPinPadLight "OFF"
+	End If*/
+	
+	console.log("******PinPad_Cancelled intCanceledPos = [" + intCanceledPos + "]");
+	
+	Data.setValue("udf_转账账号", strEnterData);
+	
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	
+	if (intCanceledPos == 1)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 2)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+	//	changeStatus("取消");
+		return;
+	}
+	else if (intCanceledPos == 3)
+	{
+		clearTimeout(varTimeOut);
+	//	changeStatus("更正");
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 4)
+	{
+		clearTimeout(varTimeOut);
+		//changeStatus("更正");
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 5)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 6)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if(intCanceledPos == 7)
+	{
+		intPressedNum = 0;
+		console.log("intPressedNum = 100,So Call PinPad.UserEntry:  100 " + blnAutoEnd + " "+ strUserActiveKeys);
+	
+		//增加点密码键盘灯
+		/*if GuideLights.StPinPadLightStatus = "HEALTHY" Then
+			IE.Trace "Set GuideLights of PinPad Continuous"
+			GuideLights.SetPinPadLight "Continuous"
+		End If */
+		
+		pinpad.UserEntry(100, false, strUserActiveKeys, "", -1);
+        	changeStatus("RESERVE");
+		return;
+        }
+        else if(intCanceledPos == 8)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if(intCanceledPos == 9)
+	{
+		if (intUserValidKey >= intMinKeys)
+		{
+        		blnFlag = Data.setValue("outparam1", strEnterData);
+        		blnFlag = Data.setValue("转账账号", strEnterData);
+        		clearTimeout(varTimeOut);
+ 			changeStatus(strRetValue);
+			//changeStatus("确认");
+
+			return;
+        	}
+        	else
+        	{
+        		console.log("VaildKey Numbers is smaller than "+intMinKeys+" So Call PinPad.UserEntry Again!");
+			intPressedNum = 0;
+			
+			//增加点密码键盘灯
+			/*If GuideLights.StPinPadLightStatus = "HEALTHY" Then
+				IE.Trace "Set GuideLights of PinPad Continuous"
+				GuideLights.SetPinPadLight "Continuous"
+			End If */
+			
+			pinpad.UserEntry(100, false, strUserActiveKeys, "", -1);
+        		changeStatus("RESERVE");
+			return;
+        	}
+        }
+        else if(intCanceledPos == 10)
+	{
+		clearTimeout(varTimeOut);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if(intCanceledPos == 11)
+	{
+		if (intUserValidKey >= intMinKeys) 
+		{
+			blnFlag = Data.setValue("outparam1", strEnterData);
+			blnFlag = Data.setValue("转账账号", strEnterData);
+			clearTimeout(varTimeOut);
+			changeStatus(strRetValue);
+			return;
+        	}
+        	else
+        	{
+        		console.log( "VaildKey Numbers is smaller than "+intMinKeys+" So Call PinPad.UserEntry Again!");
+			intPressedNum = 0;
+			
+			//增加点密码键盘灯
+			/*if GuideLights.StPinPadLightStatus = "HEALTHY" Then
+				IE.Trace "Set GuideLights of PinPad Continuous"
+				GuideLights.SetPinPadLight "Continuous"
+			End If */
+        		
+        		pinpad.UserEntry(100, false, strUserActiveKeys, "", -1);
+        		changeStatus("RESERVE");
+			return;
+        	}
+	}
+
+	intPressedNum = 0;
+	// 防止键盘在别的地方被Cancel，导致假死机的不响应现象
+	console.log("In <PinPad_Cancelled> Unknown intCanceledPos Call PinPad.UserEntry again");
+
+	//增加点密码键盘灯
+	/*if GuideLights.StPinPadLightStatus = "HEALTHY" Then
+		IE.Trace "Set GuideLights of PinPad Continuous"
+		GuideLights.SetPinPadLight "Continuous"
+	End If */
+	
+	pinpad.UserEntry(100, false, strUserActiveKeys, "", -1);
+	changeStatus("RESERVE");
+}
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet
+	var arrayActiveRet
+	var blnFlag
+	var strkeysupport
+	strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+	for (var I =0; I< arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right((strActiveRet.length) - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left((strActiveRet.length) - 1);
+	
+	if (strActiveRet.trim() == "")
+		strActiveRet = "1";
+
+	return strActiveRet;
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	console.log("-----"+strUserKey);
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+	if (tempArray.length < 0)
+	{
+		return false;
+	}
+	for (var I = 0; I<(tempArray.length); I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+		
+	}
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+
+	arrayMyKeySet = strMyKeySet.split(",");
+	for (var J = 0; J<arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+	return false;
+}
+
+//AutoCoding
+function InputKey()
+{
+//返回字串的意义:
+//    最小输入长度(空)|最多输入个数|是否自动结束标志(true/false)|允许输入键的集合|结束键集合
+	return "1|19|true|F4,F6,F8,ENTER,NUMBERS,CANCEL,CLEAR|ENTER";
+}
+
+function KeyMapping()
+{
+	return "F1,取消|F4,确认|F6,更正|F8,取消|ENTER,确认|CANCEL,取消|CLEAR,更正"
+}
+//End Coding
+
+function H_Display()
+{
+}
+
+function DisplayInputInfo(info)
+{
+	var strScript = "document.getElementsByName('MyInput')[0].value = '"+info+"';";
+	strScript = strScript + "document.getElementById('MyUnit').value ='"+info+"';";
+	var res = webuikit.runScript("DisplayAny", strScript);
+	console.log(res);
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+	return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+	return this.slice(0, n);
+}
+
+EntryAction();
+/*[JPFilePrint]----------------------------------------------*/
+var LogArray,Index,FilesString,FileCount;
+var blnRecFlag;
+var strWsapPath;
+var strRecTmpFile;
+var Timeout;
+var blnDeleteFile;
+var ExcludeTimeOut;
+var strCurrFileName;
+function EntryAction()
+{
+	var blnFlag;
+	var strWFMFileName,strFormName, FieldsValue;
+	var strSysTime, strTime, strTmp;
+	var FileName, JPData;
+	Timeout = 60000;
+	blnDeleteFile = false;
+	blnRecFlag = false;
+	strWsapPath = Data.getValue("wsappath");
+	if ((strWsapPath.trim()) == "")
+		strWsapPath = "C:\\wsap\\";
+	strWFMFileName = Data.getValue("inparam1");
+	if (strWFMFileName == "")
+	{
+		changeStatus('PrintOk');
+		return;
+	}
+	strFormName = Data.getValue("inparam2");
+	if (strFormName == "")
+	{
+		changeStatus('PrintOk');
+		return;
+	}
+	FieldsValue = Data.getValue("inparam3");
+	if (FieldsValue == "")
+	{
+		changeStatus('PrintOk');
+		return;
+	}
+	var strPrintLevel;
+	var InfoPrintLevel;
+	var strCurPrintLevel;
+	var AtmPrintLevel;
+	var level;
+	strPrintLevel = Data.getValue("CurInfoPrtLevel");
+	if ((strPrintLevel.trim()) == "")
+		strPrintLevel = 3;
+	strCurPrintLevel = Data.getValue("CurPrintLevel");
+	if (strCurPrintLevel == "")
+		strCurPrintlevel = 1;
+	if (typeof(strPrintLevel.trim()) == "number")
+		blnFlag = true;
+	else
+		blnFlag = false;
+	if (blnFlag == false)
+		strPrintLevel = 3;
+	InfoPrintLevel = parseInt(strPrintLevel);
+	if (typeof(strCurPrintLevel.trim()) == "number")
+		blnFlag = true;
+	else
+		blnFlag = false;
+	if (blnFlag == false)
+		strCurPrintLevel = 1;
+	AtmPrintLevel = parseInt(strCurPrintLevel);
+	if (InfoPrintLevel < AtmPrintLevel)
+	{
+		console.log("RecOnlyEleJPLog,只记录流水文件");
+		//blnFlag = SysObj.RecOnlyEleJPLog(strFormName, FieldsValue);
+		level = 3;
+		blnFlag = Data.setValue("CurInfoPrtLevel", level);
+	}
+	else
+	{
+		console.log("Call RecLog(),make current temp JPFile,记录流水并打印");
+		//blnFlag = RecLog(strFormName, FieldsValue);
+		level = 3;
+		blnFlag = Data.setValue("CurInfoPrtLevel", level);
+	}
+	//blnFlag = SysObj.PostMsgToState("客户状态机","流水打印状态机", "JPPrint");
+}
+
+function CommaToArray(instring)
+{
+	var outArray;
+	instring.trim();
+	outArray = instring.split(",");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[JudgeHostRes]----------------------------------------------*/
+function EntryAction(){
+	var strRetCode
+	var blnFlag
+
+	strRetCode = Data.getValue("接收_响应码");
+	console.log("接收_响应码 : "+strRetCode);
+
+	if (strRetCode.trim() == "")
+	{
+		changeStatus('MessageError');
+		return;
+	}
+	else if (strRetCode.trim() != "00")
+	{
+		changeStatus('HostReject');
+		return;
+	}
+	else
+	{
+		changeStatus('HostPermit');
+		return;
+	}
+}
+
+EntryAction();
+/*[MixWithDispense]----------------------------------------------*/
+var G_CurrCount;
+function EntryAction()
+{
+	var Amount, Money;
+	var blnFlag;
+	var Result;
+	var strMixAlgorithm;
+	Result = H_Display();
+	var strtimeout;
+	strtimeout = Data.getValue("挖钞超时时间");
+	if (strtimeout == null)
+		strtimeout = 360000;
+
+	//Timer.ResetTimer CLng(strtimeout)
+	Amount = Data.getValue("udf_WAmount");
+	if (typeof(parseInt(Amount)) != "number" || Amount.trim() == "")
+	{
+		changeStatus('DispenseError');	
+		return;
+	}
+	Money = "GBP";
+	strMixAlgorithm = "1";
+	strMixAlgorithm = strMixAlgorithm.trim();
+	/*blnFlag = CheckAlgorithm(strMixAlgorithm)
+	If blnFlag = False Then
+	EntryAction = "DispenseError"
+	Exit Function
+	End If
+	G_CurrCount = CashDispenser.CUCurrentCount
+	G_CurrCount = ToString(G_CurrCount)
+	blnFlag = Data.SetValue("取款箱变动前张数",G_CurrCount)*/
+	
+	console.log("Call MixAndDispense "+Amount+" "+Money+" "+strMixAlgorithm);
+	
+	cashdispenser.on('CashDispensed', CashDispenser_CashDispensed);
+
+	//cashdispenser.MixAndDispense(parseInt(Amount), Money, strMixAlgorithm);
+	var varNoteCounts = Data.getValue("udf_NoteCounts");
+	cashdispenser.Dispense(parseInt(Amount), varNoteCounts, Money, strMixAlgorithm);
+	
+	changeStatus('RESERVE');	
+}
+
+function CashDispenser_CashDispensed()
+{
+	var strChgCount;
+	var blnFlag;
+	var Result;
+	var safedoorflag;
+	console.log("CashDispenser CashDispensed");
+	/*safedoorflag = Data.getValue("safedoorflag");
+	if (safedoorflag.trim() == "1")
+	{
+		console.log("Doors.StSafeState is ["+Doors.StSafeState&"]"
+		If Doors.StSafeState = "OPEN" Then
+		CashDispenser_CashDispensed = "DeviceError"
+		Exit Function
+		End If
+	}*/
+	var stCashDispenserSafeDoorStatus;
+	stCashDispenserSafeDoorStatus = cashdispenser.StSafeDoorStatus;
+	if (stCashDispenserSafeDoorStatus == "OPEN" || stCashDispenserSafeDoorStatus == "FATAL")
+	{
+		cashdispenser.removeAllListeners('CashDispensed');
+		changeStatus('DeviceError');	
+		return;
+	}
+	
+	cashdispenser.removeAllListeners('CashDispensed');
+	changeStatus('DispenseOk');	
+}
+
+function CashDispenser_NotDispensable()
+{
+	changeStatus('DispenseError');	
+}
+
+function CashDispenser_CashUnitError(CashUnitNumber)
+{
+	changeStatus('DispenseError');
+}
+
+/*function CashDispenser_FatalError(FRsult)
+{
+	var blnFlag
+	var strDevErrInfo
+	var strDevErrCode
+	strDevErrInfo = "CDM000999"
+	strDevErrCode = Data.getValue("cyc_硬件故障代码")
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	CashDispenser_FatalError = "DeviceError"
+}
+
+function CashDispenser_DeviceError()
+{
+	Dim wsappath
+	Dim strFileName
+	Dim blnFlag
+	Dim strDeviceName
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	strDeviceName = "CashDispenser"
+	blnFlag = Data.GetValue("wsappath", wsappath)
+	blnFlag = Data.GetValue("deverrcodepath", strFileName)
+	strFileName = Trim(strFileName)
+	strFileName = CombineFileName(wsappath,strFileName)
+	blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+	strDevErrInfo = "CDM111111"
+	End If
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	CashDispenser_DeviceError = "DeviceError"
+}
+
+function State_TimeOut()
+{
+	Dim blnFlag
+	Dim strHideCDMFlag
+	strHideCDMFlag = "1"
+	blnFlag = Data.SetValue("取款挖钞超时隐藏取款项标志", strHideCDMFlag)
+	blnFlag = Data.SetValue("SP异常标志","1")
+	State_TimeOut = "TimeOut"
+}*/
+
+/*function CheckAlgorithm(strAlgorithm)
+{
+	Dim intNum
+	Dim strMixNumber
+	Dim arrMixNumber
+	intNum = CashDispenser.NumMixAlgorithmsAndTables
+	arrMixNumber = CashDispenser.MixNumber
+	For I = 0 To intNum - 1
+	If StrComp(strAlgorithm,arrMixNumber(I),1) = 0 Then
+	CheckAlgorithm = CBool(True)
+	Exit Function
+	End If
+	Next
+	CheckAlgorithm = CBool(False)
+}*/
+
+function H_Display()
+{
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[OpenCardReader]----------------------------------------------*/
+function EntryAction(){
+	cardreader.on('ConnectionOpened', onCardReaderOpenComplete);
+	cardreader.OpenConnection()
+	changeStatus('RESERVE');
+}
+
+function onCardReaderOpenComplete(){
+	console.log('CardReader ConnectionOpened');
+	cardreader.removeAllListeners('ConnectionOpened');
+	changeStatus('Ok');
+};
+
+function CardReader_DeviceError()
+{
+	console.log("CardReader DeviceError");
+	changeStatus('Ok');
+}
+function CardReader_FatalError(FRsult)
+{
+	console.log("CardReader_FatalError");
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[OpenCashAcceptor]----------------------------------------------*/
+function EntryAction(){
+	cashacceptor.on('openComplete', onCashAcceptorOpenComplete);
+	cashacceptor.openConnection();
+	changeStatus('RESERVE');
+}
+
+function onCashAcceptorOpenComplete()
+{
+	console.log("CashAcceptor ConnectionOpened");
+	cashacceptor.removeAllListeners('openComplete');
+	changeStatus('Ok');
+}
+function CashAcceptor_DeviceError()
+{
+	console.log("CashAcceptor DeviceError");
+	changeStatus('Ok');
+}
+function CashAcceptor_FatalError(FRsult)
+{
+	console.log("CashAcceptor FatalError");
+	changeStatus('Ok');
+}
+function State_TimeOut()
+{
+	console.log("State TimeOut");
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[OpenCashDispenser]----------------------------------------------*/
+function EntryAction(){
+	cashdispenser.on('ConnectionOpened', onCashDispenserOpenComplete);
+	cashdispenser.OpenConnection();
+	changeStatus('RESERVE');
+}
+
+function onCashDispenserOpenComplete()
+{
+	console.log('CashDispenser ConnectionOpened');
+	cashdispenser.removeAllListeners('openComplete');
+	changeStatus('Ok');
+}
+function CashDispenser_DeviceError()
+{
+	console.log("CashDispenser DeviceError");
+	changeStatus('Ok');
+}
+function CashDispenser_FatalError(FRsult)
+{
+	console.log("CashDispenser_FatalError");
+	changeStatus('Ok');
+}
+function State_TimeOut()
+{
+	console.log("State TimeOut");
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[OpenPinPad]----------------------------------------------*/
+function EntryAction(){
+	pinpad.on('ConnectionOpened', onPinPadOpenComplete);
+	pinpad.OpenConnection();
+	changeStatus('RESERVE');
+}
+
+function onPinPadOpenComplete(){
+	console.log('PinPad ConnectionOpened');
+	pinpad.removeAllListeners('ConnectionOpened');
+	changeStatus('Ok');
+};
+
+function PinPad_DeviceError()
+{
+	console.log("PinPad DeviceError");
+	changeStatus('Ok');
+}
+function PinPad_FatalError(FRsult)
+{
+	console.log("PinPad_FatalError");
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[Packagecommoninfo]----------------------------------------------*/
+function EntryAction(){
+	var blnFlag;
+	var strSeriaNo, strMaxSeriaNo;
+	var lngSeriaNo ;
+	var strSysTime;
+	var strTrsDate;
+	var strTrsTime;
+	var strRetractCassette;
+	var arrBillCassette;
+	var strAcceptorInfo;
+	var strPrinterInfo;
+	var strDevErrCode;
+	var PhysicalFlag;
+	var strCDMDevErrCode;
+	var strData;
+
+	blnFlag = Data.setValue("IfFirstTrsAfterSpecial", "0");
+
+	var strbwbb;
+
+	var strIfOpenFunList512,strTrsCodeListOf512;
+	strIfOpenFunList512 = Data.getValue("IfOpenFunList512");
+	strTrsCodeListOf512 = Data.getValue("TrsCodeListOf512");
+	if (strIfOpenFunList512 == "1")
+	{
+		if (strTrsCodeListOf512 != "")
+		{
+			var strTrsCode,arrCode,intFlagFind;
+			intFlagFind = 0;
+			strTrsCode = Data.getValue("交易代码");
+			arrCode = strTrsCodeListOf512.split("|");
+			for (var I = 0; I <arrCode.length; I++)
+			{
+				if (arrCode[I] == strTrsCode)
+				{
+					intFlagFind = 1;
+					break;
+				}
+			}
+			if (intFlagFind == 1)
+				strbwbb = "03";
+			else
+				strbwbb = "02";
+		}
+		else
+			strbwbb = "03";
+	}
+	else
+		strbwbb = "02";
+
+	console.log("strTrsCodeListOf512 : "+strTrsCodeListOf512);
+	console.log("strTrsCode : "+strTrsCode);
+	console.log("strbwbb : "+strbwbb);
+
+	var strShowFlag;
+	strShowFlag = "";
+	strShowFlag = Data.getValue("udf_ShowTrsDealing");
+	if (strShowFlag == "")
+		strShowFlag = "1";
+
+	if (strShowFlag == "1")
+		console.log("TransactionAdv");
+
+	blnFlag = Data.setValue("报文版本", strbwbb);
+
+	strData = Data.getValue("inparam1");
+	if (strData.trim() != "False")
+	{
+		//根据AppCfg.xml中定义的"最大本地流水号",在其指定的范围内流水号依次加一,如果达到最大流水号,将流水号重新由1计起
+		strSeriaNo = Data.getValue("cyc_系统跟踪号");
+		
+		if ( strSeriaNo== "")
+		{
+			console.log("PUB325", "<SetSerialNoPlus>: GetValue cyc_系统跟踪号 Failed, Return----INNERERROR");
+			changeStatus('INNERERROR');
+			return;
+		}
+
+		if (strSeriaNo.trim() != "")
+		{
+			if (typeof(strSeriaNo) != "number")
+				strSeriaNo = "0";
+		}
+		else
+			strSeriaNo = "0";
+		
+		strMaxSeriaNo = Data.getValue("最大本地流水号");
+		if (typeof(strMaxSeriaNo) != "number")
+		{
+			changeStatus('Ok');
+			return;
+		}
+
+		lngSeriaNo = parseInt(strSeriaNo)%parseInt(strMaxSeriaNo) + 1;
+
+		strSeriaNo = ("000000"+lngSeriaNo.toString()).right(6);
+		strSeriaNo = Data.setValue("cyc_系统跟踪号");
+		
+		if (blnFlag == false)
+		{
+			console.log("PUB326", "<SetSerialNoPlus>: SetValue cyc_系统跟踪号 Failed, Return----INNERERROR");
+			changeStatus('INNERERROR');
+			return;
+		}
+		console.log("cyc_系统跟踪号: "+strSeriaNo);
+	}
+
+	var date = new Date();
+	strSysTime = date.Format("yyyyMMddhhmmss");
+	strTrsDate = strSysTime.left(8);
+		
+	blnFlag = Data.setValue("交易日期", strTrsDate);
+	strTrsTime = strSysTime.right(6);
+	blnFlag = Data.setValue("交易时间", strTrsTime);
+	PhysicalFlag = Data.getValue("PublicInfoUsePhysicalFlag");
+
+
+	strDevErrCode = Data.getValue("cyc_硬件故障代码");
+	if (pinpad.StDeviceStatus == "HEALTHY")
+		strDevErrCode = CombineDevErrCode(strDevErrCode,"PIN000000");
+
+	var strIDCCode = "";
+	var stCardReaderStatus;
+	//strIDCCode = GetModuleErrorCode("IDC")
+	stCardReaderStatus = cardreader.StDeviceStatus;
+	if (strIDCCode.length == 9)
+	{
+		var strCheatFlag;
+		strCheatFlag = Data.getValue("CheatEffect");
+		if (stCardReaderStatus == "FATAL" || stCardReaderStatus == "NODEVICE" || cardreader.StMediaStatus == "JAMMED")
+		{ 
+			strIDCCode = strIDCCode.substring(1,3)+"F3"+strIDCCode.right(4);
+			strDevErrCode = CombineDevErrCode(strDevErrCode,strIDCCode);
+		}	
+		else if (cardreader.StBinStatus == "BINFULL")	
+		{
+			strIDCCode = "IDCF20000";
+			strDevErrCode = CombineDevErrCode(strDevErrCode,strIDCCode);
+		}
+		else if (strCheatFlag.trim() == "1")
+		{
+			strIDCCode = "IDCF10000";
+			strDevErrCode = CombineDevErrCode(strDevErrCode,strIDCCode);
+		}
+		else if (stCardReaderStatus == "HEALTHY")
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"IDC000000");
+	}		
+	else
+	{
+		if (stCardReaderStatus == "HEALTHY")
+			strDevErrCode = CombineDevErrCode(strDevErrCode,"IDC000000");		
+	}
+
+	var strIsAlarmed,strOpenVID,strVIDCode,intPos;
+	strOpenVID = Data.getValue("IfOpenVID");
+	if (strOpenVID == "1")
+	{
+		strIsAlarmed = Data.getValue("IsAlarmTriggered");
+		if (strIsAlarmed == "1")
+			strVIDCode = "VID999999";
+		else
+			strVIDCode = "VID000000";
+
+		console.log("VIDCode : "+strVIDCode);
+		intPos = strDevErrCode.indexOf("VID") ;
+		if (intPos != 0)
+			strDevErrCode = CombineDevErrCode(strDevErrCode,strVIDCode);
+		else
+			strDevErrCode = strDevErrCode+strVIDCode;
+	}
+
+	var strIsATM;
+	strIsATM = Data.getValue("IsATM");
+	if (strIsATM == "1")
+	{
+		if(strDevErrCode.length > 9 && strDevErrCode.left(9) != "ATM000000")
+			strDevErrCode = "ATM000000"+strDevErrCode;
+	}
+	blnFlag = Data.setValue("cyc_硬件故障代码", strDevErrCode);
+	changeStatus('Ok');
+}
+EntryAction();
+
+function CombineDevErrCode(strDevErrCode,strCurErrCode)
+{
+	var intPos;
+	var strSearched,strModuleName;
+	if (strDevErrCode.trim() == "")
+		strDevErrCode = strCurErrCode;
+	else
+	{
+		strModuleName = strCurErrCode.left(3);
+		intPos = strDevErrCode.indexOf(strModuleName);
+		if (intPos != -1)
+			strDevErrCode = strDevErrCode.left(intPos - 1) + strCurErrCode + strDevErrCode.substring(intPos + 9,strDevErrCode.length-intPos-8);
+	}
+	if (strDevErrCode.length > 100)
+		strDevErrCode = strDevErrCode.length(99);
+	return strDevErrCode;
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+	return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+	return this.slice(0, n);
+}
+/*[PrintCombineCUInfo]----------------------------------------------*/
+function EntryAction(){	
+	var arrType,arrStatus,arrInitialCount,arrCurrentCount,arrNoteValue,arrSingleType,arrCUCurrency;
+	var strJPPrintType,strFormName,JPData;
+	var FileName,blnFlag;
+
+	//blnFlag = CombineCashUnitInfo(arrType,arrStatus,arrCUCurrency,arrInitialCount,arrCurrentCount,arrNoteValue);
+	if (blnFlag != true)
+	{
+		changeStatus('NoInfo');	
+		return;
+	}
+
+	strJPPrintType = Data.getValue("JournalPrintType");
+	if (strJPPrintType == "")
+		strJPPrintType="EngInfo";
+
+	strFormName = "CashUnitSt";
+	if (strJPPrintType == "ChnInfo")
+		JPData = "UnitName=<类型>,Status=<状态>,Currency=<币种>,NoteValue=<面值>,CurrentCount=<当前张数>,InitialCount=<初始张数>";
+	else 
+		JPData = "UnitName=<TYPE>,Status=<STATUS>,Currency=<CUR>,NoteValue=<NOTE>,CurrentCount=<COUNT>,InitialCount=<ICOUNT>";
+
+	//blnFlag = SysObj.RecEleJPLog(strFormName,JPData,FileName)
+	/*for (var I = 0; I< arrType.length; I++)
+	{
+		arrSingleType = arrType[I].split("/");
+		if (arrSingleType.length == 1)
+		{
+			GetPrintInfo(arrSingleType[0],arrSingleType[0]);
+			GetPrintInfo(arrSingleType[1],arrSingleType[1]);
+			arrType[I] = arrSingleType[0]+"/"+arrSingleType[1];
+		}
+		else 
+			GetPrintInfo(arrType[I],arrType[I]);
+		GetPrintInfo(arrStatus[I],arrStatus[I]);
+		
+		JPData = "UnitName = <"+arrType[I]+">,Status = <"+arrStatus[I]+">,Currency=<"+arrCUCurrency[I]+">,NoteValue = <"+arrNoteValue[I]+">,CurrentCount = <"+arrCurrentCount[I]+">,InitialCount = <"+arrInitialCount[I]+">";
+		console.log("JPData("+I+") is "+ JPData);
+		
+		//blnFlag = SysObj.RecEleJPLog(strFormName,JPData,FileName);
+	}*/
+
+	//blnFlag = SysObj.PostMsgToState("管理员状态机","流水打印状态机", "JPPrint")
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[ResetCardReader]----------------------------------------------*/
+function EntryAction(){
+	var blnFlag;
+	var strDevID;
+	strDevID = "IDC";
+	blnFlag = GetResetFlag(strDevID);
+	if (blnFlag == false)
+	{
+		changeStatus('Ok');
+		return;
+	}
+
+	cardreader.on('ResetComplete', CardReader_ResetComplete);
+
+	if (cardreader.StDeviceStatus == "NODEVICE")
+	{
+		changeStatus('Ok');
+		return;
+	}
+	else
+	{
+		console.log("Call CardReader.Reset RETRACT");
+		cardreader.Reset("RETRACT");
+	}
+	changeStatus('RESERVE');
+}
+
+function CardReader_ResetComplete()
+{
+	cardreader.removeAllListeners('ResetComplete');
+	changeStatus('Ok');
+}
+
+function CardReader_DeviceError()
+{
+	changeStatus('DeviceError');
+}
+
+function State_TimeOut()
+{
+	changeStatus('TimeOut');
+}
+
+function GetResetFlag(strDevID)
+{
+	var strReset;
+	var arrReset;
+	var blnFlag;
+	strReset = Data.getValue("useresetflag");
+	if (strReset == "")
+	{
+		console.log("<GetResetFlag>: GetValue 'useresetflag' Failed, Return----False");
+		return false;
+	}
+	arrReset = strReset.split(",");
+	for (var I =0; I<arrReset.length;I++)
+	{
+		if ((arrReset[I].trim()).left(3) == strDevID)
+		{
+			if ((arrReset[I].trim()).right(1)== "1")
+				return true;
+			else
+				return false;
+		}
+	}
+	return false;
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+return this.slice(0, n);
+}
+
+EntryAction();
+/*[SelectTrs]----------------------------------------------*/
+var arrKey = new Array(40);
+var strUserDefinedKeys;
+var intPressedNum;
+var intCanceledPos;
+var strRetValue;
+var strUserActiveKeys;
+var F1ActiveFlag, F2ActiveFlag, F3ActiveFlag, F4ActiveFlag;
+var F5ActiveFlag, F6ActiveFlag, F7ActiveFlag, F8ActiveFlag;
+var ntype = 0;
+var varTimeOut = null;
+
+	
+function EntryAction()
+{
+    var varscript = "HideButtonAndLayer(); if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}document.getElementById('Layer100').style.visibility = 'visible';timeCount(30);document.getElementById('C_Layer5').style.top = '30%';";
+    varscript = varscript + "document.getElementById('F8').style.backgroundImage = 'url(Button/BtnRight.gif)';";
+    varscript = varscript + "document.getElementById('F8Ctext').innerHTML ='查询余额';";
+    //varscript = varscript + "document.getElementById('F8Etext').innerHTML ='SHOW BALANCE';";
+    varscript = varscript + "document.getElementById('F8Ctext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F8Etext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F8Ctext').style.fontWeight ='bold';";
+    varscript = varscript + "document.getElementById('F8').style.visibility = 'visible';";
+    varscript = varscript + "document.getElementById('F8').style.display = 'block';";
+    varscript = varscript + "document.getElementById('F6').style.backgroundImage = 'url(Button/BtnRight.gif)';";
+    varscript = varscript + "document.getElementById('F6Ctext').innerHTML ='取 款';";
+    //varscript = varscript + "document.getElementById('F6Etext').innerHTML ='WITHDRAWAL';";
+    varscript = varscript + "document.getElementById('F6Ctext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F6Etext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F6Ctext').style.fontWeight ='bold';";
+    varscript = varscript + "document.getElementById('F6').style.visibility = 'visible';";
+    varscript = varscript + "document.getElementById('F6').style.display = 'block';";
+    varscript = varscript + "document.getElementById('F7').style.backgroundImage = 'url(Button/Eject.gif)';";
+    varscript = varscript + "document.getElementById('F7Ctext').innerHTML ='退 卡';";
+    //varscript = varscript + "document.getElementById('F7Etext').innerHTML ='EXIT';";
+    varscript = varscript + "document.getElementById('F7Ctext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F7Etext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F7Ctext').style.fontWeight ='bold';";
+    varscript = varscript + "document.getElementById('F7').style.visibility = 'visible';";
+    varscript = varscript + "document.getElementById('F7').style.display = 'block';";
+    varscript = varscript + "document.getElementById('F5').style.backgroundImage = 'url(Button/BtnLeft.gif)';";
+    varscript = varscript + "document.getElementById('F5Ctext').innerHTML ='卡转出转账';";
+    //varscript = varscript + "document.getElementById('F5Etext').innerHTML ='TRANSFER';";
+    varscript = varscript + "document.getElementById('F5Ctext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F5Etext').style.color ='#FFFFFF';";
+    //varscript = varscript + "document.getElementById('F5Ctext').style.fontWeight ='bold';";
+    varscript = varscript + "document.getElementById('F5').style.visibility = 'visible';";
+    varscript = varscript + "document.getElementById('F5').style.display = 'block';";
+    varscript = varscript + "document.getElementById('C_Layer2').style.top = '28%';document.getElementById('C_Layer3').style.top = '38%';document.getElementById('EText').innerHTML = 'Please Select Service';document.getElementById('CText').innerHTML = '请选择所需服务';";
+   
+    varTimeOut = setTimeout(State_TimeOut, 30000);
+    webuikit.runScript('DisplayAny', varscript);
+    var arrInputKey;
+    var strInputKey;
+    var strKeyMap;
+    var Result;
+    var HResult;
+    var strKeySet;
+   // HResult = H_Display();
+    Result = "";
+    intPressedNum = 0;
+    intCanceledPos = 0;
+    strUserActiveKeys = "";
+  /*  strInputKey = InputKey();
+    arrInputKey = PipeToArray(strInputKey);
+    if (arrInputKey.length != 4)
+    {
+        changeStatus('DeviceError');
+        return;
+    }
+    strUserDefinedKeys = arrInputKey[3];
+    strKeyMap = KeyMapping();
+
+    console.log("Call DealKeyMap()"+"  KeyMap: "+strKeyMap);
+    Result = DealKeyMap(strKeyMap, arrKey);*/
+
+    webuikit.on('KeyPressed', onKeyPressed);
+    pinpad.on('EncryptComplete', onKeyPressed);
+    pinpad.on('KeyPressed', onKeyPressed);
+    pinpad.on('Cancelled', onCancelled);
+    strUserActiveKeys = "F5,F6,F7,F8";
+    pinpad.UserEntry(100, false, strUserActiveKeys, "", 30000);
+    changeStatus('RESERVE');
+
+}
+
+function onKeyPressed(Key, KeyCode)
+{
+	var blnFlag;
+	var strTmpPressKey;
+
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+	console.log("onKeyPressed " + keytmp);
+
+	if (keytmp == "F8")
+	{
+		ntype = 1;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else if(keytmp == "F7")
+	{
+		ntype = 2;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else if(keytmp == "F6")
+	{
+		ntype = 3;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else if(keytmp == "F5")
+	{
+		ntype = 4;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+}
+
+function onCancelled()
+{
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	if(ntype == 1)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+
+		clearTimeout(varTimeOut);
+
+		changeStatus('查询余额');
+		return;
+	}
+	else if(ntype == 2)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		
+		clearTimeout(varTimeOut);
+
+		changeStatus('退卡');
+		return;
+	}
+	else if(ntype == 3)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		
+		clearTimeout(varTimeOut);
+
+		changeStatus('取款');
+		return;
+	}
+	else if(ntype == 4)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		
+		clearTimeout(varTimeOut);
+
+		changeStatus('转帐');
+		return;
+	}
+}
+
+/*function PinPad_KeyPressed(Key, KeyCode)
+{
+    for (var I = 1; I< 32; I++)
+    {
+        if (Key == "F"+I)
+        {
+            intCanceledPos = 2;
+            strRetValue = arrKey[I];
+            pinpad.on('Cancelled', PinPad_Cancelled);
+            pinpad.CancelUserEntry();
+	    changeStatus('RESERVE');
+	    return;
+        }
+    }
+
+    changeStatus('RESERVE');
+}*/
+
+function State_TimeOut()
+{
+	clearTimeout(varTimeOut);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	changeStatus('TimeOut');
+}
+
+
+/*function PinPad_Cancelled()
+{
+    if (intCanceledPos == 1)
+    {
+	changeStatus(strRetValue);
+        return;
+    }
+    else if (intCanceledPos == 2)
+    {
+	changeStatus(strRetValue);
+        return;
+    }
+    changeStatus('RESERVE');
+}*/
+
+function PinPad_FatalError(FResult)
+{
+    changeStatus('DeviceError');
+}
+
+function PinPad_DeviceError()
+{
+    changeStatus('DeviceError');
+}
+
+function H_Display()
+{
+}
+
+function HOut_Display()
+{
+}
+
+function InputKey()
+{
+    return "|||F6,F8|";
+}
+
+function KeyMapping()
+{
+     return "F6,继续服务|F8,取回磁卡";
+}
+
+EntryAction();
+/*[SendDataAndAnalyseResponseData]----------------------------------------------*/
+var blnMACFlag;
+var strTrsData;
+var strRecvData;
+var strTrsName;
+function EntryAction(){
+	var blnFlag;
+	var strSendData;
+	var strINGFlag;
+	var varErrNo;
+	strTrsName = "";
+	strSendData = "";
+	strTrsData = "";
+	strRecvData = "";
+	strINGFlag = "";
+	strINGFlag = Data.getValue("是否正在发送和接收");
+	if (strINGFlag.trim() == "Yes")
+	{
+		console.log("'是否正在发送和接收' is [" + strINGFlag +"],Return--SendError");
+		changeStatus('SendError');
+		return;
+	}
+	else
+	{
+		console.log("'是否正在发送和接收' is [" + strINGFlag +"],Call SetValue Yes");
+		blnFlag = Data.setValue("是否正在发送和接收", "Yes");
+	}
+	strTrsName = Data.getTrsName();
+	console.log("TrsName: "+strTrsName);
+	if (strTrsName == "取款" || strTrsName == "实时存款" || strTrsName == "卡转出转帐" || strTrsName == "查询卡余额" || strTrsName == "实时缴费" || strTrsName == "修改密码" || strTrsName == "理财卡现金定期存款")
+	{
+		if (strTrsName =="理财卡现金定期存款")
+			strRelTrsName = "实时存款";
+		else
+			strRelTrsName = strTrsName;
+		strCustomTrsInfo = Data.getValue("cst_CustomTrsInfo");
+		strTmpTrsName = Data.getValue("cst_CustomTrsFlag");
+		strTmpTrsNameINQ = Data.getValue("udf_TFRGetINQ");
+		console.log("strCustomTrsInfo is:[" +strCustomTrsInfo+"]");
+		console.log("strTmpTrsName is:[" +strTmpTrsName+"]");
+		if (strTmpTrsNameINQ == "")
+		{
+			if (strCustomTrsInfo == "")
+				strCustomTrsInfo = strRelTrsName;
+			else
+			{
+				if (strTmpTrsName != "")
+					strCustomTrsInfo = strCustomTrsInfo+","+strTmpTrsName;
+				else
+					strCustomTrsInfo = strCustomTrsInfo+","+strRelTrsName;
+			}
+			blnFlag = Data.setValue("cst_CustomTrsFlag","");
+		}
+		console.log("strCustomTrsInfo After is:[" +strCustomTrsInfo+"]");
+		blnFlag = Data.setValue("udf_TFRGetINQ","");
+		blnFlag = Data.setValue("cst_CustomTrsInfo",strCustomTrsInfo);
+	}
+	
+	blnMACFlag = Data.GetMacFlag(strTrsName);
+	console.log("MACFlag: "+blnMACFlag);
+	strTrsData = Comm.GetDataFromXML(strTrsName);
+	if (blnMACFlag == false)
+	{
+		strSendData = strTrsData+"0123456789012345";
+		console.log("MACFlag is False, Call SendReq()");
+		Comm.on('RecvAns', function(data){
+			Comm_RecvAns(data);
+		});
+		blnFlag = Comm.sendReq(strSendData);
+	}
+	else
+	{
+		var ret;
+		blnFlag = pinpad.IsValidEncryptionKeySync("MacKey")
+		if (blnFlag == false)
+		{
+			console.log("MacKey has not been Loaded,Return--SendError");
+			blnFlag = Data.setValue("是否正在发送和接收", "No");
+			changeStatus('SendError');
+			return;
+		}
+		console.log("MACFlag is True, Call PinPad.GetMAC()");
+		ret = pinpad.GetMAC(strTrsData, strTrsData.length);
+		if (ret != 0)
+		{
+			changeStatus('SendError');
+			return;
+		}
+	}
+	changeStatus('RESERVE');
+}
+
+function Comm_RecvAns(Ret)
+{
+	var strBTID;
+	var blnFlag;
+	var strRetCode;
+	var Result;
+	var tmpMAC;
+	var intFlag;
+	console.log("Comm RecvAns");
+	if (blnMACFlag == true)
+	{
+		strRecvData = Ret;
+		Result = Ret.left(Ret.length-16);
+		intFlag = pinpad.GetMac(Result,Result.length);
+		if (intFlag != 0)
+		{
+			changeStatus('SendError');
+			return;
+		}
+		changeStatus('RESERVE');
+		return;
+	}
+	else
+	{
+		blnFlag = Comm.LoadDataToXML(Ret);
+		if (blnFlag == false)
+		{
+			blnFlag = Data.setValue("是否正在发送和接收", "No");
+			changeStatus('MessageError');
+			return;
+		}
+		blnFlag = Data.setValue("是否正在发送和接收", "No");
+		changeStatus('RecvOk');
+		return;
+	}
+}
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+return this.slice(0, n);
+}
+
+EntryAction();
+/*[SetJPForm]----------------------------------------------*/
+function EntryAction(){
+	var wsappath;
+	var strFileName;
+	var xmlDoc;
+	var strMyNode;
+	var pNode;
+	var strPrintType;
+	var attrNode;
+	var attrInfoName;
+	var strWFMFileName;
+	wsappath = Data.getValue("wsappath");
+	//console.log("----------------"+wsappath);
+	if (wsappath == "")
+		wsappath = "c:/wsap/";
+	strFileName = Data.getValue("Printinfopath");
+	//console.log("----------------"+strFileName);
+	if (strFileName == "")
+		strFileName = "CFG\JournalContent.xml";
+	strPrintType = Data.getValue("JournalPrintType");
+	if (strPrintType == "")
+		strPrintType = "EngInfo";
+	strFileName = strFileName.trim();
+	strFileName = wsappath +"/"+ strFileName;
+	console.log("strPrintType = ["+ strPrintType +"] strFileName = ["+ strFileName +"]");
+	var fs = require('fs');
+	var select = require('xpath.js');
+	var DOMParser = require('xmldom').DOMParser;
+	var varContent = fs.readFileSync(strFileName, 'utf-8');
+	var xmlDoc = new DOMParser({locator:null,checkLater:true}).parseFromString(varContent);
+	strMyNode = "//JournalInfo//PrintForm//Form[@PrintType='"+ strPrintType.trim() +"']";
+	var pNode = select(xmlDoc,strMyNode);
+	if  (pNode.length == 0)
+		strWFMFileName = "JournalFormEng.wfm";
+	else
+	{
+		var attrInfoName = pNode[0].getAttribute('strFormName');
+		if (attrInfoName == "")
+			strWFMFileName = "JournalFormEng.wfm";
+		else
+			strWFMFileName = attrInfoName;
+	}
+	strWFMFileName = "cfg/" + strWFMFileName;
+	console.log("<SetJPForm> strWFMFileName = " + strWFMFileName);
+	changeStatus('Ok');
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[SetNamedVarValue]----------------------------------------------*/
+function EntryAction()
+{
+	var strVarName;
+	var strValueName;
+	var strValue;
+	var strVarFlag;
+	strVarName = Data.getValue("inparam1");
+	strVarFlag = Data.getValue("inparam3");
+	if (strVarFlag == "false")
+	{
+		strValueName = Data.getValue("inparam2");
+		strValue = Data.getValue(strValueName);
+	}
+	else
+	{
+		strValue = Data.getValue("inparam2");
+	}
+	blnFlag = Data.setValue(strVarName, strValue);
+	changeStatus('Ok');	
+}
+
+EntryAction();
+/*[SetRollbackFlag]----------------------------------------------*/
+function EntryAction()
+{
+         var blnFlag;
+         var strTmp;
+         strTmp = Data.getValue("inparam1");
+         if (strTmp.trim() != "")
+         {
+                if (typeof(parseInt(strTmp)) != "number")
+                {
+			changeStatus('Ok');
+	 		return;
+	 	}
+                else
+                {
+			for (var I = 0; I< strTmp.length; I++)
+			{
+				if (strTmp.substr(I,1) == ".")
+				{
+				 	changeStatus('Ok');
+					return;
+				}
+			}
+			
+			if (parseInt(strTmp) == 1 || parseInt(strTmp) == 0 )
+			{
+				blnFlag = Data.setValue("cyc_冲正完成标志", strTmp);
+	 			changeStatus('Ok');
+				return;
+	 		}
+			else
+			{
+				changeStatus('Ok');
+				return;
+	                }
+		}
+	}
+	else
+	{
+		changeStatus('Ok');
+	 	return;
+      	}
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+EntryAction();
+/*[SetTrackValue]----------------------------------------------*/
+function EntryAction(){
+	var blnFlag;
+	var straccountid;
+	var strtrack;
+	straccountid = Data.getValue("inparam1");
+	strtrack = straccountid+"=";
+	if (strtrack.length < 37)
+	{
+		for (var I = 1; I <(37-(strtrack.length)); I++)
+		{
+			strtrack = strtrack+"0";
+		}
+	}
+	blnFlag = Data.setValue("outparam1", strtrack);
+	blnFlag = Data.setValue("cst_三磁道", "");
+	changeStatus('Ok');
+}
+
+EntryAction();
+/*[SetTransName]----------------------------------------------*/
+function EntryAction(){
+	var trsname;
+	trsname = Data.getValue("inparam1");
+	Data.setTrsName(trsname);
+	changeStatus('Ok');
+}
+EntryAction();
+/*[SupportMultiInputPwd]----------------------------------------------*/
+var wait = require('wait.for');
+
+///函数返回标志TRUE/FALSE
+var blnFlag;
+//结束键中F?键值
+var strFKey;
+//用户按键产生的返回
+var strKeyTitle;
+//KeyMapping的返回
+var strKeyMap;
+//与所有功能键对应的Map说明
+var arrKey = new Array(40);
+//用户输入的内容
+var strEnterPin;
+//用户定义的支持的键
+var strUserDefinedKeys;
+//按下的数字次数计数
+var intValidNum;
+var intMinKeys;
+var intMaxKeys;
+var intCanceledPos;
+var strRetValue;
+//是否是按下非终止键退出
+var blnExitFlag;
+//是否自动结束标志
+var blnAutoEnd;
+//用户定义的结束键的集合
+var strTerminalKey;
+//是否调用了UserEntry方法
+var blnCallUserEntry;
+//加密后的密码串
+var strPinBlock;
+//取得用户定义的并且设备支持的功能键的集合
+var strFunctionKeys;
+//Cancel UserEntry位置
+var intCancelUserEntry;
+
+var strAutoEndFlag="";
+var arrInputKey;
+
+var varTimeOut = null;
+function EntryAction(){
+	varTimeOut = setTimeout(State_TimeOut,45000);
+	var ExecCmd = "ShowInfo('InputPersonalPINOld');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+	var strTrack2, strTrack3, AccountId;
+	var strInputKey;
+	var Result;
+	var strUserActiveKeys;
+	var strTempUserKeys;
+	strTerminalKey = "";
+	strInputKey = "";
+	strKeyMap = "";
+	strEnterPin = "";
+	strKeyTitle = "";
+	strFKey = "";
+	intMaxKeys = 6;
+	strUserDefinedKeys = "";
+	strUserActiveKeys = "";
+	strTempUserKeys = "";
+	intCanceledPos = 0;
+	intValidNum = 0;
+	blnExitFlag = false;
+	blnCallUserEntry = false;
+	strFunctionKeys = "";
+	intCancelUserEntry = 0;		
+
+	Result = H_Display();
+
+ 	AccountId="8888888888888888"; //写死一个卡号用于加密
+	arrKey = ["","","","","","CLEAR","","ENTER","","","","","","","","","","","","","","","","","","","","","","","","","ENTER","CANCEL","CLEAR","BACKSPACE","HELP"];
+	/*strInputKey = InputKey();
+	strKeyMap = KeyMapping();
+	Result = DealKeyMap(strKeyMap, arrKey);
+	arrInputKey = PipeToArray(strInputKey);	
+	strUserDefinedKeys = arrInputKey[3];
+	strUserDefinedKeys = strUserDefinedKeys + "," + "ENTER";
+
+	var strTempActiveKeys = "";
+	strTempActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+
+	strFunctionKeys = GetFunctionKeys(strTempActiveKeys);
+	strUserActiveKeys = strTempActiveKeys	;
+	strTerminalKey = "ENTER";
+
+	blnAutoEnd = arrInputKey[2];				
+	//Timer.ResetTimer CLng(-1)*/
+	
+	webuikit.on('KeyPressed', onKeyPressed);
+
+	pinpad.on('KeyPressed', onKeyPressed);
+	pinpad.on('PinBuffered', PinPad_PinBuffered);
+	pinpad.on('PinCancelled', PinPad_PinCancelled);
+	//pinpad.GetPINBlock(parseInt(arrInputKey[0]), parseInt(arrInputKey[1]), true, strUserActiveKeys,strTerminalKey,-1,"ANSI", AccountId, 15, "WorkingKey", "", "");
+	pinpad.BufferPIN(4, 6, true, "NUMBERS,ENTER,CANCEL,CLEAR,F6,F7,F8", "ENTER,CANCEL",45000);
+	changeStatus('RESERVE');
+}
+
+function PinPad_PinBuffered()
+{
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('PinBuffered');
+	pinpad.removeAllListeners('PinCancelled');
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	clearTimeout(varTimeOut);
+	changeStatus('Confirm');
+}
+
+function onKeyPressed(Key, KeyCode)
+{
+	var blnFlag;
+	var strTmpPressKey;
+
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+	if (keytmp == "ENTER")
+	{
+		strKeyTitle = arrKey[32];
+		intCanceledPos = 3;
+		strRetValue = arrKey[32];
+		changeStatus('RESERVE');
+		return;
+	}
+	else if (keytmp == "CANCEL")
+	{
+		strKeyTitle = arrKey[33];
+		intCanceledPos = 4;
+		strRetValue = arrKey[33];
+		if (strAutoEndFlag.trim() == "1")
+		{
+			changeStatus(strRetValue);
+			return;
+		}
+		pinpad.CancelPINEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	 else if (keytmp == "CLEAR")
+	 {
+	 	strKeyTitle = arrKey[34];
+		intCanceledPos = 5;
+		strRetValue = arrKey[34];
+		console.log(arrKey[34]+", "+strRetValue);	
+
+		if (strAutoEndFlag.trim() =="1")
+		{
+			changeStatus(strRetValue);
+			return;
+		}
+		pinpad.CancelPINEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	 else if (keytmp == "BACKSPACE")
+	 {
+	 	strKeyTitle = arrKey[35];
+		intCanceledPos = 6;
+		strRetValue = arrKey[35];	
+
+		if (strAutoEndFlag.trim() == "1")
+		{
+			changeStatus(strRetValue);
+			return;
+		}
+		pinpad.CancelPINEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else if (keytmp == "HELP")
+	{
+		intCanceledPos = 7;
+		strRetValue = arrKey[36];
+
+		if (strAutoEndFlag == "1")
+		{
+			changeStatus(strRetValue);
+			return;
+		}
+		pinpad.CancelPINEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else
+	{
+		var tmp;
+		var Result;
+		tmp = (Key.toString()).substring(0, 1);
+		if (tmp != "F")
+		{ 
+			intValidNum = intValidNum + 1;
+			if (intValidNum > intMaxKeys) 
+			{
+				intCanceledPos = 9;
+				strRetValue = "InputError";
+				strKeyTitle = "InputError";
+				pinpad.CancelPINEntry();
+				changeStatus('RESERVE');	
+				return;
+			}		
+
+			if (intValidNum > 6)
+				blnFlag = Data.setValue("MoreThanSix","1");
+			else
+				blnFlag = Data.setValue("MoreThanSix","");
+		
+			strEnterPin = strEnterPin + "*";
+			console.log(strEnterPin);
+			Result = DisplayInputInfo(strEnterPin);
+			changeStatus('RESERVE');	
+			return;
+		}
+		else
+		{
+			if (keytmp == "F8")
+			{
+				/*webuikit.removeAllListeners('KeyPressed');
+				pinpad.removeAllListeners('KeyPressed');
+				pinpad.removeAllListeners('PinBuffered');
+				pinpad.removeAllListeners('PinCancelled');
+				changeStatus('Confirm');*/
+				intCanceledPos = 10;
+				pinpad.CancelPINEntry();
+				changeStatus('RESERVE');
+				return;
+			}
+			else if(keytmp == "F6")
+			{
+				/*webuikit.removeAllListeners('KeyPressed');
+				pinpad.removeAllListeners('KeyPressed');
+				pinpad.removeAllListeners('PinBuffered');
+				pinpad.removeAllListeners('PinCancelled');
+				changeStatus('CLEAR');*/
+				intCanceledPos = 11;
+				pinpad.CancelPINEntry();
+				changeStatus('RESERVE');
+				return;
+			}
+			else if(keytmp == "F7")
+			{
+				intCanceledPos = 12;
+				pinpad.CancelPINEntry();
+				changeStatus('RESERVE');		
+				/*webuikit.removeAllListeners('KeyPressed');
+				pinpad.removeAllListeners('KeyPressed');
+				pinpad.removeAllListeners('PinBuffered');
+				pinpad.removeAllListeners('PinCancelled');
+				changeStatus('CANCEL');*/
+				return;
+
+			}
+
+			/*for (var I=0; I< 32;I++)
+			{
+				if (keytmp == ("F"+I))
+				{
+					if (strAutoEndFlag.trim() == "1")
+					{
+						strKeyTitle = arrKey[I];
+						if (keytmp != "F8" || keytmp != "F4")
+						{
+							changeStatus(arrKey[I]);	
+							return;
+						}
+						else
+						{
+							changeStatus('RESERVE');	
+							return;
+						}
+					
+					}
+
+					arrFKey = ((arrInputKey[4]).trim()).split(",");
+					for (var j=0; j<arrFKey.length; j++)
+					{
+						if (arrFKey[j] == ("F"+I))
+						{
+							strFKey = "F"+I;
+							break;
+						}
+					}
+					console.log("strFKey=["+strFKey+"]");
+					if (strFKey == ("F"+I))
+					{
+						strKeyTitle = arrKey[I];
+						changeStatus('RESERVE');
+						return;	
+					}
+					else
+					{
+						intCanceledPos = 8;
+						strRetValue = arrKey[I];
+						//按下的功能键如果不是终止键,调用PinPad.CancelPINEntry
+						//不会产生PinPad_PinCancelled事件
+						blnExitFlag = true;
+						pinpad.CancelPINEntry();
+					 	changeStatus('RESERVE');	
+					 	return;
+					}
+				}
+			}*/
+		}
+	}
+}
+
+function Pinpad_InputPINInvalid()
+{
+	changeStatus('InputError');	
+}
+
+function PinPad_PinFormatted(PinBlock)
+{
+	var blnFlag;
+
+	if (blnExitFlag == true)
+	{
+		changeStatus(strRetValue);	
+		return;
+	}
+
+	if (blnAutoEnd == false)
+	{
+		if (intValidNum  == intMaxKeys) 
+		{
+			blnCallUserEntry = true;
+			strPinBlock = PinBlock;
+			pinpad.UserEntry(1,false, strFunctionKeys, "", -1);
+			changeStatus('RESERVE');	
+			return;
+		}
+	}
+
+    	blnFlag = Data.setValue("outparam1", PinBlock);
+	if (strKeyTitle.trim() == "") 
+        	strKeyTitle = arrKey[34];
+
+	changeStatus(strKeyTitle);
+}
+
+function PinPad_FatalError(FRsult)
+{
+	changeStatus('DeviceError');	
+}
+
+function PinPad_DeviceError()
+{
+	changeStatus('DeviceError');	
+}
+
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('PinBuffered');
+	pinpad.removeAllListeners('PinCancelled');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+function PinPad_PinCancelled()
+{	
+//	blnFlag = StopAudioFile();
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('PinBuffered');
+	pinpad.removeAllListeners('PinCancelled');
+	pinpad.removeAllListeners('InputPINInvalid');
+	console.log("PinPad_PinCancelled intCanceledPos = [" + intCanceledPos + "]");
+	console.log(strRetValue);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	clearTimeout(varTimeOut);
+	if (intCanceledPos == 1)
+	{
+		changeStatus(strRetValue);	
+		return;
+	}
+	else if (intCanceledPos == 2)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 3)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 4)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 5)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 6)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 7)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 8)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 9)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCanceledPos == 10)
+	{
+		changeStatus('Confirm');
+		return;
+	}
+	else if (intCanceledPos == 11)
+	{
+		changeStatus('CLEAR');
+		return;
+	}
+	else if (intCanceledPos == 12)
+	{
+		changeStatus('CANCEL');
+		return;
+	}
+	changeStatus('RESERVE');	
+}
+
+function PinPad_Cancelled()
+{
+	//begin add by ywyan 2006-12-15
+	blnFlag = StopAudioFile();
+	console.log("PinPad_Cancelled intCancelUserEntry = [" + intCancelUserEntry + "]");
+	if (intCancelUserEntry == 1)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCancelUserEntry == 2)
+	{
+		blnFlag = Data.setValue("outparam1", strPinBlock);
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCancelUserEntry == 3)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCancelUserEntry == 4)
+	{
+
+		changeStatus(strRetValue);
+
+		return;
+
+	}
+	else if (intCancelUserEntry == 5)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCancelUserEntry == 6)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCancelUserEntry == 7)
+	{
+		blnFlag = Data.setValue("outparam1", strPinBlock);
+    		changeStatus(strRetValue);
+    		return;
+    	}
+        else if (intCancelUserEntry == 8)
+        {
+		changeStatus(strRetValue);
+		return;
+	}
+	else if (intCancelUserEntry == 9)
+	{
+		changeStatus(strRetValue);
+		return;
+	}
+	changeStatus('RESERVE');	
+
+}
+
+function WhetherStrInSet(strSrc,strDes)
+{
+	var arrDesStr;
+	arrDesStr = strDes.split(",");
+	for (var I = 0; I< arrDesStr.length; I++)
+	{
+		if (strSrc == arrDesStr[I])
+			return true;
+	}
+	return false;
+}
+
+
+
+//取得用户定义并且设备支持的功能键的集合
+function GetFunctionKeys(strUserKey)
+{
+	var strActiveRet;
+	var arrayActiveRet;
+	var blnFlag;
+	var strFunKeys;
+
+	strActiveRet = "";
+	strFunKeys = "F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,ENTER,CANCEL,CLEAR,BACKSPACE,HELP";
+	arrayActiveRet = strFunKeys.split(",");
+	for (var I = 0; I<arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strUserKey);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right(strActiveRet.length - 1);	
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left(strActiveRet.length - 1);
+
+	return strActiveRet;
+}
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet;
+	var arrayActiveRet;
+	var blnFlag;
+	var strkeysupport;
+	strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+
+	for (var I = 0;I< arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	//end edit by ywyan at xiamen 2006-5-15
+
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right(strActiveRet.length - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left(strActiveRet.length - 1);
+
+	return  strActiveRet;
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+
+	if (tempArray.length < 0)
+		return false;
+
+	for (var I = 0; I<tempArray.length; I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+	}
+
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+	arrayMyKeySet = strMyKeySet.split(",");
+
+	for (var J =0; J< arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+
+	return false;
+}
+
+function InputKey()
+{
+//返回字串的意义:
+//   最少输入个数|最多输入个数(<=16)|是否自动结束标志(true/false)|允许输入键的集合|结束键集合 
+	return "4|6|true|F7,F6,F8,ENTER,NUMBERS,CANCEL,CLEAR|ENTER,F4";
+}
+
+function KeyMapping() 
+{
+	return "F1,取消|F4,确认|F6,更正|F8,取消|ENTER,确认|CANCEL,取消|CLEAR,更正";
+}
+
+function DealKeyMap(strKeyMap, OutArray)
+{
+	var arrKeySet;
+	var arrFirst;
+	var arrSecond;
+	var arrKeyMap;
+	var strFirst;
+	var strSecond;
+	var J, K, M;
+	var Result;
+	var strKeySet;
+	for (var J = 1; J< 32; J++)
+	{
+		strKeySet = strKeySet+"F"+J+",";
+	}
+	strKeySet = strKeySet+"ENTER+CANCEL,"+"CLEAR,"+"BACKSPACE,"+"HELP";
+	strFirst = "";
+	strSecond = "";
+	if (strKeyMap.trim() == "")
+		return "Error";
+	else
+	{
+		var arrTmp;
+		arrTmp = PipeToArray(strKeyMap);
+		for (var J = 0;  J<arrTmp.length; J++)
+		{
+			if (arrTmp[J] == "")
+				return "Error";
+			else if (arrTmp[J].indexOf(",") == -1 )
+				return "Error";
+			else
+			{
+				var arrTmp1;
+				arrTmp1 = CommaToArray(arrTmp[J]);
+				if (arrTmp1.length > 1)
+					return "Error";
+			}
+		}
+	}
+
+	arrKeySet = CommaToArray(strKeySet);
+	arrKeyMap = PipeToArray(strKeyMap);
+
+	for (var J = 0; J< arrKeyMap.length; J++)
+	{
+		var arrExch;
+		arrExch = CommaToArray(arrKeyMap[J]);
+		if (J != arrKeyMap.length-1)
+		{
+			strFirst = strFirst + arrExch[0] + ",";
+			strSecond = strSecond + arrExch[arrKeyMap.length-1] + ",";
+		}
+		else
+		{
+			strFirst = strFirst + arrExch[0];
+			strSecond = strSecond + arrExch[arrKeyMap.length-1];
+		}
+	}
+
+	arrFirst = CommaToArray(strFirst);
+	arrSecond = CommaToArray(strSecond);
+
+	for (var K = 0; K<arrFirst.length; K++)
+	{
+		for (var M =0; M< arrKeySet.length; M++)
+		{
+			if (arrFirst[K].toUpperCase()== arrKeySet[M].toUpperCase())
+			{
+				if (strSecond.trim() == "" || arrSecond[K].trim() == "")
+					OutArray[M+1] = arrKeySet[M];
+				else
+					OutArray[M+1] = arrSecond[K];
+			}
+		}
+	}
+
+	return "Ok";
+}
+
+function CommaToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split(",");
+	return outArray;
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+function H_Display()
+{
+
+}
+
+function DisplayInputInfo(info)
+{
+	var strScript = "document.getElementsByName('MyInput')[0].value = '"+info+"';";
+	strScript = strScript + "document.getElementById('MyUnit').value ='"+info+"';";
+	var res = webuikit.runScript("DisplayAny", strScript);
+	console.log(res);
+}
+
+String.prototype.trim = function()
+{
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+String.prototype.right = function (n) {
+	return this.slice(this.length - n);
+}
+
+String.prototype.left = function (n) {
+	return this.slice(0, n);
+}
+
+EntryAction();
+/*[SupportTrsSet]----------------------------------------------*/
+function EntryAction()
+{
+	var wsappath;
+	var xmlDoc;
+	var xmlNode;
+	var strFileName, strFunList, strCDFlag;
+	var blnFlag;
+	var strLength;
+	var strNodeName;
+	var pPageNode;
+	var RStr;
+	strFileName = "";
+	wsappath = Data.getValue("wsappath");
+	if (wsappath.trim() == "")
+		wsappath = "c:\\wsap\\";
+
+	var strServiceConfig,strType;
+	strType = Data.getValue("inparam1");
+	console.log("strType is:"+strType);
+	blnFlag = GetSelectServiceConfig(strType,strServiceConfig);
+	if (blnFlag == false)
+		strServiceConfig = "cfg\servicechoice.xml";
+	strFileName = strServiceConfig;
+	strFileName = strFileName.trim();
+	strFileName = wsappath + strFileName;
+	strFunList = Data.getValue("cst_功能列表");
+	console.log("Get cst_功能列表 is : "+strFunList);
+	if (strFunList.length != 128 && strFunList.length != 512)
+	{
+		changeStatus('Ok');
+		return;
+	}
+
+	var fs = require('fs');
+	var select = require('xpath.js');
+	var DOMParser = require('xmldom').DOMParser;
+	var varContent = fs.readFileSync(strFileName, 'utf-8');
+	var xmlDoc = new DOMParser({locator:null,checkLater:true}).parseFromString(varContent);
+	strMyNode = "//JournalInfo//PrintForm//Form[@PrintType='"+ strPrintType.trim() +"']";
+	var pNode = select(xmlDoc,strMyNode);
+	
+	var strMainMenu;
+	var defaultNode = select(xmlDoc,"//servicepagechoice");
+	strMainMenu = defaultNode[0].getAttribute('defaultchoice');
+	blnFlag = Data.setValue("currentmenu", strMainMenu);
+	var pNodeList, pNode, pNodeMap, attrId, attrVisible, attrName, attrType, attrResult, attrSrc;
+	var pNodeList = select(xmlDoc,"//servicepagechoice/page/*");
+	strLength = pNodeList.length;
+	if  (strLength < 1)
+	{
+		changeStatus('Ok');
+		return;
+	}
+
+	for (var I = 0; I< (strLength - 1);I++)
+	{
+		var pNode = pNodeList.item[I];
+		var attrName = pNode.getAttribute("name");
+		
+		var attrSrc = pNode.getAttribute("src");
+	
+		var attrId = pNode.getAttribute("id");
+	
+		var attrVisible = pNode.getAttribute("visibility");
+
+		var attrType = pNode.getAttribute("resulttype");
+
+		var attrResult = pNode.getAttribute("result");
+
+		if ((attrType.trim()).toLowerCase() == "downpage" ||(attrType.trim()).toLowerCase() == "uppage")
+		{
+			var strTmpResult, intTmpLength;
+			strTmpResult = "//servicepagechoice/page[@id='"+attrResult+"']";
+			var ptmpNodeList = select(xmlDoc,strTmpResult);
+			intTmpLength = ptmpNodeList.length;
+			if  (intTmpLength != 1)
+			{
+				changeStatus('Ok');
+				return;
+			}
+		}
+		if (attrName.trim() != "")
+		{
+			if (attrSrc.trim() == "" || attrType.trim() == "" || attrResult.trim() == "")
+			{
+				changeStatus('Ok');
+				return;
+			}
+			
+			if ((attrType.trim()).toUpperCase() == "action")
+			{
+				if (attrId.trim() == "")
+					attrVisible = "visible";
+				else
+				{
+					blnFlag = WhetherDisplayPage(strFunList,attrId);
+					if (blnFlag == false)
+						attrVisible = "hidden";
+					else
+						attrVisible = "visible";
+					
+				}
+			}
+			else if ((attrType.trim()).toLowerCase() == "downpage" || (attrType.trim()).toLowerCase() == "uppage")
+			{
+				strNodeName = "//servicepagechoice/page[@id='"+attrResult+"']";
+				var pPageNode = select(xmlDoc,strNodeName);
+				blnFlag = WhetherDisplayPage(strFunList,pPageNode[0].getAttribute("supportidset"))
+				if (blnFlag == false)
+					attrVisible = "hidden";
+				else
+					attrVisible = "visible";
+			}
+			else
+			{
+				if (attrType.toLowerCase() != "transaction")
+				{
+					changeStatus('Ok');
+					return;
+				}
+	
+				if (attrId.trim() == "")
+					attrVisible = "visible";
+				else
+				{
+					blnFlag = WhetherDisplayPage(strFunList,attrId);
+					if (blnFlag == false)
+						attrVisible = "hidden";
+					else
+						attrVisible = "visible";
+				}
+			}
+		}
+		else
+		{
+			changeStatus('Ok');
+			return;
+		}
+				
+			
+		//xmlDoc.save strFileName
+	}
+	changeStatus('Ok');
+}
+
+function WhetherDisplayPage(strFunList,strSupIdSet)
+{
+	var blnRet;
+	var arrayIdSet;
+	var RStr;
+	blnRet = false;
+	arrayIdSet = strSupIdSet.split(",");
+	if (arrayIdSet.length == -1)
+		blnRet = true;
+	else
+	{
+		for (var I = 0; I<arrayIdSet.length; I++)
+		{
+			if (typeof(arrayIdSet[I]) == "number" )
+			{
+				if ((strFunList.length == 128 && parseInt(arrayIdSet[I]) <128 && parseInt(arrayIdSet[I]) >= 0 )|| (strFunList.length == 512 && parseInt(arrayIdSet[I]) <512 && parseInt(arrayIdSet[I]) >= 0))
+				{
+					RStr = strFunList.substring(parseInt(arrayIdSet[I]) + 1, 1);
+					if (RStr == "1")
+					{
+						blnRet = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+	return blnRet;
+}
+
+EntryAction();
+/*[TransferTransInfoAndSelectAction]----------------------------------------------*/
+var ntype = 0;
+var varTimeOut = null;
+
+function EntryAction()
+{
+	varTimeOut = setTimeout(State_TimeOut, 30000);
+	var ExecCmd = "ShowInfo('PrintSuccessAndSelect');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+
+	var arrKey = new Array(40);
+	var strUserDefinedKeys;
+	var intPressedNum;
+	var intCanceledPos;
+	var strRetValue;
+	var strUserActiveKeys;
+	var F1ActiveFlag,F2ActiveFlag,F3ActiveFlag,F4ActiveFlag;
+	var F5ActiveFlag,F6ActiveFlag,F7ActiveFlag,F8ActiveFlag;
+	var strLastFKey;
+	strLastFKey = "";
+	var arrInputKey;
+	var strInputKey;
+	var strKeyMap;
+	var Result;
+	var HResult;
+	var strKeySet;
+	Result = "";
+	intPressedNum = 0;
+	intCanceledPos = 0;
+	strUserActiveKeys = "";
+	strInputKey = InputKey();
+	arrInputKey = PipeToArray(strInputKey);
+	/*if (arrInputKey.length != 4)
+	{
+		changeStatus('DeviceError');
+		return;
+	}*/
+
+	strUserDefinedKeys = arrInputKey[3];
+	//strUserActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+	strKeyMap = KeyMapping();
+	/*if (strKeyMap != "")
+	{
+		Result = "CHKOK";
+		if (Result != "CHKOK")
+		{
+			if (Result != "MAPERROR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "PARAMERR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "REMARKERR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "KEYNOTMATCHING")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+		}
+	}*/
+	webuikit.on('KeyPressed', onKeyPressed);
+	console.log("Call DealKeyMap()"+"  KeyMap: "+strKeyMap);
+	Result = "OK";
+	console.log("Call PinPad.UserEntry " + strUserActiveKeys);
+	pinpad.on('KeyPressed', onKeyPressed);
+	pinpad.on('Cancelled', PinPad_Cancelled);
+	strUserActiveKeys = "F7,F8";
+	pinpad.UserEntry(100, false, strUserActiveKeys, "", 15000);
+	changeStatus('RESERVE');
+}
+
+function onKeyPressed(Key, KeyCode)
+{
+	var blnFlag;
+	var strTmpPressKey;
+
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+	console.log("onKeyPressed " + keytmp);
+
+	if (keytmp == "F8")
+	{
+		ntype = 1;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else if(keytmp == "F7")
+	{
+		ntype = 2;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+}
+
+function PinPad_Cancelled()
+{
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	clearTimeout(varTimeOut);
+	if(ntype == 1)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus('继续交易');
+		return;
+	}
+	else if(ntype == 2)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus('退卡');
+		return;
+	}
+}
+
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+/*function PinPad_KeyPressed(Key, KeyCode)
+{
+	var I;
+	var blnFlag;
+	var StrActiveFlag;
+	Call ShowPressButton(Key,"",strLastFKey)
+	intPressedNum = intPressedNum + 1
+	blnFlag = PressedKeyIsInSet(Key,strUserDefinedKeys)
+	Select Case Key
+	Case "F1"
+	StrActiveFlag = F1ActiveFlag
+	Case "F2"
+	StrActiveFlag = F2ActiveFlag
+	Case "F3"
+	StrActiveFlag = F3ActiveFlag
+	Case "F4"
+	StrActiveFlag = F4ActiveFlag
+	Case "F5"
+	StrActiveFlag = F5ActiveFlag
+	Case "F6"
+	StrActiveFlag = F6ActiveFlag
+	Case "F7"
+	StrActiveFlag = F7ActiveFlag
+	Case "F8"
+	StrActiveFlag = F8ActiveFlag
+	Case Else
+	StrActiveFlag = 1
+	End Select
+	If blnFlag = False Or StrComp(StrActiveFlag,"0",1) = 0 Then
+	PinPad_KeyPressed = "RESERVE"
+	Else
+	For I = 1 To 32
+	If Key = "F"&I Then
+	intCanceledPos = 2
+	strRetValue = arrKey(I)
+	PinPad.CancelUserEntry
+	PinPad_KeyPressed = "RESERVE"
+	changeStatus('RESERVE');
+	Exit Function
+	End If
+	Next
+	End If
+	If intPressedNum = 100 Then
+	intCanceledPos = 3
+	PinPad.CancelUserEntry
+	PinPad_KeyPressed = "RESERVE"
+	Exit Function
+	End If
+	PinPad_KeyPressed = "RESERVE"
+}
+
+function State_TimeOut()
+{
+//intCanceledPos = 1
+//strRetValue = "TimeOut"
+//PinPad.CancelUserEntry
+//State_TimeOut = "RESERVE"
+    clearTimeout(varTimeOut);
+    changeStatus('TimeOut');
+}
+
+function PinPad_Cancelled()
+{
+	Dim HResult
+	HResult = HOut_Display()
+	IE.Trace "PinPad_PinCancelled intCanceledPos = [" & intCanceledPos & "]"
+	If CInt(intCanceledPos) = 1 Then
+	PinPad_Cancelled = strRetValue
+	Exit Function
+	ElseIf CInt(intCanceledPos) = 2 Then
+	PinPad_Cancelled = strRetValue
+	Exit Function
+	ElseIf CInt(intCanceledPos) = 3 Then
+	intPressedNum = 0
+	IE.Trace "intPressedNum = 100,So Call PinPad.UserEntry Again"
+	PinPad.UserEntry 100, CBool(false), strUserActiveKeys, "", CLng(-1)
+	PinPad_Cancelled = "RESERVE"
+	Exit Function
+	End If
+	PinPad_Cancelled = "RESERVE"
+}
+
+function PinPad_FatalError(FResult)
+{
+	Dim blnFlag
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	strDevErrInfo = "PIN000999"
+	HResult = HOut_Display()
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	PinPad_FatalError = "DeviceError"
+}
+
+function PinPad_DeviceError()
+{
+	Dim wsappath
+	Dim strFileName
+	Dim blnFlag
+	Dim strDeviceName
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	strDeviceName = "PinPad"
+	HResult = HOut_Display()
+	blnFlag = Data.GetValue("wsappath", wsappath)
+	blnFlag = Data.GetValue("deverrcodepath", strFileName)
+	strFileName = Trim(strFileName)
+	strFileName = CombineFileName(wsappath,strFileName)
+	blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+	strDevErrInfo = "PIN111111"
+	End If
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	PinPad_DeviceError = "DeviceError"
+}*/
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet
+	var arrayActiveRet
+	var blnFlag
+	var strkeysupport
+	strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+	for (var I =0; I< arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right((strActiveRet.length) - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left((strActiveRet.length) - 1);
+
+	return strActiveRet;
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+	if (tempArray.length < 0)
+	{
+		return false;
+	}
+	for (var I = 0; I<(tempArray.length); I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+		
+	}
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+
+	arrayMyKeySet = strMyKeySet.split(",");
+	for (var J = 0; J<arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+	return false;
+}
+
+function H_Display()
+{
+}
+
+function HOut_Display()
+{
+}
+
+function InputKey()
+{
+	return "|||F6,F8|";
+}
+function KeyMapping()
+{
+	return "F6,继续服务|F8,取回磁卡";
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+return this.slice(0, n);
+}
+
+EntryAction();
+/*[WaitForCustomOrOP]----------------------------------------------*/
+function EntryAction(){
+	var lngTimeOut = -1;
+	if (cardreader.StDeviceStatus != "HEALTHY")
+	{
+		changeStatus('DeviceError');
+		return;
+	}
+
+	cardreader.on('CardInserted', CardReader_CardInserted);
+	cardreader.on('CardAccepted', CardReader_CardAccepted);
+	cardreader.AcceptAndReadAvailableTracks("2,3", lngTimeOut);
+	changeStatus('RESERVE');
+}
+
+function CardReader_CardInserted()
+{
+    console.log("Card Inserted");
+    changeStatus('RESERVE');
+}
+
+function CardReader_CardAccepted()
+{
+    var strTrack2, strTrack3;
+
+    if (cardreader.Track2Status == "READ")
+        strTrack2 = cardreader.Track2;
+    if (cardreader.Track3Status == "READ")
+        strTrack3 = cardreader.Track3;
+    blnFlag = Data.setValue("cst_二磁道", strTrack2);
+    blnFlag = Data.setValue("cst_三磁道", strTrack3);
+    
+    cardreader.removeAllListeners('CardInserted');
+    cardreader.removeAllListeners('CardAccepted');
+    changeStatus('CardValid');
+}
+
+function CardReader_CardInvalid()
+{
+    console.log("CardInvalid");
+    changeStatus('CardInvalid');
+}
+
+function CardReader_TimeOut()
+{
+    changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+ {
+    changeStatus('TimeOut');
+}
+
+function CardReader_FatalError(FRsult)
+{
+    changeStatus('DeviceError');
+}
+
+function CardReader_DeviceError()
+{
+    changeStatus('DeviceError');
+}
+
+function GuideLights_FatalError(FRsult)
+{
+    changeStatus('RESERVE');
+}
+
+EntryAction();
+/*[WithdrawalTransInfoAndSelectAction]----------------------------------------------*/
+var ntype = 0;
+var varTimeOut = null;
+
+function EntryAction()
+{
+	varTimeOut = setTimeout(State_TimeOut, 15000);
+	var ExecCmd = "ShowInfo('ConfirmSerialNumbersSuccess');";
+	var Result = webuikit.runScript("DisplayAny", ExecCmd);
+
+	/*var strScript = "document.getElementById('OPList1').style.display = 'block';document.getElementById('OPList2').style.display = 'block';document.getElementById('INQContent1').innerText='" + zhye + "';";
+	strScript = strScript + "document.getElementById('INQContent2').innerText='" + kyye +"';";
+	webuikit.runScript("DisplayAny", strScript);*/
+	var arrKey = new Array(40);
+	var strUserDefinedKeys;
+	var intPressedNum;
+	var intCanceledPos;
+	var strRetValue;
+	var strUserActiveKeys;
+	var F1ActiveFlag,F2ActiveFlag,F3ActiveFlag,F4ActiveFlag;
+	var F5ActiveFlag,F6ActiveFlag,F7ActiveFlag,F8ActiveFlag;
+	var strLastFKey;
+	strLastFKey = "";
+	var arrInputKey;
+	var strInputKey;
+	var strKeyMap;
+	var Result;
+	var HResult;
+	var strKeySet;
+	Result = "";
+	intPressedNum = 0;
+	intCanceledPos = 0;
+	strUserActiveKeys = "";
+	strInputKey = InputKey();
+	arrInputKey = PipeToArray(strInputKey);
+	/*if (arrInputKey.length != 4)
+	{
+		changeStatus('DeviceError');
+		return;
+	}*/
+
+	strUserDefinedKeys = arrInputKey[3];
+	//strUserActiveKeys = GetFinalActiveSet(strUserDefinedKeys);
+	strKeyMap = KeyMapping();
+	/*if (strKeyMap != "")
+	{
+		Result = "CHKOK";
+		if (Result != "CHKOK")
+		{
+			if (Result != "MAPERROR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "PARAMERR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "REMARKERR")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else if (Result != "KEYNOTMATCHING")
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+			else
+			{
+				changeStatus('DeviceError');
+				return;
+			}
+		}
+	}*/
+	webuikit.on('KeyPressed', onKeyPressed);
+	console.log("Call DealKeyMap()"+"  KeyMap: "+strKeyMap);
+	Result = "OK";
+	console.log("Call PinPad.UserEntry " + strUserActiveKeys);
+	pinpad.on('KeyPressed', onKeyPressed);
+	pinpad.on('Cancelled', PinPad_Cancelled);
+	strUserActiveKeys = "F7,F8";
+	pinpad.UserEntry(100, false, strUserActiveKeys, "", 15000);
+	changeStatus('RESERVE');
+}
+
+function onKeyPressed(Key, KeyCode)
+{
+	var blnFlag;
+	var strTmpPressKey;
+
+	var keyValues = (Key.toString()).split(",");
+	var keytmp = keyValues[0];
+	console.log("onKeyPressed " + keytmp);
+
+	if (keytmp == "F8")
+	{
+		ntype = 1;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+	else if(keytmp == "F7")
+	{
+		ntype = 2;
+		pinpad.CancelUserEntry();
+		changeStatus('RESERVE');
+		return;
+	}
+}
+
+function PinPad_Cancelled()
+{
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	clearTimeout(varTimeOut);
+	if(ntype == 1)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus('继续交易');
+		return;
+	}
+	else if(ntype == 2)
+	{
+		webuikit.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('KeyPressed');
+		pinpad.removeAllListeners('Cancelled');
+		changeStatus('退卡');
+		return;
+	}
+}
+
+function fiberTimeOut()
+{
+	clearTimeout(varTimeOut);
+	var scripttmp = "if(varDisplayTimeOut != null){window.clearTimeout(varDisplayTimeOut);}";
+	webuikit.runScript('DisplayAny', scripttmp);
+	webuikit.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('KeyPressed');
+	pinpad.removeAllListeners('Cancelled');
+	changeStatus('TimeOut');
+}
+
+function State_TimeOut()
+{
+	wait.launchFiber(fiberTimeOut);
+}
+
+/*function PinPad_KeyPressed(Key, KeyCode)
+{
+	var I;
+	var blnFlag;
+	var StrActiveFlag;
+	Call ShowPressButton(Key,"",strLastFKey)
+	intPressedNum = intPressedNum + 1
+	blnFlag = PressedKeyIsInSet(Key,strUserDefinedKeys)
+	Select Case Key
+	Case "F1"
+	StrActiveFlag = F1ActiveFlag
+	Case "F2"
+	StrActiveFlag = F2ActiveFlag
+	Case "F3"
+	StrActiveFlag = F3ActiveFlag
+	Case "F4"
+	StrActiveFlag = F4ActiveFlag
+	Case "F5"
+	StrActiveFlag = F5ActiveFlag
+	Case "F6"
+	StrActiveFlag = F6ActiveFlag
+	Case "F7"
+	StrActiveFlag = F7ActiveFlag
+	Case "F8"
+	StrActiveFlag = F8ActiveFlag
+	Case Else
+	StrActiveFlag = 1
+	End Select
+	If blnFlag = False Or StrComp(StrActiveFlag,"0",1) = 0 Then
+	PinPad_KeyPressed = "RESERVE"
+	Else
+	For I = 1 To 32
+	If Key = "F"&I Then
+	intCanceledPos = 2
+	strRetValue = arrKey(I)
+	PinPad.CancelUserEntry
+	PinPad_KeyPressed = "RESERVE"
+	changeStatus('RESERVE');
+	Exit Function
+	End If
+	Next
+	End If
+	If intPressedNum = 100 Then
+	intCanceledPos = 3
+	PinPad.CancelUserEntry
+	PinPad_KeyPressed = "RESERVE"
+	Exit Function
+	End If
+	PinPad_KeyPressed = "RESERVE"
+}
+
+function State_TimeOut()
+{
+//intCanceledPos = 1
+//strRetValue = "TimeOut"
+//PinPad.CancelUserEntry
+//State_TimeOut = "RESERVE"
+    clearTimeout(varTimeOut);
+    changeStatus('TimeOut');
+}
+
+function PinPad_Cancelled()
+{
+	Dim HResult
+	HResult = HOut_Display()
+	IE.Trace "PinPad_PinCancelled intCanceledPos = [" & intCanceledPos & "]"
+	If CInt(intCanceledPos) = 1 Then
+	PinPad_Cancelled = strRetValue
+	Exit Function
+	ElseIf CInt(intCanceledPos) = 2 Then
+	PinPad_Cancelled = strRetValue
+	Exit Function
+	ElseIf CInt(intCanceledPos) = 3 Then
+	intPressedNum = 0
+	IE.Trace "intPressedNum = 100,So Call PinPad.UserEntry Again"
+	PinPad.UserEntry 100, CBool(false), strUserActiveKeys, "", CLng(-1)
+	PinPad_Cancelled = "RESERVE"
+	Exit Function
+	End If
+	PinPad_Cancelled = "RESERVE"
+}
+
+function PinPad_FatalError(FResult)
+{
+	Dim blnFlag
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	strDevErrInfo = "PIN000999"
+	HResult = HOut_Display()
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	PinPad_FatalError = "DeviceError"
+}
+
+function PinPad_DeviceError()
+{
+	Dim wsappath
+	Dim strFileName
+	Dim blnFlag
+	Dim strDeviceName
+	Dim strDevErrInfo
+	Dim strDevErrCode
+	strDeviceName = "PinPad"
+	HResult = HOut_Display()
+	blnFlag = Data.GetValue("wsappath", wsappath)
+	blnFlag = Data.GetValue("deverrcodepath", strFileName)
+	strFileName = Trim(strFileName)
+	strFileName = CombineFileName(wsappath,strFileName)
+	blnFlag = GetDevErrInfo(strFileName,strDeviceName,strDevErrInfo)
+	blnFlag = Data.GetValue("cyc_硬件故障代码", strDevErrCode)
+	If StrComp(strDevErrInfo,"NoDevInfo",1) = 0 Then
+	strDevErrInfo = "PIN111111"
+	End If
+	strDevErrCode = CombineDevErrCode(strDevErrCode,strDevErrInfo)
+	blnFlag = Data.SetValue("cyc_硬件故障代码", strDevErrCode)
+	blnFlag = Data.SetValue("outparam1", strDevErrInfo)
+	PinPad_DeviceError = "DeviceError"
+}*/
+
+function GetFinalActiveSet(strUserKey)
+{
+	var strActiveRet
+	var arrayActiveRet
+	var blnFlag
+	var strkeysupport
+	strkeysupport = pinpad.CpKeysSupported;
+	strActiveRet = "";
+	arrayActiveRet = strUserKey.split(",");
+	for (var I =0; I< arrayActiveRet.length; I++)
+	{
+		blnFlag = PressedKeyIsInSet(arrayActiveRet[I],strkeysupport);
+		if (blnFlag == true)
+			strActiveRet = strActiveRet + "," + arrayActiveRet[I];
+	}
+	if (strActiveRet.left(1) == ",")
+		strActiveRet = strActiveRet.right((strActiveRet.length) - 1);
+
+	if (strActiveRet.right(1) == ",")
+		strActiveRet = strActiveRet.left((strActiveRet.length) - 1);
+
+	return strActiveRet;
+}
+
+function PressedKeyIsInSet(Key,strUserKey)
+{
+	var tempArray;
+	var strMyKeySet;
+	var arrayMyKeySet;
+	strMyKeySet = "";
+	tempArray = strUserKey.split(",");
+	if (tempArray.length < 0)
+	{
+		return false;
+	}
+	for (var I = 0; I<(tempArray.length); I++)
+	{
+		if (tempArray[I] == "NUMBERS")
+			strMyKeySet = strMyKeySet+"0,1,2,3,4,5,6,7,8,9"+",";
+		else
+			strMyKeySet = strMyKeySet+tempArray[I]+",";
+		
+	}
+	if (strMyKeySet.right(1) == ",")
+		strMyKeySet = strMyKeySet.left(strMyKeySet.length - 1);
+
+	arrayMyKeySet = strMyKeySet.split(",");
+	for (var J = 0; J<arrayMyKeySet.length; J++)
+	{
+		if (Key == arrayMyKeySet[J])
+			return true;
+	}
+	return false;
+}
+
+function H_Display()
+{
+}
+
+function HOut_Display()
+{
+}
+
+function InputKey()
+{
+	return "|||F6,F8|";
+}
+function KeyMapping()
+{
+	return "F6,继续服务|F8,取回磁卡";
+}
+
+function PipeToArray(instring)
+{
+	var outArray;
+	outArray = (instring.trim()).split("|");
+	return outArray;
+}
+
+String.prototype.trim = function()
+{
+return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.right = function (n) {
+return this.slice(this.length - n);
+}
+String.prototype.left = function (n) {
+return this.slice(0, n);
+}
+
+EntryAction();
+
+///////////////////////////////////////////////////////////////////////////
+////					Assembled Action Begin 
+//
+//					子流程 Action 
+//
+///////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+//					Main WorkFlow Action Begin 
+//
+//					主流程 Action
+//
+///////////////////////////////////////////////////////////////////////////
+

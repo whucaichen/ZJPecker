@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="socket.io.js"></script>
+    <script>
+        var socket = io.connect("localhost:8080");
+//        var i = 0;
+//        //
+//        socket.on("test2", function (data) {
+//            document.writeln(data.hello);
+//            socket.emit("test1", {my: "data" + i});
+//            i++;
+//        });
+//        //
+//        socket.on("setName", function (name, fn) {
+//            document.writeln(name);
+//            fn("李四", "王五");
+//        });
+
+        socket.emit("queryCaseLib", function(result){
+//            console.log(result);
+            document.writeln(result);
+        });
+    </script>
+</head>
+<body>
+
+</body>
