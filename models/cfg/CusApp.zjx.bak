@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<statechart defaultstate="初始化系统设备5">
+    <state id="退卡" property="logic" classname="退卡处理子流程" majortype="2" subflow="退卡处理子流程">
+        <transition result="CardTaken" targetstate="设备自检及等待客户子流程1"/>
+        <inparam id="1" value="WaitForEjectCard"/>
+        <inparam id="2" value="Pic_TransactionCompleted"/>
+        <inparam id="3" value="$cst_交易帐号"/>
+    </state>
+    <state id="设备自检及等待客户子流程1" property="logic" classname="设备自检及等待客户子流程" majortype="2" subflow="设备自检及等待客户子流程">
+        <transition result="OutOfService" targetstate="输入用户密码"/>
+        <transition result="Exit" targetstate="输入用户密码"/>
+        <transition result="CardInsert" targetstate="输入用户密码"/>
+    </state>
+    <state id="初始化系统设备5" property="logic" classname="初始化系统设备" majortype="2" subflow="初始化系统设备">
+        <transition result="InitOk" targetstate="设备自检及等待客户子流程1"/>
+    </state>
+    <state id="输入用户密码" property="logic" classname="插卡后用户密码输入子流程" majortype="2" subflow="插卡后用户密码输入子流程">
+        <transition result="OperateTimeOut" targetstate="退卡"/>
+        <transition result="DeviceError" targetstate="退卡"/>
+        <transition result="InputFinish" targetstate="选择交易1"/>
+        <transition result="EndService" targetstate="退卡"/>
+    </state>
+    <state id="选择交易1" action="SelectTrs" timeout="0" loadpage="" property="" classname="选择交易" majortype="1">
+        <transition result="TimeOut" targetstate="退卡"/>
+        <transition result="SubMenuTimeOut" targetstate="退卡"/>
+        <transition result="DeviceError" targetstate="退卡"/>
+        <transition result="查询余额" targetstate="查询卡余额交易子流程2"/>
+        <transition result="退卡" targetstate="退卡"/>
+        <transition result="取款" targetstate="取款交易子流程1"/>
+        <transition result="转帐" targetstate="卡转帐交易子流程1"/>
+        <inparam id="1" value="cfg\ServiceChoice.xml"/>
+        <outparam id="1" value="$当前设备错误代码"/>
+    </state>
+
+
+
+    <state id="查询卡余额交易子流程2" property="logic" classname="查询卡余额交易子流程" majortype="2" subflow="查询卡余额交易子流程">
+        <transition result="EndService" targetstate="退卡"/>
+        <transition result="ContinueService" targetstate="选择交易1"/>
+    </state>
+
+    <state id="取款交易子流程1" property="logic" classname="取款交易子流程" majortype="2" subflow="取款交易子流程">
+        <transition result="EndService" targetstate="退卡"/>
+        <transition result="ContinueService" targetstate="选择交易1"/>
+    </state>
+
+
+    <state id="卡转帐交易子流程1" property="logic" classname="卡转帐交易子流程" majortype="2" subflow="卡转帐交易子流程">
+        <transition result="EndService" targetstate="退卡"/>
+        <transition result="ContinueService" targetstate="选择交易1"/>
+    </state>
+
+
+
+    <state id="退卡处理子流程" defaultstate="判断读卡器中是否存在磁卡1" property="sub">
+        <inparam id="1" comment="页面显示格式1"/>
+        <inparam id="2" comment="页面显示格式2"/>
+        <inparam id="3" comment="客户卡号"/>
+        <state id="判断读卡器中是否存在磁卡1" action="IfCardExist" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Exist" targetstate="客户磁卡退出1"/>
+            <transition result="NotExist" targetstate="END" assit="CardTaken"/>
+        </state>
+        <state id="客户磁卡退出1" action="ExitCard" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="CardTaken" targetstate="END" assit="CardTaken"/>
+            <transition result="TimeOut" targetstate="END" assit="CardTaken"/>
+            <transition result="DeviceError" targetstate="END" assit="CardTaken"/>
+            <inparam id="1" value="$inparam1"/>
+            <inparam id="2" value="$inparam2"/>
+            <outparam id="1" value="$当前设备错误代码"/>
+        </state>
+    </state>
+    <state id="设备自检及等待客户子流程" defaultstate="检查浏览器的内存情况1" property="sub">
+        <state id="检查浏览器的内存情况1" action="CheckBrowserMemory" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="容器初始化1"/>
+        </state>
+        <state id="容器初始化1" action="InitDataModel" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="设备自检子流程1"/>
+            <inparam id="1" value="cst,trs,udf"/>
+        </state>
+        <state id="设备自检子流程1" property="logic" subflow="设备自检子流程">
+            <transition result="Ok" targetstate="显示等待插卡1"/>
+            <transition result="DeviceError" targetstate="END" assit="OutOfService"/>
+        </state>
+        <state id="等候插卡或管理1" action="WaitForCustomOrOP" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="CardValid" targetstate="切换页面1"/>
+            <transition result="CardInvalid" targetstate="END" assit="Exit"/>
+            <transition result="DeviceError" targetstate="END" assit="Exit"/>
+            <transition result="TimeOut" targetstate="END" assit="Exit"/>
+            <inparam id="1" value="$udf_TimeOut"/>
+            <outparam id="1" value="$当前设备错误代码"/>
+        </state>
+        <state id="给磁道信息赋值1" action="SetTrackValue" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="END" assit="CardInsert"/>
+            <inparam id="1" value="$cst_交易帐号"/>
+            <outparam id="1" value="$cst_二磁道"/>
+        </state>
+        <state id="显示等待插卡1" action="DisplayWaitCustom" timeout="0" loadpage="PAGE\waitcard.htm" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="等候插卡或管理1"/>
+            <inparam id="1" value=""/>
+        </state>
+        <state id="不含超时显示PageInfo中指定的页面1" action="DisPageInfoHTML" timeout="0" loadpage="PAGE\DisplayAny.htm" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="给磁道信息赋值1"/>
+            <inparam id="1" value="SystemDealing"/>
+        </state>
+        <state id="切换页面1" action="ChangePage" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="不含超时显示PageInfo中指定的页面1"/>
+        </state>
+    </state>
+    <state id="设备自检子流程" defaultstate="不含超时显示PageInfo中指定的页面1" property="sub">
+        <state id="不含超时显示PageInfo中指定的页面1" action="DisPageInfoHTML" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="CardReader自检1"/>
+            <inparam id="1" value=""/>
+        </state>
+        <state id="CardReader自检1" action="CardReaderChk" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="DeviceOk" targetstate="CardReader自检2"/>
+            <transition result="DeviceError" targetstate="CardReader复位1"/>
+            <transition result="NoDevice" targetstate="CardReader复位1"/>
+            <transition result="MediaExist" targetstate="CardReader复位1"/>
+            <transition result="BINFull" targetstate="CardReader复位1"/>
+            <transition result="NoEjectCap" targetstate="CardReader复位1"/>
+            <transition result="NoCaptureCap" targetstate="CardReader复位1"/>
+            <transition result="InJaws" targetstate="CardReader复位1"/>
+            <transition result="CanNotReadTracks" targetstate="CardReader复位1"/>
+        </state>
+        <state id="CardReader自检2" action="CardReaderChk" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="DeviceOk" targetstate="END" assit="Ok"/>
+            <transition result="DeviceError" targetstate="END" assit="DeviceError"/>
+            <transition result="NoDevice" targetstate="END" assit="DeviceError"/>
+            <transition result="MediaExist" targetstate="END" assit="DeviceError"/>
+            <transition result="BINFull" targetstate="END" assit="DeviceError"/>
+            <transition result="NoEjectCap" targetstate="END" assit="DeviceError"/>
+            <transition result="NoCaptureCap" targetstate="END" assit="DeviceError"/>
+            <transition result="InJaws" targetstate="END" assit="DeviceError"/>
+            <transition result="CanNotReadTracks" targetstate="END" assit="DeviceError"/>
+        </state>
+        <state id="CardReader复位1" action="ResetCardReader" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="CardReader自检2"/>
+            <transition result="DeviceError" targetstate="CardReader自检2"/>
+            <transition result="TimeOut" targetstate="CardReader自检2"/>
+        </state>
+    </state>
+    <state id="初始化系统设备" defaultstate="创建浏览器窗口1" property="sub">
+        <state id="显示正在初始化页面" action="DisPageInfoHTML" timeout="0" loadpage="PAGE\DisplayAny.htm" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="打开CardReader1"/>
+            <inparam id="1" value="SystemInit"/>
+        </state>
+        <state id="单行日志数据打印组包1" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="打开PinPad1"/>
+            <inparam id="1" value="OPENIDC"/>
+            <inparam id="2" value="SingleLineData"/>
+            <outparam id="1" value="$udf_SingleJPData"/>
+        </state>
+        <state id="单行日志数据打印组包4" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="打印日志文件1"/>
+            <inparam id="1" value="OPENCDM"/>
+            <inparam id="2" value="SingleLineData"/>
+            <outparam id="1" value="$udf_SingleJPData"/>
+        </state>
+        <state id="单行日志数据打印组包5" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="打开CashAcceptor1"/>
+            <inparam id="1" value="OPENCDM"/>
+            <inparam id="2" value="SingleLineData"/>
+            <outparam id="1" value="$udf_SingleJPData"/>
+        </state>
+        <state id="单行日志数据打印组包6" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="设置流水打印FORM1"/>
+            <inparam id="1" value="OPENCIM"/>
+            <inparam id="2" value="SingleLineData"/>
+            <outparam id="1" value="$udf_SingleJPData"/>
+        </state>
+        <state id="设置流水打印FORM1" action="SetJPForm" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="启动时组硬件模块信息1"/>
+        </state>
+        <state id="启动时组硬件模块信息1" action="CompStartDeviceStatus" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="ATM开机流水日志数据组包2"/>
+        </state>
+        <state id="ATM开机流水日志数据组包2" action="ComposeBootATMLData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="钞箱合并后的钞箱信息流水打印1"/>
+            <outparam id="1" value="$udf_JPData"/>
+            <outparam id="2" value="$atm_开机时间"/>
+        </state>
+        <state id="打开CardReader1" action="OpenCardReader" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="打开PinPad1"/>
+            <transition result="TimeOut" targetstate="单行日志数据打印组包1"/>
+        </state>
+        <state id="打开PinPad1" action="OpenPinPad" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="打开CashDispenser1"/>
+            <transition result="TimeOut" targetstate="单行日志数据打印组包4"/>
+        </state>
+        <state id="打开CashDispenser1" action="OpenCashDispenser" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="打开CashAcceptor1"/>
+            <transition result="TimeOut" targetstate="单行日志数据打印组包5"/>
+        </state>
+        <state id="打开CashAcceptor1" action="OpenCashAcceptor" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="设置流水打印FORM1"/>
+            <transition result="TimeOut" targetstate="单行日志数据打印组包6"/>
+        </state>
+        <state id="钞箱合并后的钞箱信息流水打印1" action="PrintCombineCUInfo" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="通讯配置信息打印组包1"/>
+            <transition result="NoInfo" targetstate="开机时钞箱信息流水打印组包1"/>
+        </state>
+        <state id="开机时钞箱信息流水打印组包1" action="ATMRestartCUINFO" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="通讯配置信息打印组包1"/>
+        </state>
+        <state id="通讯配置信息打印组包1" action="ComposeIPConfigInfo" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="检查机器中是否有卡和钞票1"/>
+        </state>
+        <state id="检查机器中是否有卡和钞票1" action="CheckCardAndCashExit" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="比较数据是否相同1"/>
+        </state>
+        <state id="比较数据是否相同1" action="CompareDataValue" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Same" targetstate="END" assit="InitOk"/>
+            <transition result="Differ" targetstate="END" assit="InitOk"/>
+            <inparam id="1" value="$SupportAutoRecord"/>
+            <inparam id="2" value="1"/>
+            <inparam id="3" value="1"/>
+        </state>
+        <state id="打印日志文件1" action="JPFilePrint" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="PrintOk" targetstate="打开CashDispenser1"/>
+            <transition result="TimeOut" targetstate="打开CashDispenser1"/>
+            <transition result="DeviceError" targetstate="打开CashDispenser1"/>
+            <inparam id="1" value="cfg\JournalForm.wfm"/>
+            <inparam id="2" value="SingleLineJPForm"/>
+            <inparam id="3" value="$udf_SingleJPData"/>
+            <outparam id="1" value="$当前设备错误代码"/>
+        </state>
+        <state id="创建浏览器窗口1" action="CreateWindow" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="显示正在初始化页面"/>
+            <inparam id="1" value="DisplayAny.html"/>
+        </state>
+    </state>
+    <state id="插卡后用户密码输入子流程" defaultstate="支持多个结束键的密码输入1" property="sub">
+        <state id="支持多个结束键的密码输入1" action="SupportMultiInputPwd" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="OperateTimeOut"/>
+            <transition result="DeviceError" targetstate="END" assit="DeviceError"/>
+            <transition result="InputError" targetstate="END" assit="EndService"/>
+            <transition result="Confirm" targetstate="END" assit="InputFinish"/>
+            <transition result="CANCEL" targetstate="END" assit="EndService"/>
+            <transition result="CLEAR" targetstate="支持多个结束键的密码输入1"/>
+            <outparam id="1" value="$cst_pinblock"/>
+            <outparam id="2" value="$当前设备错误代码"/>
+        </state>
+    </state>
+    <state id="查询卡余额交易子流程" defaultstate="设置交易名称1" property="sub">
+        <state id="设置交易名称1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="交易公共信息数据组包1"/>
+            <inparam id="1" value="查询卡余额"/>
+        </state>
+        <state id="交易公共信息数据组包1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="查询卡余额主机发送与接收处理子流程1"/>
+            <inparam id="1" value="True"/>
+        </state>
+        <state id="查询卡余额主机发送与接收处理子流程1" property="logic" subflow="主机发送与接收数据子流程">
+            <transition result="TransOk" targetstate="交易信息显示并等候选择1"/>
+        </state>
+        <state id="交易信息显示并等候选择1" action="DisTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="EndService"/>
+            <transition result="DeviceError" targetstate="END" assit="EndService"/>
+            <transition result="退卡" targetstate="END" assit="EndService"/>
+            <transition result="继续交易" targetstate="END" assit="ContinueService"/>
+            <outparam id="1" value="$当前设备错误代码"/>
+        </state>
+    </state>
+    <state id="主机发送与接收数据子流程" defaultstate="发送数据和分析交易返回数据1" property="sub">
+        <state id="发送数据和分析交易返回数据1" action="SendDataAndAnalyseResponseData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="RecvOk" targetstate="判定主机拒否1"/>
+            <transition result="SendError" targetstate="判定主机拒否1"/>
+            <transition result="CommError" targetstate="判定主机拒否1"/>
+            <transition result="RecvError" targetstate="判定主机拒否1"/>
+            <transition result="MessageError" targetstate="判定主机拒否1"/>
+            <transition result="TimeOut" targetstate="判定主机拒否1"/>
+            <transition result="ResolveError" targetstate="判定主机拒否1"/>
+        </state>
+        <state id="判定主机拒否1" action="JudgeHostRes" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="HostPermit" targetstate="END" assit="TransOk"/>
+            <transition result="HostReject" targetstate="END" assit="TransOk"/>
+            <transition result="MessageError" targetstate="END" assit="TransOk"/>
+        </state>
+    </state>
+    <state id="取款交易子流程" defaultstate="设置交易名称1" property="sub">
+        <state id="获得取款指定使用的分发与呈送方法和取款算法" action="GetWithDrawalFlag" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="UsePresent" targetstate="取款带单独Present方法的交易子流程2"/>
+            <transition result="UseDispenseAndPresent" targetstate="取款带单独Present方法的交易子流程2"/>
+            <transition result="UnKnown" targetstate="取款带单独Present方法的交易子流程2"/>
+            <outparam id="1" value="$udf_Algorithm"/>
+        </state>
+        <state id="设置交易名称1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="获得取款指定使用的分发与呈送方法和取款算法"/>
+            <inparam id="1" value="取款"/>
+        </state>
+        <state id="取款带单独Present方法的交易子流程2" property="logic" subflow="取款带单独Present方法的交易子流程">
+            <transition result="ContinueService" targetstate="END" assit="ContinueService"/>
+            <transition result="EndService" targetstate="END" assit="EndService"/>
+        </state>
+    </state>
+    <state id="取款带单独Present方法的交易子流程" defaultstate="取款金额选择及输入处理子流程1" property="sub">
+        <state id="取款金额选择及输入处理子流程1" property="logic" subflow="取款金额选择及输入处理子流程">
+            <transition result="ContinueService" targetstate="END" assit="ContinueService"/>
+            <transition result="Confirm" targetstate="取款交易发送与接收处理子流程1"/>
+            <transition result="EndService" targetstate="END" assit="EndService"/>
+        </state>
+        <state id="取款交易发送与接收处理子流程1" property="logic" subflow="取款交易发送与接收处理子流程">
+            <transition result="TransOk" targetstate="为指定变量赋值1"/>
+        </state>
+        <state id="为指定变量赋值1" action="SetNamedVarValue" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="取款钞币MixAndDisPense与Present处理子流程1"/>
+            <inparam id="1" value="是否做过取款交易"/>
+            <inparam id="2" value="Yes"/>
+            <inparam id="3" value="true"/>
+        </state>
+        <state id="取款钞币MixAndDisPense与Present处理子流程1" property="logic" subflow="取款钞币MixAndDisPense与Present处理子流程">
+            <transition result="PresentOk" targetstate="取款交易信息显示并等候选择1"/>
+        </state>
+        <state id="取款交易信息显示并等候选择1" action="WithdrawalTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="EndService"/>
+            <transition result="DeviceErroe" targetstate="END" assit="EndService"/>
+            <transition result="退卡" targetstate="END" assit="EndService"/>
+            <transition result="继续交易" targetstate="END" assit="ContinueService"/>
+        </state>
+    </state>
+    <state id="取款金额选择及输入处理子流程" defaultstate="选择取款金额1" property="sub">
+        <state id="选择取款金额1" action="CashSelect" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="EndService"/>
+            <transition result="DeviceError" targetstate="END" assit="EndService"/>
+            <transition result="金额已选择" targetstate="不含超时显示PageInfo中指定的页面1"/>
+            <transition result="返回主菜单" targetstate="END" assit="ContinueService"/>
+            <transition result="Enter" targetstate="不含超时显示PageInfo中指定的页面1"/>
+            <transition result="Cancel" targetstate="END" assit="ContinueService"/>
+            <transition result="Clear" targetstate="选择取款金额1"/>
+            <inparam id="1" value="cfg\CashAmount.xml"/>
+        </state>
+        <state id="不含超时显示PageInfo中指定的页面1" action="DisPageInfoHTML" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="取款逻辑配钞1"/>
+            <inparam id="1" value="Transaction"/>
+        </state>
+        <state id="取款逻辑配钞1" action="CashMix" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="MixOk" targetstate="END" assit="Confirm"/>
+            <transition result="MixError" targetstate="END" assit="Confirm"/>
+        </state>
+    </state>
+    <state id="取款交易发送与接收处理子流程" defaultstate="交易公共信息数据组包1" property="sub">
+        <state id="交易公共信息数据组包1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="金额转换为16位格式1"/>
+            <inparam id="1" value="true"/>
+        </state>
+        <state id="取款交易数据组包1" action="ComposeWithDrawalData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="设置冲正标志1"/>
+        </state>
+        <state id="金额转换为16位格式1" action="ConvertToSixteenAmount" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="取款交易数据组包1"/>
+        </state>
+        <state id="设置冲正标志1" action="SetRollbackFlag" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="发送数据和分析交易返回数据1"/>
+            <inparam id="1" value="1"/>
+        </state>
+        <state id="发送数据和分析交易返回数据1" action="SendDataAndAnalyseResponseData" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="RecvOk" targetstate="判定主机拒否1"/>
+            <transition result="SendError" targetstate="判定主机拒否1"/>
+            <transition result="CommError" targetstate="判定主机拒否1"/>
+            <transition result="RecvError" targetstate="判定主机拒否1"/>
+            <transition result="MessageError" targetstate="判定主机拒否1"/>
+            <transition result="TimeOut" targetstate="判定主机拒否1"/>
+            <transition result="ResolveError" targetstate="判定主机拒否1"/>
+        </state>
+        <state id="判定主机拒否1" action="JudgeHostRes" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="HostPermit" targetstate="END" assit="TransOk"/>
+            <transition result="HostReject" targetstate="END" assit="TransOk"/>
+            <transition result="MessageError" targetstate="END" assit="TransOk"/>
+        </state>
+    </state>
+    <state id="取款钞币MixAndDisPense与Present处理子流程" defaultstate="取款配钞与分发1" property="sub">
+        <state id="取款配钞与分发1" action="MixWithDispense" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="DispenseOk" targetstate="取款钞币呈送Present处理1"/>
+            <transition result="DispenseError" targetstate="取款钞币呈送Present处理1"/>
+            <transition result="DeviceError" targetstate="取款钞币呈送Present处理1"/>
+            <transition result="TimeOut" targetstate="取款钞币呈送Present处理1"/>
+        </state>
+        <state id="取款钞币呈送Present处理1" action="CWDPresentCashDeal" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Taken" targetstate="END" assit="PresentOk"/>
+            <transition result="TimeOut" targetstate="END" assit="PresentOk"/>
+            <transition result="DeviceError" targetstate="END" assit="PresentOk"/>
+            <transition result="FatalError" targetstate="END" assit="PresentOk"/>
+            <inparam id="1" value="45"/>
+        </state>
+    </state>
+    <state id="卡转帐交易子流程" defaultstate="设置交易名称1" property="sub">
+        <state id="设置交易名称1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="支持退格键的信息输入1"/>
+            <inparam id="1" value="卡转出转帐"/>
+        </state>
+        <state id="支持退格键的信息输入1" action="InputDataSupportBackspace" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="EndService"/>
+            <transition result="DeviceError" targetstate="END" assit="EndService"/>
+            <transition result="更正" targetstate="支持退格键的信息输入1"/>
+            <transition result="取消" targetstate="END" assit="EndService"/>
+            <transition result="确认" targetstate="转帐金额输入1"/>
+            <transition result="ENTER" targetstate="转帐金额输入1"/>
+            <transition result="CANCEL" targetstate="END" assit="EndService"/>
+            <transition result="CLEAR" targetstate="支持退格键的信息输入1"/>
+            <inparam id="1" value="F5"/>
+            <outparam id="1" value="$udf_输入帐号"/>
+        </state>
+        <state id="转帐金额输入1" action="AmountInput" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="EndService"/>
+            <transition result="DeviceError" targetstate="END" assit="EndService"/>
+            <transition result="更正" targetstate="转帐金额输入1"/>
+            <transition result="取消" targetstate="END" assit="EndService"/>
+            <transition result="确认" targetstate="确认交易信息并等待选择1"/>
+            <transition result="CANCEL" targetstate="END" assit="EndService"/>
+            <transition result="ENTER" targetstate="确认交易信息并等待选择1"/>
+            <transition result="CLEAR" targetstate="转帐金额输入1"/>
+            <outparam id="1" value="$trs_金额"/>
+        </state>
+        <state id="确认交易信息并等待选择1" action="DisInfoAndSelect" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="EndService"/>
+            <transition result="DeviceError" targetstate="END" assit="EndService"/>
+            <transition result="确认" targetstate="转帐交易发送与接收处理子流程1"/>
+            <transition result="取消" targetstate="END" assit="EndService"/>
+        </state>
+        <state id="转帐交易发送与接收处理子流程1" property="logic" subflow="转帐交易发送与接收处理子流程">
+            <transition result="Ok" targetstate="转账交易信息显示并等待选择1"/>
+        </state>
+        <state id="转账交易信息显示并等待选择1" action="TransferTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="TimeOut" targetstate="END" assit="EndService"/>
+            <transition result="DeviceError" targetstate="END" assit="EndService"/>
+            <transition result="继续交易" targetstate="END" assit="ContinueService"/>
+            <transition result="退卡" targetstate="END" assit="EndService"/>
+        </state>
+    </state>
+    <state id="转帐交易发送与接收处理子流程" defaultstate="交易公共信息数据组包1" property="sub">
+        <state id="主机发送与接收数据子流程1" property="logic" subflow="主机发送与接收数据子流程">
+            <transition result="TransOk" targetstate="END" assit="Ok"/>
+        </state>
+        <state id="金额转换为16位格式1" action="ConvertToSixteenAmount" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="主机发送与接收数据子流程1"/>
+        </state>
+        <state id="交易公共信息数据组包1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+            <transition result="Ok" targetstate="金额转换为16位格式1"/>
+            <inparam id="1" value="true"/>
+        </state>
+    </state>
+</statechart>
