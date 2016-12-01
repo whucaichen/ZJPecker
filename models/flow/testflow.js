@@ -23,5 +23,5 @@ varArgs[1] = "CusApp.zjs";
 varArgs[2] = "CusApp.zjx";
 varArgs[3] = false;
 
-// var varChild = child.fork('./worker.js', varArgs);
-var varChild = forkBug('./worker.js', varArgs);
+// var varChild = child.fork('./worker_v1.js', varArgs);
+var varChild = forkBug('./worker_v1.js', varArgs);

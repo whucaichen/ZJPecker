@@ -1,4 +1,4 @@
-﻿var stateMachine = require('./stateMachine.js');
+﻿var stateMachine = require('./../stateMachine.js');
 
 // //进程参数信息
 // console.log("work process.argv.id: " + process.argv[2]);
@@ -12,8 +12,10 @@
 // var varWsapService = process.argv[5];				//状态文件名称
 
 var varStatId = "test";					//状态机名称
-var varAction = "CusApp.zjs";					//脚本文件名称
-var varStatechart = "CusApp.zjx";				//状态文件名称
+// var varAction = "CusApp.zjs";					//脚本文件名称
+// var varStatechart = "CusApp.zjx";				//状态文件名称
+var varAction = "test.js";					//脚本文件名称
+var varStatechart = "test.xml";				//状态文件名称
 var varWsapService = false;				//状态文件名称
 
 var bService = false;								//是否为服务，默认为false
@@ -35,5 +37,5 @@ function onMainMessage(varMessage){
 // process.on('message', onMainMessage);
 // process.send({message:'initOk', msgdata:varStatId.toString()});
 
-setInterval(function() {
-}, 10000);
+// setInterval(function() {
+// }, 10000);

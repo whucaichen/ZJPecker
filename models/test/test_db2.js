@@ -44,11 +44,18 @@ for (var i = 0; i < 40; i++) {
 //    console.log(result && result.result);
 // });
 Case.updateCase2({}, {$set: {caseLibId: ObjectId("582559b0bbc3b00564141d2c")}}, function (err, result) {
-   console.log(result && result.result);
+    console.log(result && result.result);
 });
 
 var Project = require("./../db/db_project");
 var ProjectCase = require("./../db/db_project_case");
+
+var writeTrace = function (id, trace, callback) {
+    var ProjectCase = require("./../db/db_project_case");
+    ProjectCase.updateProjectCase2({_id: id}, {$set: {testTrace: trace}}, function (err, result) {
+        callback(err, result);
+    });
+};
 //案例表增删查改测试 ***分页***
 var projects = [];
 for (var i = 0; i < 20; i++) {

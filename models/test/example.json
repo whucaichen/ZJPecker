@@ -1,32 +1,14 @@
-//QueryCaseLibDetail
 {
-  "retcode": "00",
-  "caseLibDetail": [
-    {
-      "caseGroupName": "test0",
-      "caseItems": [
-        {
-          "_id": "58257ff209156a069cd3cf0e",
-          "caseId": "test0",
-          "caseCaption": "test0",
-          "caseLibId": "test0",
-          "groupName": "test0",
-          "casedeveloper": "test0",
-          "serialNo": "test0",
-          "description": "test0",
-          "mediaType": "test0",
-          "expectation": "test0",
-          "fileTitle": "test0"
-        }
-      ]
-    },
-    {
-      "caseGroupName": "test1",
-      "caseItems": []
-    },
-    {
-      "caseGroupName": "test2",
-      "caseItems": []
-    }
-  ]
+  "msgid": "abcdef0123456789",
+  "msgtype": "response",
+  "processid": "login",
+  "response": {
+    "code": "00",
+    "info": "",
+    "loginid": "Chance1",
+    "masterkey": "",
+    "mastercode": "",
+    "mackey": "",
+    "maccode": ""
+  }
 }

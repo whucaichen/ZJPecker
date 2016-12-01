@@ -11,7 +11,7 @@ function wsapscript() {
 
         var content = fs.readFileSync(varPath.toString(), 'utf-8');
 
-        global.require = require;
+        global.require = require;//有什么用？
         global.exports = this.exports;
         global.__filename = this.scriptFile;
         global.__dirname = __dirname;
@@ -21,7 +21,7 @@ function wsapscript() {
         var varPrevFlag = "/*[";
         //	var varNextFlag = "]-----------------------------------------------------------*/";
         var varNextFlag = "]";
-        var regexline = / \/ \* \[ .* ( \] -+ \* \/ )$ /gm;
+        var regexline = /\/\*\[.*(\]-+\*\/)$/gm;
         /* regex
          var 变量名 = /表达式/模式修饰符
          模式修饰符：g（全局模式，查找所有匹配字符串）
@@ -46,7 +46,7 @@ function wsapscript() {
                 var varLength = arr_case.index - varPreIndex - varPreFlagLength;
                 var varFileName = varPath.toString() + ":" + parseInt(varPreIndex);
                 var varCurContent = content.substring(varPreIndex + varPreFlagLength, arr_case.index);
-                //vm.createScript(code, [filename])，存储vm.Script对象
+                // vm.createScript(code, [filename])，存储vm.Script对象
                 var varScript = new vm.Script(varCurContent, {filename: varFileName, displayErrors: false});
                 //
                 this.mapScript.put(varPreName, varScript);
@@ -86,14 +86,13 @@ function wsapscript() {
      参数：varName-节点名称
      */
     this.runNode = function (varName) {
-        //console.log("runNode varName: " + varName);
+        // console.log("runNode varName: " + varName);
 
         var varScript = this.mapScript.get(varName);
-        //	console.log(typeof(varScript));
+        // console.log(typeof(varScript));
         if (typeof(varScript) === 'undefined') {
             return false;
         }
-        ;
 
         varScript.runInThisContext();
         return true;

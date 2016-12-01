@@ -37,7 +37,7 @@ client.on('data', function (data) {
     // console.log(TAG + 'DATA: ' + data);
     // process.send(data);
     var str = data.toString("ascii").substr(4);
-    console.log(TAG + str);
+    // console.log(TAG + str);
     process.send(str);
 });
 // 为客户端添加“close”事件处理函数
@@ -95,8 +95,6 @@ var sendComm = function (data) {
     });
     send(logindata);
 };
-//global.sendCommMsg = send;
-//global.sendCommMsg1 = 1;
 
 //process.stdin.setEncoding("utf8");
 //process.stdin.on("readable", function () {

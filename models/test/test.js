@@ -10,10 +10,9 @@
 //console.log(uuid);
 //var chkHex = encrypt.Mac_919(uuid, null, "ABCDEF");
 //console.log(chkHex);
-debugger
-var b = new Buffer("abcdef");
+// var b = new Buffer("abcdef");
 // console.log(b);
-console.log(JSON.stringify(b));
+// console.log(JSON.stringify(b));
 //var h = encrypt.getHexStr(b);
 //console.log(h);
 //
@@ -26,3 +25,5 @@ console.log(JSON.stringify(b));
 //global.p = 11;
 //vm.runInThisContext("console.log('ok', p)");// 显示global下的11
 //console.log(p);// 显示5
+
+var a = {};

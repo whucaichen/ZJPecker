@@ -1,128 +1,128 @@
-<?xml version="1.0" encoding="GB2312"?>
-<statechart defaultstate="³õÊ¼»¯ÏµÍ³Éè±¸5">
-    <state id="ÍË¿¨" property="logic" classname="ÍË¿¨´¦Àí×ÓÁ÷³Ì" majortype="2" subflow="ÍË¿¨´¦Àí×ÓÁ÷³Ì">
-        <transition result="CardTaken" targetstate="Éè±¸×Ô¼ì¼°µÈ´ý¿Í»§×ÓÁ÷³Ì1"/>
+<?xml version="1.0" encoding="utf-8"?>
+<statechart defaultstate="åˆå§‹åŒ–ç³»ç»Ÿè®¾å¤‡5">
+    <state id="é€€å¡" property="logic" classname="é€€å¡å¤„ç†å­æµç¨‹" majortype="2" subflow="é€€å¡å¤„ç†å­æµç¨‹">
+        <transition result="CardTaken" targetstate="è®¾å¤‡è‡ªæ£€åŠç­‰å¾…å®¢æˆ·å­æµç¨‹1"/>
         <inparam id="1" value="WaitForEjectCard"/>
         <inparam id="2" value="Pic_TransactionCompleted"/>
-        <inparam id="3" value="$cst_½»Ò×ÕÊºÅ"/>
+        <inparam id="3" value="$cst_äº¤æ˜“å¸å·"/>
     </state>
-    <state id="Éè±¸×Ô¼ì¼°µÈ´ý¿Í»§×ÓÁ÷³Ì1" property="logic" classname="Éè±¸×Ô¼ì¼°µÈ´ý¿Í»§×ÓÁ÷³Ì" majortype="2" subflow="Éè±¸×Ô¼ì¼°µÈ´ý¿Í»§×ÓÁ÷³Ì">
-        <transition result="OutOfService" targetstate="ÊäÈëÓÃ»§ÃÜÂë"/>
-        <transition result="Exit" targetstate="ÊäÈëÓÃ»§ÃÜÂë"/>
-        <transition result="CardInsert" targetstate="ÊäÈëÓÃ»§ÃÜÂë"/>
+    <state id="è®¾å¤‡è‡ªæ£€åŠç­‰å¾…å®¢æˆ·å­æµç¨‹1" property="logic" classname="è®¾å¤‡è‡ªæ£€åŠç­‰å¾…å®¢æˆ·å­æµç¨‹" majortype="2" subflow="è®¾å¤‡è‡ªæ£€åŠç­‰å¾…å®¢æˆ·å­æµç¨‹">
+        <transition result="OutOfService" targetstate="è¾“å…¥ç”¨æˆ·å¯†ç "/>
+        <transition result="Exit" targetstate="è¾“å…¥ç”¨æˆ·å¯†ç "/>
+        <transition result="CardInsert" targetstate="è¾“å…¥ç”¨æˆ·å¯†ç "/>
     </state>
-    <state id="³õÊ¼»¯ÏµÍ³Éè±¸5" property="logic" classname="³õÊ¼»¯ÏµÍ³Éè±¸" majortype="2" subflow="³õÊ¼»¯ÏµÍ³Éè±¸">
-        <transition result="InitOk" targetstate="Éè±¸×Ô¼ì¼°µÈ´ý¿Í»§×ÓÁ÷³Ì1"/>
+    <state id="åˆå§‹åŒ–ç³»ç»Ÿè®¾å¤‡5" property="logic" classname="åˆå§‹åŒ–ç³»ç»Ÿè®¾å¤‡" majortype="2" subflow="åˆå§‹åŒ–ç³»ç»Ÿè®¾å¤‡">
+        <transition result="InitOk" targetstate="è®¾å¤‡è‡ªæ£€åŠç­‰å¾…å®¢æˆ·å­æµç¨‹1"/>
     </state>
-    <state id="ÊäÈëÓÃ»§ÃÜÂë" property="logic" classname="²å¿¨ºóÓÃ»§ÃÜÂëÊäÈë×ÓÁ÷³Ì" majortype="2" subflow="²å¿¨ºóÓÃ»§ÃÜÂëÊäÈë×ÓÁ÷³Ì">
-        <transition result="OperateTimeOut" targetstate="ÍË¿¨"/>
-        <transition result="DeviceError" targetstate="ÍË¿¨"/>
-        <transition result="InputFinish" targetstate="Ñ¡Ôñ½»Ò×1"/>
-        <transition result="EndService" targetstate="ÍË¿¨"/>
+    <state id="è¾“å…¥ç”¨æˆ·å¯†ç " property="logic" classname="æ’å¡åŽç”¨æˆ·å¯†ç è¾“å…¥å­æµç¨‹" majortype="2" subflow="æ’å¡åŽç”¨æˆ·å¯†ç è¾“å…¥å­æµç¨‹">
+        <transition result="OperateTimeOut" targetstate="é€€å¡"/>
+        <transition result="DeviceError" targetstate="é€€å¡"/>
+        <transition result="InputFinish" targetstate="é€‰æ‹©äº¤æ˜“1"/>
+        <transition result="EndService" targetstate="é€€å¡"/>
     </state>
-    <state id="Ñ¡Ôñ½»Ò×1" action="SelectTrs" timeout="0" loadpage="" property="" classname="Ñ¡Ôñ½»Ò×" majortype="1">
-        <transition result="TimeOut" targetstate="ÍË¿¨"/>
-        <transition result="SubMenuTimeOut" targetstate="ÍË¿¨"/>
-        <transition result="DeviceError" targetstate="ÍË¿¨"/>
-        <transition result="²éÑ¯Óà¶î" targetstate="²éÑ¯¿¨Óà¶î½»Ò××ÓÁ÷³Ì2"/>
-        <transition result="ÍË¿¨" targetstate="ÍË¿¨"/>
-        <transition result="È¡¿î" targetstate="È¡¿î½»Ò××ÓÁ÷³Ì1"/>
-        <transition result="×ªÕÊ" targetstate="¿¨×ªÕÊ½»Ò××ÓÁ÷³Ì1"/>
+    <state id="é€‰æ‹©äº¤æ˜“1" action="SelectTrs" timeout="0" loadpage="" property="" classname="é€‰æ‹©äº¤æ˜“" majortype="1">
+        <transition result="TimeOut" targetstate="é€€å¡"/>
+        <transition result="SubMenuTimeOut" targetstate="é€€å¡"/>
+        <transition result="DeviceError" targetstate="é€€å¡"/>
+        <transition result="æŸ¥è¯¢ä½™é¢" targetstate="æŸ¥è¯¢å¡ä½™é¢äº¤æ˜“å­æµç¨‹2"/>
+        <transition result="é€€å¡" targetstate="é€€å¡"/>
+        <transition result="å–æ¬¾" targetstate="å–æ¬¾äº¤æ˜“å­æµç¨‹1"/>
+        <transition result="è½¬å¸" targetstate="å¡è½¬å¸äº¤æ˜“å­æµç¨‹1"/>
         <inparam id="1" value="cfg\ServiceChoice.xml"/>
-        <outparam id="1" value="$µ±Ç°Éè±¸´íÎó´úÂë"/>
+        <outparam id="1" value="$å½“å‰è®¾å¤‡é”™è¯¯ä»£ç "/>
     </state>
 
 
 
-    <state id="²éÑ¯¿¨Óà¶î½»Ò××ÓÁ÷³Ì2" property="logic" classname="²éÑ¯¿¨Óà¶î½»Ò××ÓÁ÷³Ì" majortype="2" subflow="²éÑ¯¿¨Óà¶î½»Ò××ÓÁ÷³Ì">
-        <transition result="EndService" targetstate="ÍË¿¨"/>
-        <transition result="ContinueService" targetstate="Ñ¡Ôñ½»Ò×1"/>
+    <state id="æŸ¥è¯¢å¡ä½™é¢äº¤æ˜“å­æµç¨‹2" property="logic" classname="æŸ¥è¯¢å¡ä½™é¢äº¤æ˜“å­æµç¨‹" majortype="2" subflow="æŸ¥è¯¢å¡ä½™é¢äº¤æ˜“å­æµç¨‹">
+        <transition result="EndService" targetstate="é€€å¡"/>
+        <transition result="ContinueService" targetstate="é€‰æ‹©äº¤æ˜“1"/>
     </state>
 
-    <state id="È¡¿î½»Ò××ÓÁ÷³Ì1" property="logic" classname="È¡¿î½»Ò××ÓÁ÷³Ì" majortype="2" subflow="È¡¿î½»Ò××ÓÁ÷³Ì">
-        <transition result="EndService" targetstate="ÍË¿¨"/>
-        <transition result="ContinueService" targetstate="Ñ¡Ôñ½»Ò×1"/>
-    </state>
-
-
-    <state id="¿¨×ªÕÊ½»Ò××ÓÁ÷³Ì1" property="logic" classname="¿¨×ªÕÊ½»Ò××ÓÁ÷³Ì" majortype="2" subflow="¿¨×ªÕÊ½»Ò××ÓÁ÷³Ì">
-        <transition result="EndService" targetstate="ÍË¿¨"/>
-        <transition result="ContinueService" targetstate="Ñ¡Ôñ½»Ò×1"/>
+    <state id="å–æ¬¾äº¤æ˜“å­æµç¨‹1" property="logic" classname="å–æ¬¾äº¤æ˜“å­æµç¨‹" majortype="2" subflow="å–æ¬¾äº¤æ˜“å­æµç¨‹">
+        <transition result="EndService" targetstate="é€€å¡"/>
+        <transition result="ContinueService" targetstate="é€‰æ‹©äº¤æ˜“1"/>
     </state>
 
 
+    <state id="å¡è½¬å¸äº¤æ˜“å­æµç¨‹1" property="logic" classname="å¡è½¬å¸äº¤æ˜“å­æµç¨‹" majortype="2" subflow="å¡è½¬å¸äº¤æ˜“å­æµç¨‹">
+        <transition result="EndService" targetstate="é€€å¡"/>
+        <transition result="ContinueService" targetstate="é€‰æ‹©äº¤æ˜“1"/>
+    </state>
 
-    <state id="ÍË¿¨´¦Àí×ÓÁ÷³Ì" defaultstate="ÅÐ¶Ï¶Á¿¨Æ÷ÖÐÊÇ·ñ´æÔÚ´Å¿¨1" property="sub">
-        <inparam id="1" comment="Ò³ÃæÏÔÊ¾¸ñÊ½1"/>
-        <inparam id="2" comment="Ò³ÃæÏÔÊ¾¸ñÊ½2"/>
-        <inparam id="3" comment="¿Í»§¿¨ºÅ"/>
-        <state id="ÅÐ¶Ï¶Á¿¨Æ÷ÖÐÊÇ·ñ´æÔÚ´Å¿¨1" action="IfCardExist" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Exist" targetstate="¿Í»§´Å¿¨ÍË³ö1"/>
+
+
+    <state id="é€€å¡å¤„ç†å­æµç¨‹" defaultstate="åˆ¤æ–­è¯»å¡å™¨ä¸­æ˜¯å¦å­˜åœ¨ç£å¡1" property="sub">
+        <inparam id="1" comment="é¡µé¢æ˜¾ç¤ºæ ¼å¼1"/>
+        <inparam id="2" comment="é¡µé¢æ˜¾ç¤ºæ ¼å¼2"/>
+        <inparam id="3" comment="å®¢æˆ·å¡å·"/>
+        <state id="åˆ¤æ–­è¯»å¡å™¨ä¸­æ˜¯å¦å­˜åœ¨ç£å¡1" action="IfCardExist" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Exist" targetstate="å®¢æˆ·ç£å¡é€€å‡º1"/>
             <transition result="NotExist" targetstate="END" assit="CardTaken"/>
         </state>
-        <state id="¿Í»§´Å¿¨ÍË³ö1" action="ExitCard" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="å®¢æˆ·ç£å¡é€€å‡º1" action="ExitCard" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="CardTaken" targetstate="END" assit="CardTaken"/>
             <transition result="TimeOut" targetstate="END" assit="CardTaken"/>
             <transition result="DeviceError" targetstate="END" assit="CardTaken"/>
             <inparam id="1" value="$inparam1"/>
             <inparam id="2" value="$inparam2"/>
-            <outparam id="1" value="$µ±Ç°Éè±¸´íÎó´úÂë"/>
+            <outparam id="1" value="$å½“å‰è®¾å¤‡é”™è¯¯ä»£ç "/>
         </state>
     </state>
-    <state id="Éè±¸×Ô¼ì¼°µÈ´ý¿Í»§×ÓÁ÷³Ì" defaultstate="¼ì²éä¯ÀÀÆ÷µÄÄÚ´æÇé¿ö1" property="sub">
-        <state id="¼ì²éä¯ÀÀÆ÷µÄÄÚ´æÇé¿ö1" action="CheckBrowserMemory" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="ÈÝÆ÷³õÊ¼»¯1"/>
+    <state id="è®¾å¤‡è‡ªæ£€åŠç­‰å¾…å®¢æˆ·å­æµç¨‹" defaultstate="æ£€æŸ¥æµè§ˆå™¨çš„å†…å­˜æƒ…å†µ1" property="sub">
+        <state id="æ£€æŸ¥æµè§ˆå™¨çš„å†…å­˜æƒ…å†µ1" action="CheckBrowserMemory" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="å®¹å™¨åˆå§‹åŒ–1"/>
         </state>
-        <state id="ÈÝÆ÷³õÊ¼»¯1" action="InitDataModel" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="Éè±¸×Ô¼ì×ÓÁ÷³Ì1"/>
+        <state id="å®¹å™¨åˆå§‹åŒ–1" action="InitDataModel" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="è®¾å¤‡è‡ªæ£€å­æµç¨‹1"/>
             <inparam id="1" value="cst,trs,udf"/>
         </state>
-        <state id="Éè±¸×Ô¼ì×ÓÁ÷³Ì1" property="logic" subflow="Éè±¸×Ô¼ì×ÓÁ÷³Ì">
-            <transition result="Ok" targetstate="ÏÔÊ¾µÈ´ý²å¿¨1"/>
+        <state id="è®¾å¤‡è‡ªæ£€å­æµç¨‹1" property="logic" subflow="è®¾å¤‡è‡ªæ£€å­æµç¨‹">
+            <transition result="Ok" targetstate="æ˜¾ç¤ºç­‰å¾…æ’å¡1"/>
             <transition result="DeviceError" targetstate="END" assit="OutOfService"/>
         </state>
-        <state id="µÈºò²å¿¨»ò¹ÜÀí1" action="WaitForCustomOrOP" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="CardValid" targetstate="ÇÐ»»Ò³Ãæ1"/>
+        <state id="ç­‰å€™æ’å¡æˆ–ç®¡ç†1" action="WaitForCustomOrOP" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="CardValid" targetstate="åˆ‡æ¢é¡µé¢1"/>
             <transition result="CardInvalid" targetstate="END" assit="Exit"/>
             <transition result="DeviceError" targetstate="END" assit="Exit"/>
             <transition result="TimeOut" targetstate="END" assit="Exit"/>
             <inparam id="1" value="$udf_TimeOut"/>
-            <outparam id="1" value="$µ±Ç°Éè±¸´íÎó´úÂë"/>
+            <outparam id="1" value="$å½“å‰è®¾å¤‡é”™è¯¯ä»£ç "/>
         </state>
-        <state id="¸ø´ÅµÀÐÅÏ¢¸³Öµ1" action="SetTrackValue" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="ç»™ç£é“ä¿¡æ¯èµ‹å€¼1" action="SetTrackValue" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="Ok" targetstate="END" assit="CardInsert"/>
-            <inparam id="1" value="$cst_½»Ò×ÕÊºÅ"/>
-            <outparam id="1" value="$cst_¶þ´ÅµÀ"/>
+            <inparam id="1" value="$cst_äº¤æ˜“å¸å·"/>
+            <outparam id="1" value="$cst_äºŒç£é“"/>
         </state>
-        <state id="ÏÔÊ¾µÈ´ý²å¿¨1" action="DisplayWaitCustom" timeout="0" loadpage="PAGE\waitcard.htm" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="µÈºò²å¿¨»ò¹ÜÀí1"/>
+        <state id="æ˜¾ç¤ºç­‰å¾…æ’å¡1" action="DisplayWaitCustom" timeout="0" loadpage="PAGE\waitcard.htm" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="ç­‰å€™æ’å¡æˆ–ç®¡ç†1"/>
             <inparam id="1" value=""/>
         </state>
-        <state id="²»º¬³¬Ê±ÏÔÊ¾PageInfoÖÐÖ¸¶¨µÄÒ³Ãæ1" action="DisPageInfoHTML" timeout="0" loadpage="PAGE\DisplayAny.htm" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="¸ø´ÅµÀÐÅÏ¢¸³Öµ1"/>
+        <state id="ä¸å«è¶…æ—¶æ˜¾ç¤ºPageInfoä¸­æŒ‡å®šçš„é¡µé¢1" action="DisPageInfoHTML" timeout="0" loadpage="PAGE\DisplayAny.htm" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="ç»™ç£é“ä¿¡æ¯èµ‹å€¼1"/>
             <inparam id="1" value="SystemDealing"/>
         </state>
-        <state id="ÇÐ»»Ò³Ãæ1" action="ChangePage" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="²»º¬³¬Ê±ÏÔÊ¾PageInfoÖÐÖ¸¶¨µÄÒ³Ãæ1"/>
+        <state id="åˆ‡æ¢é¡µé¢1" action="ChangePage" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="ä¸å«è¶…æ—¶æ˜¾ç¤ºPageInfoä¸­æŒ‡å®šçš„é¡µé¢1"/>
         </state>
     </state>
-    <state id="Éè±¸×Ô¼ì×ÓÁ÷³Ì" defaultstate="²»º¬³¬Ê±ÏÔÊ¾PageInfoÖÐÖ¸¶¨µÄÒ³Ãæ1" property="sub">
-        <state id="²»º¬³¬Ê±ÏÔÊ¾PageInfoÖÐÖ¸¶¨µÄÒ³Ãæ1" action="DisPageInfoHTML" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="CardReader×Ô¼ì1"/>
+    <state id="è®¾å¤‡è‡ªæ£€å­æµç¨‹" defaultstate="ä¸å«è¶…æ—¶æ˜¾ç¤ºPageInfoä¸­æŒ‡å®šçš„é¡µé¢1" property="sub">
+        <state id="ä¸å«è¶…æ—¶æ˜¾ç¤ºPageInfoä¸­æŒ‡å®šçš„é¡µé¢1" action="DisPageInfoHTML" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="CardReaderè‡ªæ£€1"/>
             <inparam id="1" value=""/>
         </state>
-        <state id="CardReader×Ô¼ì1" action="CardReaderChk" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="DeviceOk" targetstate="CardReader×Ô¼ì2"/>
-            <transition result="DeviceError" targetstate="CardReader¸´Î»1"/>
-            <transition result="NoDevice" targetstate="CardReader¸´Î»1"/>
-            <transition result="MediaExist" targetstate="CardReader¸´Î»1"/>
-            <transition result="BINFull" targetstate="CardReader¸´Î»1"/>
-            <transition result="NoEjectCap" targetstate="CardReader¸´Î»1"/>
-            <transition result="NoCaptureCap" targetstate="CardReader¸´Î»1"/>
-            <transition result="InJaws" targetstate="CardReader¸´Î»1"/>
-            <transition result="CanNotReadTracks" targetstate="CardReader¸´Î»1"/>
+        <state id="CardReaderè‡ªæ£€1" action="CardReaderChk" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="DeviceOk" targetstate="CardReaderè‡ªæ£€2"/>
+            <transition result="DeviceError" targetstate="CardReaderå¤ä½1"/>
+            <transition result="NoDevice" targetstate="CardReaderå¤ä½1"/>
+            <transition result="MediaExist" targetstate="CardReaderå¤ä½1"/>
+            <transition result="BINFull" targetstate="CardReaderå¤ä½1"/>
+            <transition result="NoEjectCap" targetstate="CardReaderå¤ä½1"/>
+            <transition result="NoCaptureCap" targetstate="CardReaderå¤ä½1"/>
+            <transition result="InJaws" targetstate="CardReaderå¤ä½1"/>
+            <transition result="CanNotReadTracks" targetstate="CardReaderå¤ä½1"/>
         </state>
-        <state id="CardReader×Ô¼ì2" action="CardReaderChk" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="CardReaderè‡ªæ£€2" action="CardReaderChk" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="DeviceOk" targetstate="END" assit="Ok"/>
             <transition result="DeviceError" targetstate="END" assit="DeviceError"/>
             <transition result="NoDevice" targetstate="END" assit="DeviceError"/>
@@ -133,249 +133,249 @@
             <transition result="InJaws" targetstate="END" assit="DeviceError"/>
             <transition result="CanNotReadTracks" targetstate="END" assit="DeviceError"/>
         </state>
-        <state id="CardReader¸´Î»1" action="ResetCardReader" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="CardReader×Ô¼ì2"/>
-            <transition result="DeviceError" targetstate="CardReader×Ô¼ì2"/>
-            <transition result="TimeOut" targetstate="CardReader×Ô¼ì2"/>
+        <state id="CardReaderå¤ä½1" action="ResetCardReader" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="CardReaderè‡ªæ£€2"/>
+            <transition result="DeviceError" targetstate="CardReaderè‡ªæ£€2"/>
+            <transition result="TimeOut" targetstate="CardReaderè‡ªæ£€2"/>
         </state>
     </state>
-    <state id="³õÊ¼»¯ÏµÍ³Éè±¸" defaultstate="´´½¨ä¯ÀÀÆ÷´°¿Ú1" property="sub">
-        <state id="ÏÔÊ¾ÕýÔÚ³õÊ¼»¯Ò³Ãæ" action="DisPageInfoHTML" timeout="0" loadpage="PAGE\DisplayAny.htm" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="´ò¿ªCardReader1"/>
+    <state id="åˆå§‹åŒ–ç³»ç»Ÿè®¾å¤‡" defaultstate="åˆ›å»ºæµè§ˆå™¨çª—å£1" property="sub">
+        <state id="æ˜¾ç¤ºæ­£åœ¨åˆå§‹åŒ–é¡µé¢" action="DisPageInfoHTML" timeout="0" loadpage="PAGE\DisplayAny.htm" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ‰“å¼€CardReader1"/>
             <inparam id="1" value="SystemInit"/>
         </state>
-        <state id="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü1" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="´ò¿ªPinPad1"/>
+        <state id="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…1" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ‰“å¼€PinPad1"/>
             <inparam id="1" value="OPENIDC"/>
             <inparam id="2" value="SingleLineData"/>
             <outparam id="1" value="$udf_SingleJPData"/>
         </state>
-        <state id="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü4" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="´òÓ¡ÈÕÖ¾ÎÄ¼þ1"/>
+        <state id="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…4" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ‰“å°æ—¥å¿—æ–‡ä»¶1"/>
             <inparam id="1" value="OPENCDM"/>
             <inparam id="2" value="SingleLineData"/>
             <outparam id="1" value="$udf_SingleJPData"/>
         </state>
-        <state id="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü5" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="´ò¿ªCashAcceptor1"/>
+        <state id="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…5" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ‰“å¼€CashAcceptor1"/>
             <inparam id="1" value="OPENCDM"/>
             <inparam id="2" value="SingleLineData"/>
             <outparam id="1" value="$udf_SingleJPData"/>
         </state>
-        <state id="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü6" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="ÉèÖÃÁ÷Ë®´òÓ¡FORM1"/>
+        <state id="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…6" action="FixSingleLineJPData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="è®¾ç½®æµæ°´æ‰“å°FORM1"/>
             <inparam id="1" value="OPENCIM"/>
             <inparam id="2" value="SingleLineData"/>
             <outparam id="1" value="$udf_SingleJPData"/>
         </state>
-        <state id="ÉèÖÃÁ÷Ë®´òÓ¡FORM1" action="SetJPForm" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="Æô¶¯Ê±×éÓ²¼þÄ£¿éÐÅÏ¢1"/>
+        <state id="è®¾ç½®æµæ°´æ‰“å°FORM1" action="SetJPForm" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="å¯åŠ¨æ—¶ç»„ç¡¬ä»¶æ¨¡å—ä¿¡æ¯1"/>
         </state>
-        <state id="Æô¶¯Ê±×éÓ²¼þÄ£¿éÐÅÏ¢1" action="CompStartDeviceStatus" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="ATM¿ª»úÁ÷Ë®ÈÕÖ¾Êý¾Ý×é°ü2"/>
+        <state id="å¯åŠ¨æ—¶ç»„ç¡¬ä»¶æ¨¡å—ä¿¡æ¯1" action="CompStartDeviceStatus" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="ATMå¼€æœºæµæ°´æ—¥å¿—æ•°æ®ç»„åŒ…2"/>
         </state>
-        <state id="ATM¿ª»úÁ÷Ë®ÈÕÖ¾Êý¾Ý×é°ü2" action="ComposeBootATMLData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="³®ÏäºÏ²¢ºóµÄ³®ÏäÐÅÏ¢Á÷Ë®´òÓ¡1"/>
+        <state id="ATMå¼€æœºæµæ°´æ—¥å¿—æ•°æ®ç»„åŒ…2" action="ComposeBootATMLData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="é’žç®±åˆå¹¶åŽçš„é’žç®±ä¿¡æ¯æµæ°´æ‰“å°1"/>
             <outparam id="1" value="$udf_JPData"/>
-            <outparam id="2" value="$atm_¿ª»úÊ±¼ä"/>
+            <outparam id="2" value="$atm_å¼€æœºæ—¶é—´"/>
         </state>
-        <state id="´ò¿ªCardReader1" action="OpenCardReader" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="´ò¿ªPinPad1"/>
-            <transition result="TimeOut" targetstate="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü1"/>
+        <state id="æ‰“å¼€CardReader1" action="OpenCardReader" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ‰“å¼€PinPad1"/>
+            <transition result="TimeOut" targetstate="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…1"/>
         </state>
-        <state id="´ò¿ªPinPad1" action="OpenPinPad" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="´ò¿ªCashDispenser1"/>
-            <transition result="TimeOut" targetstate="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü4"/>
+        <state id="æ‰“å¼€PinPad1" action="OpenPinPad" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ‰“å¼€CashDispenser1"/>
+            <transition result="TimeOut" targetstate="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…4"/>
         </state>
-        <state id="´ò¿ªCashDispenser1" action="OpenCashDispenser" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="´ò¿ªCashAcceptor1"/>
-            <transition result="TimeOut" targetstate="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü5"/>
+        <state id="æ‰“å¼€CashDispenser1" action="OpenCashDispenser" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ‰“å¼€CashAcceptor1"/>
+            <transition result="TimeOut" targetstate="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…5"/>
         </state>
-        <state id="´ò¿ªCashAcceptor1" action="OpenCashAcceptor" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="ÉèÖÃÁ÷Ë®´òÓ¡FORM1"/>
-            <transition result="TimeOut" targetstate="µ¥ÐÐÈÕÖ¾Êý¾Ý´òÓ¡×é°ü6"/>
+        <state id="æ‰“å¼€CashAcceptor1" action="OpenCashAcceptor" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="è®¾ç½®æµæ°´æ‰“å°FORM1"/>
+            <transition result="TimeOut" targetstate="å•è¡Œæ—¥å¿—æ•°æ®æ‰“å°ç»„åŒ…6"/>
         </state>
-        <state id="³®ÏäºÏ²¢ºóµÄ³®ÏäÐÅÏ¢Á÷Ë®´òÓ¡1" action="PrintCombineCUInfo" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="Í¨Ñ¶ÅäÖÃÐÅÏ¢´òÓ¡×é°ü1"/>
-            <transition result="NoInfo" targetstate="¿ª»úÊ±³®ÏäÐÅÏ¢Á÷Ë®´òÓ¡×é°ü1"/>
+        <state id="é’žç®±åˆå¹¶åŽçš„é’žç®±ä¿¡æ¯æµæ°´æ‰“å°1" action="PrintCombineCUInfo" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="é€šè®¯é…ç½®ä¿¡æ¯æ‰“å°ç»„åŒ…1"/>
+            <transition result="NoInfo" targetstate="å¼€æœºæ—¶é’žç®±ä¿¡æ¯æµæ°´æ‰“å°ç»„åŒ…1"/>
         </state>
-        <state id="¿ª»úÊ±³®ÏäÐÅÏ¢Á÷Ë®´òÓ¡×é°ü1" action="ATMRestartCUINFO" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="Í¨Ñ¶ÅäÖÃÐÅÏ¢´òÓ¡×é°ü1"/>
+        <state id="å¼€æœºæ—¶é’žç®±ä¿¡æ¯æµæ°´æ‰“å°ç»„åŒ…1" action="ATMRestartCUINFO" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="é€šè®¯é…ç½®ä¿¡æ¯æ‰“å°ç»„åŒ…1"/>
         </state>
-        <state id="Í¨Ñ¶ÅäÖÃÐÅÏ¢´òÓ¡×é°ü1" action="ComposeIPConfigInfo" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="¼ì²é»úÆ÷ÖÐÊÇ·ñÓÐ¿¨ºÍ³®Æ±1"/>
+        <state id="é€šè®¯é…ç½®ä¿¡æ¯æ‰“å°ç»„åŒ…1" action="ComposeIPConfigInfo" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ£€æŸ¥æœºå™¨ä¸­æ˜¯å¦æœ‰å¡å’Œé’žç¥¨1"/>
         </state>
-        <state id="¼ì²é»úÆ÷ÖÐÊÇ·ñÓÐ¿¨ºÍ³®Æ±1" action="CheckCardAndCashExit" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="±È½ÏÊý¾ÝÊÇ·ñÏàÍ¬1"/>
+        <state id="æ£€æŸ¥æœºå™¨ä¸­æ˜¯å¦æœ‰å¡å’Œé’žç¥¨1" action="CheckCardAndCashExit" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ¯”è¾ƒæ•°æ®æ˜¯å¦ç›¸åŒ1"/>
         </state>
-        <state id="±È½ÏÊý¾ÝÊÇ·ñÏàÍ¬1" action="CompareDataValue" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="æ¯”è¾ƒæ•°æ®æ˜¯å¦ç›¸åŒ1" action="CompareDataValue" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="Same" targetstate="END" assit="InitOk"/>
             <transition result="Differ" targetstate="END" assit="InitOk"/>
             <inparam id="1" value="$SupportAutoRecord"/>
             <inparam id="2" value="1"/>
             <inparam id="3" value="1"/>
         </state>
-        <state id="´òÓ¡ÈÕÖ¾ÎÄ¼þ1" action="JPFilePrint" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="PrintOk" targetstate="´ò¿ªCashDispenser1"/>
-            <transition result="TimeOut" targetstate="´ò¿ªCashDispenser1"/>
-            <transition result="DeviceError" targetstate="´ò¿ªCashDispenser1"/>
+        <state id="æ‰“å°æ—¥å¿—æ–‡ä»¶1" action="JPFilePrint" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="PrintOk" targetstate="æ‰“å¼€CashDispenser1"/>
+            <transition result="TimeOut" targetstate="æ‰“å¼€CashDispenser1"/>
+            <transition result="DeviceError" targetstate="æ‰“å¼€CashDispenser1"/>
             <inparam id="1" value="cfg\JournalForm.wfm"/>
             <inparam id="2" value="SingleLineJPForm"/>
             <inparam id="3" value="$udf_SingleJPData"/>
-            <outparam id="1" value="$µ±Ç°Éè±¸´íÎó´úÂë"/>
+            <outparam id="1" value="$å½“å‰è®¾å¤‡é”™è¯¯ä»£ç "/>
         </state>
-        <state id="´´½¨ä¯ÀÀÆ÷´°¿Ú1" action="CreateWindow" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="ÏÔÊ¾ÕýÔÚ³õÊ¼»¯Ò³Ãæ"/>
+        <state id="åˆ›å»ºæµè§ˆå™¨çª—å£1" action="CreateWindow" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ˜¾ç¤ºæ­£åœ¨åˆå§‹åŒ–é¡µé¢"/>
             <inparam id="1" value="DisplayAny.html"/>
         </state>
     </state>
-    <state id="²å¿¨ºóÓÃ»§ÃÜÂëÊäÈë×ÓÁ÷³Ì" defaultstate="Ö§³Ö¶à¸ö½áÊø¼üµÄÃÜÂëÊäÈë1" property="sub">
-        <state id="Ö§³Ö¶à¸ö½áÊø¼üµÄÃÜÂëÊäÈë1" action="SupportMultiInputPwd" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+    <state id="æ’å¡åŽç”¨æˆ·å¯†ç è¾“å…¥å­æµç¨‹" defaultstate="æ”¯æŒå¤šä¸ªç»“æŸé”®çš„å¯†ç è¾“å…¥1" property="sub">
+        <state id="æ”¯æŒå¤šä¸ªç»“æŸé”®çš„å¯†ç è¾“å…¥1" action="SupportMultiInputPwd" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="OperateTimeOut"/>
             <transition result="DeviceError" targetstate="END" assit="DeviceError"/>
             <transition result="InputError" targetstate="END" assit="EndService"/>
             <transition result="Confirm" targetstate="END" assit="InputFinish"/>
             <transition result="CANCEL" targetstate="END" assit="EndService"/>
-            <transition result="CLEAR" targetstate="Ö§³Ö¶à¸ö½áÊø¼üµÄÃÜÂëÊäÈë1"/>
+            <transition result="CLEAR" targetstate="æ”¯æŒå¤šä¸ªç»“æŸé”®çš„å¯†ç è¾“å…¥1"/>
             <outparam id="1" value="$cst_pinblock"/>
-            <outparam id="2" value="$µ±Ç°Éè±¸´íÎó´úÂë"/>
+            <outparam id="2" value="$å½“å‰è®¾å¤‡é”™è¯¯ä»£ç "/>
         </state>
     </state>
-    <state id="²éÑ¯¿¨Óà¶î½»Ò××ÓÁ÷³Ì" defaultstate="ÉèÖÃ½»Ò×Ãû³Æ1" property="sub">
-        <state id="ÉèÖÃ½»Ò×Ãû³Æ1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="½»Ò×¹«¹²ÐÅÏ¢Êý¾Ý×é°ü1"/>
-            <inparam id="1" value="²éÑ¯¿¨Óà¶î"/>
+    <state id="æŸ¥è¯¢å¡ä½™é¢äº¤æ˜“å­æµç¨‹" defaultstate="è®¾ç½®äº¤æ˜“åç§°1" property="sub">
+        <state id="è®¾ç½®äº¤æ˜“åç§°1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="äº¤æ˜“å…¬å…±ä¿¡æ¯æ•°æ®ç»„åŒ…1"/>
+            <inparam id="1" value="æŸ¥è¯¢å¡ä½™é¢"/>
         </state>
-        <state id="½»Ò×¹«¹²ÐÅÏ¢Êý¾Ý×é°ü1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="²éÑ¯¿¨Óà¶îÖ÷»ú·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì1"/>
+        <state id="äº¤æ˜“å…¬å…±ä¿¡æ¯æ•°æ®ç»„åŒ…1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æŸ¥è¯¢å¡ä½™é¢ä¸»æœºå‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹1"/>
             <inparam id="1" value="True"/>
         </state>
-        <state id="²éÑ¯¿¨Óà¶îÖ÷»ú·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì1" property="logic" subflow="Ö÷»ú·¢ËÍÓë½ÓÊÕÊý¾Ý×ÓÁ÷³Ì">
-            <transition result="TransOk" targetstate="½»Ò×ÐÅÏ¢ÏÔÊ¾²¢µÈºòÑ¡Ôñ1"/>
+        <state id="æŸ¥è¯¢å¡ä½™é¢ä¸»æœºå‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹1" property="logic" subflow="ä¸»æœºå‘é€ä¸ŽæŽ¥æ”¶æ•°æ®å­æµç¨‹">
+            <transition result="TransOk" targetstate="äº¤æ˜“ä¿¡æ¯æ˜¾ç¤ºå¹¶ç­‰å€™é€‰æ‹©1"/>
         </state>
-        <state id="½»Ò×ÐÅÏ¢ÏÔÊ¾²¢µÈºòÑ¡Ôñ1" action="DisTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="äº¤æ˜“ä¿¡æ¯æ˜¾ç¤ºå¹¶ç­‰å€™é€‰æ‹©1" action="DisTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="EndService"/>
             <transition result="DeviceError" targetstate="END" assit="EndService"/>
-            <transition result="ÍË¿¨" targetstate="END" assit="EndService"/>
-            <transition result="¼ÌÐø½»Ò×" targetstate="END" assit="ContinueService"/>
-            <outparam id="1" value="$µ±Ç°Éè±¸´íÎó´úÂë"/>
+            <transition result="é€€å¡" targetstate="END" assit="EndService"/>
+            <transition result="ç»§ç»­äº¤æ˜“" targetstate="END" assit="ContinueService"/>
+            <outparam id="1" value="$å½“å‰è®¾å¤‡é”™è¯¯ä»£ç "/>
         </state>
     </state>
-    <state id="Ö÷»ú·¢ËÍÓë½ÓÊÕÊý¾Ý×ÓÁ÷³Ì" defaultstate="·¢ËÍÊý¾ÝºÍ·ÖÎö½»Ò×·µ»ØÊý¾Ý1" property="sub">
-        <state id="·¢ËÍÊý¾ÝºÍ·ÖÎö½»Ò×·µ»ØÊý¾Ý1" action="SendDataAndAnalyseResponseData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="RecvOk" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="SendError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="CommError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="RecvError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="MessageError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="TimeOut" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="ResolveError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
+    <state id="ä¸»æœºå‘é€ä¸ŽæŽ¥æ”¶æ•°æ®å­æµç¨‹" defaultstate="å‘é€æ•°æ®å’Œåˆ†æžäº¤æ˜“è¿”å›žæ•°æ®1" property="sub">
+        <state id="å‘é€æ•°æ®å’Œåˆ†æžäº¤æ˜“è¿”å›žæ•°æ®1" action="SendDataAndAnalyseResponseData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="RecvOk" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="SendError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="CommError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="RecvError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="MessageError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="TimeOut" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="ResolveError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
         </state>
-        <state id="ÅÐ¶¨Ö÷»ú¾Ü·ñ1" action="JudgeHostRes" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="åˆ¤å®šä¸»æœºæ‹’å¦1" action="JudgeHostRes" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="HostPermit" targetstate="END" assit="TransOk"/>
             <transition result="HostReject" targetstate="END" assit="TransOk"/>
             <transition result="MessageError" targetstate="END" assit="TransOk"/>
         </state>
     </state>
-    <state id="È¡¿î½»Ò××ÓÁ÷³Ì" defaultstate="ÉèÖÃ½»Ò×Ãû³Æ1" property="sub">
-        <state id="»ñµÃÈ¡¿îÖ¸¶¨Ê¹ÓÃµÄ·Ö·¢Óë³ÊËÍ·½·¨ºÍÈ¡¿îËã·¨" action="GetWithDrawalFlag" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="UsePresent" targetstate="È¡¿î´øµ¥¶ÀPresent·½·¨µÄ½»Ò××ÓÁ÷³Ì2"/>
-            <transition result="UseDispenseAndPresent" targetstate="È¡¿î´øµ¥¶ÀPresent·½·¨µÄ½»Ò××ÓÁ÷³Ì2"/>
-            <transition result="UnKnown" targetstate="È¡¿î´øµ¥¶ÀPresent·½·¨µÄ½»Ò××ÓÁ÷³Ì2"/>
+    <state id="å–æ¬¾äº¤æ˜“å­æµç¨‹" defaultstate="è®¾ç½®äº¤æ˜“åç§°1" property="sub">
+        <state id="èŽ·å¾—å–æ¬¾æŒ‡å®šä½¿ç”¨çš„åˆ†å‘ä¸Žå‘ˆé€æ–¹æ³•å’Œå–æ¬¾ç®—æ³•" action="GetWithDrawalFlag" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="UsePresent" targetstate="å–æ¬¾å¸¦å•ç‹¬Presentæ–¹æ³•çš„äº¤æ˜“å­æµç¨‹2"/>
+            <transition result="UseDispenseAndPresent" targetstate="å–æ¬¾å¸¦å•ç‹¬Presentæ–¹æ³•çš„äº¤æ˜“å­æµç¨‹2"/>
+            <transition result="UnKnown" targetstate="å–æ¬¾å¸¦å•ç‹¬Presentæ–¹æ³•çš„äº¤æ˜“å­æµç¨‹2"/>
             <outparam id="1" value="$udf_Algorithm"/>
         </state>
-        <state id="ÉèÖÃ½»Ò×Ãû³Æ1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="»ñµÃÈ¡¿îÖ¸¶¨Ê¹ÓÃµÄ·Ö·¢Óë³ÊËÍ·½·¨ºÍÈ¡¿îËã·¨"/>
-            <inparam id="1" value="È¡¿î"/>
+        <state id="è®¾ç½®äº¤æ˜“åç§°1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="èŽ·å¾—å–æ¬¾æŒ‡å®šä½¿ç”¨çš„åˆ†å‘ä¸Žå‘ˆé€æ–¹æ³•å’Œå–æ¬¾ç®—æ³•"/>
+            <inparam id="1" value="å–æ¬¾"/>
         </state>
-        <state id="È¡¿î´øµ¥¶ÀPresent·½·¨µÄ½»Ò××ÓÁ÷³Ì2" property="logic" subflow="È¡¿î´øµ¥¶ÀPresent·½·¨µÄ½»Ò××ÓÁ÷³Ì">
+        <state id="å–æ¬¾å¸¦å•ç‹¬Presentæ–¹æ³•çš„äº¤æ˜“å­æµç¨‹2" property="logic" subflow="å–æ¬¾å¸¦å•ç‹¬Presentæ–¹æ³•çš„äº¤æ˜“å­æµç¨‹">
             <transition result="ContinueService" targetstate="END" assit="ContinueService"/>
             <transition result="EndService" targetstate="END" assit="EndService"/>
         </state>
     </state>
-    <state id="È¡¿î´øµ¥¶ÀPresent·½·¨µÄ½»Ò××ÓÁ÷³Ì" defaultstate="È¡¿î½ð¶îÑ¡Ôñ¼°ÊäÈë´¦Àí×ÓÁ÷³Ì1" property="sub">
-        <state id="È¡¿î½ð¶îÑ¡Ôñ¼°ÊäÈë´¦Àí×ÓÁ÷³Ì1" property="logic" subflow="È¡¿î½ð¶îÑ¡Ôñ¼°ÊäÈë´¦Àí×ÓÁ÷³Ì">
+    <state id="å–æ¬¾å¸¦å•ç‹¬Presentæ–¹æ³•çš„äº¤æ˜“å­æµç¨‹" defaultstate="å–æ¬¾é‡‘é¢é€‰æ‹©åŠè¾“å…¥å¤„ç†å­æµç¨‹1" property="sub">
+        <state id="å–æ¬¾é‡‘é¢é€‰æ‹©åŠè¾“å…¥å¤„ç†å­æµç¨‹1" property="logic" subflow="å–æ¬¾é‡‘é¢é€‰æ‹©åŠè¾“å…¥å¤„ç†å­æµç¨‹">
             <transition result="ContinueService" targetstate="END" assit="ContinueService"/>
-            <transition result="Confirm" targetstate="È¡¿î½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì1"/>
+            <transition result="Confirm" targetstate="å–æ¬¾äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹1"/>
             <transition result="EndService" targetstate="END" assit="EndService"/>
         </state>
-        <state id="È¡¿î½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì1" property="logic" subflow="È¡¿î½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì">
-            <transition result="TransOk" targetstate="ÎªÖ¸¶¨±äÁ¿¸³Öµ1"/>
+        <state id="å–æ¬¾äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹1" property="logic" subflow="å–æ¬¾äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹">
+            <transition result="TransOk" targetstate="ä¸ºæŒ‡å®šå˜é‡èµ‹å€¼1"/>
         </state>
-        <state id="ÎªÖ¸¶¨±äÁ¿¸³Öµ1" action="SetNamedVarValue" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="È¡¿î³®±ÒMixAndDisPenseÓëPresent´¦Àí×ÓÁ÷³Ì1"/>
-            <inparam id="1" value="ÊÇ·ñ×ö¹ýÈ¡¿î½»Ò×"/>
+        <state id="ä¸ºæŒ‡å®šå˜é‡èµ‹å€¼1" action="SetNamedVarValue" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="å–æ¬¾é’žå¸MixAndDisPenseä¸ŽPresentå¤„ç†å­æµç¨‹1"/>
+            <inparam id="1" value="æ˜¯å¦åšè¿‡å–æ¬¾äº¤æ˜“"/>
             <inparam id="2" value="Yes"/>
             <inparam id="3" value="true"/>
         </state>
-        <state id="È¡¿î³®±ÒMixAndDisPenseÓëPresent´¦Àí×ÓÁ÷³Ì1" property="logic" subflow="È¡¿î³®±ÒMixAndDisPenseÓëPresent´¦Àí×ÓÁ÷³Ì">
-            <transition result="PresentOk" targetstate="È¡¿î½»Ò×ÐÅÏ¢ÏÔÊ¾²¢µÈºòÑ¡Ôñ1"/>
+        <state id="å–æ¬¾é’žå¸MixAndDisPenseä¸ŽPresentå¤„ç†å­æµç¨‹1" property="logic" subflow="å–æ¬¾é’žå¸MixAndDisPenseä¸ŽPresentå¤„ç†å­æµç¨‹">
+            <transition result="PresentOk" targetstate="å–æ¬¾äº¤æ˜“ä¿¡æ¯æ˜¾ç¤ºå¹¶ç­‰å€™é€‰æ‹©1"/>
         </state>
-        <state id="È¡¿î½»Ò×ÐÅÏ¢ÏÔÊ¾²¢µÈºòÑ¡Ôñ1" action="WithdrawalTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="å–æ¬¾äº¤æ˜“ä¿¡æ¯æ˜¾ç¤ºå¹¶ç­‰å€™é€‰æ‹©1" action="WithdrawalTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="EndService"/>
             <transition result="DeviceErroe" targetstate="END" assit="EndService"/>
-            <transition result="ÍË¿¨" targetstate="END" assit="EndService"/>
-            <transition result="¼ÌÐø½»Ò×" targetstate="END" assit="ContinueService"/>
+            <transition result="é€€å¡" targetstate="END" assit="EndService"/>
+            <transition result="ç»§ç»­äº¤æ˜“" targetstate="END" assit="ContinueService"/>
         </state>
     </state>
-    <state id="È¡¿î½ð¶îÑ¡Ôñ¼°ÊäÈë´¦Àí×ÓÁ÷³Ì" defaultstate="Ñ¡ÔñÈ¡¿î½ð¶î1" property="sub">
-        <state id="Ñ¡ÔñÈ¡¿î½ð¶î1" action="CashSelect" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+    <state id="å–æ¬¾é‡‘é¢é€‰æ‹©åŠè¾“å…¥å¤„ç†å­æµç¨‹" defaultstate="é€‰æ‹©å–æ¬¾é‡‘é¢1" property="sub">
+        <state id="é€‰æ‹©å–æ¬¾é‡‘é¢1" action="CashSelect" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="EndService"/>
             <transition result="DeviceError" targetstate="END" assit="EndService"/>
-            <transition result="½ð¶îÒÑÑ¡Ôñ" targetstate="²»º¬³¬Ê±ÏÔÊ¾PageInfoÖÐÖ¸¶¨µÄÒ³Ãæ1"/>
-            <transition result="·µ»ØÖ÷²Ëµ¥" targetstate="END" assit="ContinueService"/>
-            <transition result="Enter" targetstate="²»º¬³¬Ê±ÏÔÊ¾PageInfoÖÐÖ¸¶¨µÄÒ³Ãæ1"/>
+            <transition result="é‡‘é¢å·²é€‰æ‹©" targetstate="ä¸å«è¶…æ—¶æ˜¾ç¤ºPageInfoä¸­æŒ‡å®šçš„é¡µé¢1"/>
+            <transition result="è¿”å›žä¸»èœå•" targetstate="END" assit="ContinueService"/>
+            <transition result="Enter" targetstate="ä¸å«è¶…æ—¶æ˜¾ç¤ºPageInfoä¸­æŒ‡å®šçš„é¡µé¢1"/>
             <transition result="Cancel" targetstate="END" assit="ContinueService"/>
-            <transition result="Clear" targetstate="Ñ¡ÔñÈ¡¿î½ð¶î1"/>
+            <transition result="Clear" targetstate="é€‰æ‹©å–æ¬¾é‡‘é¢1"/>
             <inparam id="1" value="cfg\CashAmount.xml"/>
         </state>
-        <state id="²»º¬³¬Ê±ÏÔÊ¾PageInfoÖÐÖ¸¶¨µÄÒ³Ãæ1" action="DisPageInfoHTML" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="È¡¿îÂß¼­Åä³®1"/>
+        <state id="ä¸å«è¶…æ—¶æ˜¾ç¤ºPageInfoä¸­æŒ‡å®šçš„é¡µé¢1" action="DisPageInfoHTML" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="å–æ¬¾é€»è¾‘é…é’ž1"/>
             <inparam id="1" value="Transaction"/>
         </state>
-        <state id="È¡¿îÂß¼­Åä³®1" action="CashMix" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="å–æ¬¾é€»è¾‘é…é’ž1" action="CashMix" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="MixOk" targetstate="END" assit="Confirm"/>
             <transition result="MixError" targetstate="END" assit="Confirm"/>
         </state>
     </state>
-    <state id="È¡¿î½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì" defaultstate="½»Ò×¹«¹²ÐÅÏ¢Êý¾Ý×é°ü1" property="sub">
-        <state id="½»Ò×¹«¹²ÐÅÏ¢Êý¾Ý×é°ü1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="½ð¶î×ª»»Îª16Î»¸ñÊ½1"/>
+    <state id="å–æ¬¾äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹" defaultstate="äº¤æ˜“å…¬å…±ä¿¡æ¯æ•°æ®ç»„åŒ…1" property="sub">
+        <state id="äº¤æ˜“å…¬å…±ä¿¡æ¯æ•°æ®ç»„åŒ…1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="é‡‘é¢è½¬æ¢ä¸º16ä½æ ¼å¼1"/>
             <inparam id="1" value="true"/>
         </state>
-        <state id="È¡¿î½»Ò×Êý¾Ý×é°ü1" action="ComposeWithDrawalData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="ÉèÖÃ³åÕý±êÖ¾1"/>
+        <state id="å–æ¬¾äº¤æ˜“æ•°æ®ç»„åŒ…1" action="ComposeWithDrawalData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="è®¾ç½®å†²æ­£æ ‡å¿—1"/>
         </state>
-        <state id="½ð¶î×ª»»Îª16Î»¸ñÊ½1" action="ConvertToSixteenAmount" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="È¡¿î½»Ò×Êý¾Ý×é°ü1"/>
+        <state id="é‡‘é¢è½¬æ¢ä¸º16ä½æ ¼å¼1" action="ConvertToSixteenAmount" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="å–æ¬¾äº¤æ˜“æ•°æ®ç»„åŒ…1"/>
         </state>
-        <state id="ÉèÖÃ³åÕý±êÖ¾1" action="SetRollbackFlag" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="·¢ËÍÊý¾ÝºÍ·ÖÎö½»Ò×·µ»ØÊý¾Ý1"/>
+        <state id="è®¾ç½®å†²æ­£æ ‡å¿—1" action="SetRollbackFlag" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="å‘é€æ•°æ®å’Œåˆ†æžäº¤æ˜“è¿”å›žæ•°æ®1"/>
             <inparam id="1" value="1"/>
         </state>
-        <state id="·¢ËÍÊý¾ÝºÍ·ÖÎö½»Ò×·µ»ØÊý¾Ý1" action="SendDataAndAnalyseResponseData" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="RecvOk" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="SendError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="CommError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="RecvError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="MessageError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="TimeOut" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
-            <transition result="ResolveError" targetstate="ÅÐ¶¨Ö÷»ú¾Ü·ñ1"/>
+        <state id="å‘é€æ•°æ®å’Œåˆ†æžäº¤æ˜“è¿”å›žæ•°æ®1" action="SendDataAndAnalyseResponseData" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="RecvOk" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="SendError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="CommError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="RecvError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="MessageError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="TimeOut" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
+            <transition result="ResolveError" targetstate="åˆ¤å®šä¸»æœºæ‹’å¦1"/>
         </state>
-        <state id="ÅÐ¶¨Ö÷»ú¾Ü·ñ1" action="JudgeHostRes" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="åˆ¤å®šä¸»æœºæ‹’å¦1" action="JudgeHostRes" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="HostPermit" targetstate="END" assit="TransOk"/>
             <transition result="HostReject" targetstate="END" assit="TransOk"/>
             <transition result="MessageError" targetstate="END" assit="TransOk"/>
         </state>
     </state>
-    <state id="È¡¿î³®±ÒMixAndDisPenseÓëPresent´¦Àí×ÓÁ÷³Ì" defaultstate="È¡¿îÅä³®Óë·Ö·¢1" property="sub">
-        <state id="È¡¿îÅä³®Óë·Ö·¢1" action="MixWithDispense" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="DispenseOk" targetstate="È¡¿î³®±Ò³ÊËÍPresent´¦Àí1"/>
-            <transition result="DispenseError" targetstate="È¡¿î³®±Ò³ÊËÍPresent´¦Àí1"/>
-            <transition result="DeviceError" targetstate="È¡¿î³®±Ò³ÊËÍPresent´¦Àí1"/>
-            <transition result="TimeOut" targetstate="È¡¿î³®±Ò³ÊËÍPresent´¦Àí1"/>
+    <state id="å–æ¬¾é’žå¸MixAndDisPenseä¸ŽPresentå¤„ç†å­æµç¨‹" defaultstate="å–æ¬¾é…é’žä¸Žåˆ†å‘1" property="sub">
+        <state id="å–æ¬¾é…é’žä¸Žåˆ†å‘1" action="MixWithDispense" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="DispenseOk" targetstate="å–æ¬¾é’žå¸å‘ˆé€Presentå¤„ç†1"/>
+            <transition result="DispenseError" targetstate="å–æ¬¾é’žå¸å‘ˆé€Presentå¤„ç†1"/>
+            <transition result="DeviceError" targetstate="å–æ¬¾é’žå¸å‘ˆé€Presentå¤„ç†1"/>
+            <transition result="TimeOut" targetstate="å–æ¬¾é’žå¸å‘ˆé€Presentå¤„ç†1"/>
         </state>
-        <state id="È¡¿î³®±Ò³ÊËÍPresent´¦Àí1" action="CWDPresentCashDeal" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="å–æ¬¾é’žå¸å‘ˆé€Presentå¤„ç†1" action="CWDPresentCashDeal" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="Taken" targetstate="END" assit="PresentOk"/>
             <transition result="TimeOut" targetstate="END" assit="PresentOk"/>
             <transition result="DeviceError" targetstate="END" assit="PresentOk"/>
@@ -383,59 +383,59 @@
             <inparam id="1" value="45"/>
         </state>
     </state>
-    <state id="¿¨×ªÕÊ½»Ò××ÓÁ÷³Ì" defaultstate="ÉèÖÃ½»Ò×Ãû³Æ1" property="sub">
-        <state id="ÉèÖÃ½»Ò×Ãû³Æ1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="Ö§³ÖÍË¸ñ¼üµÄÐÅÏ¢ÊäÈë1"/>
-            <inparam id="1" value="¿¨×ª³ö×ªÕÊ"/>
+    <state id="å¡è½¬å¸äº¤æ˜“å­æµç¨‹" defaultstate="è®¾ç½®äº¤æ˜“åç§°1" property="sub">
+        <state id="è®¾ç½®äº¤æ˜“åç§°1" action="SetTransName" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="æ”¯æŒé€€æ ¼é”®çš„ä¿¡æ¯è¾“å…¥1"/>
+            <inparam id="1" value="å¡è½¬å‡ºè½¬å¸"/>
         </state>
-        <state id="Ö§³ÖÍË¸ñ¼üµÄÐÅÏ¢ÊäÈë1" action="InputDataSupportBackspace" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="æ”¯æŒé€€æ ¼é”®çš„ä¿¡æ¯è¾“å…¥1" action="InputDataSupportBackspace" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="EndService"/>
             <transition result="DeviceError" targetstate="END" assit="EndService"/>
-            <transition result="¸üÕý" targetstate="Ö§³ÖÍË¸ñ¼üµÄÐÅÏ¢ÊäÈë1"/>
-            <transition result="È¡Ïû" targetstate="END" assit="EndService"/>
-            <transition result="È·ÈÏ" targetstate="×ªÕÊ½ð¶îÊäÈë1"/>
-            <transition result="ENTER" targetstate="×ªÕÊ½ð¶îÊäÈë1"/>
+            <transition result="æ›´æ­£" targetstate="æ”¯æŒé€€æ ¼é”®çš„ä¿¡æ¯è¾“å…¥1"/>
+            <transition result="å–æ¶ˆ" targetstate="END" assit="EndService"/>
+            <transition result="ç¡®è®¤" targetstate="è½¬å¸é‡‘é¢è¾“å…¥1"/>
+            <transition result="ENTER" targetstate="è½¬å¸é‡‘é¢è¾“å…¥1"/>
             <transition result="CANCEL" targetstate="END" assit="EndService"/>
-            <transition result="CLEAR" targetstate="Ö§³ÖÍË¸ñ¼üµÄÐÅÏ¢ÊäÈë1"/>
+            <transition result="CLEAR" targetstate="æ”¯æŒé€€æ ¼é”®çš„ä¿¡æ¯è¾“å…¥1"/>
             <inparam id="1" value="F5"/>
-            <outparam id="1" value="$udf_ÊäÈëÕÊºÅ"/>
+            <outparam id="1" value="$udf_è¾“å…¥å¸å·"/>
         </state>
-        <state id="×ªÕÊ½ð¶îÊäÈë1" action="AmountInput" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="è½¬å¸é‡‘é¢è¾“å…¥1" action="AmountInput" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="EndService"/>
             <transition result="DeviceError" targetstate="END" assit="EndService"/>
-            <transition result="¸üÕý" targetstate="×ªÕÊ½ð¶îÊäÈë1"/>
-            <transition result="È¡Ïû" targetstate="END" assit="EndService"/>
-            <transition result="È·ÈÏ" targetstate="È·ÈÏ½»Ò×ÐÅÏ¢²¢µÈ´ýÑ¡Ôñ1"/>
+            <transition result="æ›´æ­£" targetstate="è½¬å¸é‡‘é¢è¾“å…¥1"/>
+            <transition result="å–æ¶ˆ" targetstate="END" assit="EndService"/>
+            <transition result="ç¡®è®¤" targetstate="ç¡®è®¤äº¤æ˜“ä¿¡æ¯å¹¶ç­‰å¾…é€‰æ‹©1"/>
             <transition result="CANCEL" targetstate="END" assit="EndService"/>
-            <transition result="ENTER" targetstate="È·ÈÏ½»Ò×ÐÅÏ¢²¢µÈ´ýÑ¡Ôñ1"/>
-            <transition result="CLEAR" targetstate="×ªÕÊ½ð¶îÊäÈë1"/>
-            <outparam id="1" value="$trs_½ð¶î"/>
+            <transition result="ENTER" targetstate="ç¡®è®¤äº¤æ˜“ä¿¡æ¯å¹¶ç­‰å¾…é€‰æ‹©1"/>
+            <transition result="CLEAR" targetstate="è½¬å¸é‡‘é¢è¾“å…¥1"/>
+            <outparam id="1" value="$trs_é‡‘é¢"/>
         </state>
-        <state id="È·ÈÏ½»Ò×ÐÅÏ¢²¢µÈ´ýÑ¡Ôñ1" action="DisInfoAndSelect" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="ç¡®è®¤äº¤æ˜“ä¿¡æ¯å¹¶ç­‰å¾…é€‰æ‹©1" action="DisInfoAndSelect" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="EndService"/>
             <transition result="DeviceError" targetstate="END" assit="EndService"/>
-            <transition result="È·ÈÏ" targetstate="×ªÕÊ½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì1"/>
-            <transition result="È¡Ïû" targetstate="END" assit="EndService"/>
+            <transition result="ç¡®è®¤" targetstate="è½¬å¸äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹1"/>
+            <transition result="å–æ¶ˆ" targetstate="END" assit="EndService"/>
         </state>
-        <state id="×ªÕÊ½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì1" property="logic" subflow="×ªÕÊ½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì">
-            <transition result="Ok" targetstate="×ªÕË½»Ò×ÐÅÏ¢ÏÔÊ¾²¢µÈ´ýÑ¡Ôñ1"/>
+        <state id="è½¬å¸äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹1" property="logic" subflow="è½¬å¸äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹">
+            <transition result="Ok" targetstate="è½¬è´¦äº¤æ˜“ä¿¡æ¯æ˜¾ç¤ºå¹¶ç­‰å¾…é€‰æ‹©1"/>
         </state>
-        <state id="×ªÕË½»Ò×ÐÅÏ¢ÏÔÊ¾²¢µÈ´ýÑ¡Ôñ1" action="TransferTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
+        <state id="è½¬è´¦äº¤æ˜“ä¿¡æ¯æ˜¾ç¤ºå¹¶ç­‰å¾…é€‰æ‹©1" action="TransferTransInfoAndSelectAction" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
             <transition result="TimeOut" targetstate="END" assit="EndService"/>
             <transition result="DeviceError" targetstate="END" assit="EndService"/>
-            <transition result="¼ÌÐø½»Ò×" targetstate="END" assit="ContinueService"/>
-            <transition result="ÍË¿¨" targetstate="END" assit="EndService"/>
+            <transition result="ç»§ç»­äº¤æ˜“" targetstate="END" assit="ContinueService"/>
+            <transition result="é€€å¡" targetstate="END" assit="EndService"/>
         </state>
     </state>
-    <state id="×ªÕÊ½»Ò×·¢ËÍÓë½ÓÊÕ´¦Àí×ÓÁ÷³Ì" defaultstate="½»Ò×¹«¹²ÐÅÏ¢Êý¾Ý×é°ü1" property="sub">
-        <state id="Ö÷»ú·¢ËÍÓë½ÓÊÕÊý¾Ý×ÓÁ÷³Ì1" property="logic" subflow="Ö÷»ú·¢ËÍÓë½ÓÊÕÊý¾Ý×ÓÁ÷³Ì">
+    <state id="è½¬å¸äº¤æ˜“å‘é€ä¸ŽæŽ¥æ”¶å¤„ç†å­æµç¨‹" defaultstate="äº¤æ˜“å…¬å…±ä¿¡æ¯æ•°æ®ç»„åŒ…1" property="sub">
+        <state id="ä¸»æœºå‘é€ä¸ŽæŽ¥æ”¶æ•°æ®å­æµç¨‹1" property="logic" subflow="ä¸»æœºå‘é€ä¸ŽæŽ¥æ”¶æ•°æ®å­æµç¨‹">
             <transition result="TransOk" targetstate="END" assit="Ok"/>
         </state>
-        <state id="½ð¶î×ª»»Îª16Î»¸ñÊ½1" action="ConvertToSixteenAmount" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="Ö÷»ú·¢ËÍÓë½ÓÊÕÊý¾Ý×ÓÁ÷³Ì1"/>
+        <state id="é‡‘é¢è½¬æ¢ä¸º16ä½æ ¼å¼1" action="ConvertToSixteenAmount" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="ä¸»æœºå‘é€ä¸ŽæŽ¥æ”¶æ•°æ®å­æµç¨‹1"/>
         </state>
-        <state id="½»Ò×¹«¹²ÐÅÏ¢Êý¾Ý×é°ü1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="²Ù×÷³¬Ê±">
-            <transition result="Ok" targetstate="½ð¶î×ª»»Îª16Î»¸ñÊ½1"/>
+        <state id="äº¤æ˜“å…¬å…±ä¿¡æ¯æ•°æ®ç»„åŒ…1" action="Packagecommoninfo" timeout="0" loadpage="" property="" TimeOutState="æ“ä½œè¶…æ—¶">
+            <transition result="Ok" targetstate="é‡‘é¢è½¬æ¢ä¸º16ä½æ ¼å¼1"/>
             <inparam id="1" value="true"/>
         </state>
     </state>

@@ -185,8 +185,11 @@ module.exports.updateOne = function (collection, filter, update, callback) {
     });
 };
 
+var getTime = function () {
+    return "(" + new Date().toLocaleString() + ")";
+};
 var log = function () {
-    var str = "[" + arguments[0] + "]";
+    var str = getTime() + "[" + arguments[0] + "]";
     for (var i = 1; i < arguments.length; i++) {
         if (arguments[i])
             str += " ===== " + JSON.stringify(arguments[i]);
