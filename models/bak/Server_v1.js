@@ -11,18 +11,18 @@ var ObjectId = require('mongodb').ObjectId;
 server.on('request', function (req, res) {
     //GET的数据放在URL上传输，只有POST才出发，因为POST是提交内容，可能数据很庞大，这些信息不可能全部存放在URL上传输
     req.on('data', function (chunk) {
-        console.log(TAG + 'req data');
+        console.log(TAG, 'req data');
     });
     //消息接受完毕
     req.on('end', function () {
-        console.log(TAG + 'req end');
+        console.log(TAG, 'req end');
     });
     var pathname = url.parse(req.url).pathname;
     var query = url.parse(req.url).query;
     var queryObj = querystring.parse(query);
-    console.log(TAG + "GET pathname = " + pathname);
-    console.log(TAG + "GET query = " + query);
-    console.log(TAG + "GET queryObj = " + JSON.stringify(queryObj));
+    console.log(TAG, "GET pathname = " + pathname);
+    console.log(TAG, "GET query = " + query);
+    console.log(TAG, "GET queryObj = " + JSON.stringify(queryObj));
     //发送报文头信息
     res.writeHead(200, {'Content-Type': 'text/html'});
     //Url路由，发送报文具体内容
@@ -38,17 +38,17 @@ server.on('request', function (req, res) {
     }
 });
 server.on('connection', function (req, res) {
-    //console.log(TAG+'http connection');
+    //console.log(TAG, 'http connection');
 });
 
 // server.listen(8080);
-// console.log(TAG + "HTTP server is listening at port 8080.");
+// console.log(TAG, "HTTP server is listening at port 8080.");
 // var socket = require('socket.io').listen(server);
 // process.send("WebSocket Server is proper functioning!");
 var socket = require('socket.io').listen(8080);
 //监听主线程消息
 process.on('message', function (msg) {
-    console.log(TAG + msg);
+    console.log(TAG, msg);
 });
 
 var socket_test = socket.of("/test")
@@ -80,13 +80,13 @@ var socket_test = socket.of("/test")
 var socket_ui = socket.of("/ui")
     .on('connection', function (socket) {
         var client_ip = socket.request.connection.remoteAddress;
-        console.log(TAG + getTime() + client_ip + ': ' + socket.id + " connected.");
+        console.log(TAG, getTime() + client_ip + ': ' + socket.id + " connected.");
 
         socket.on('message', function (data) {
-            console.log(TAG + getTime() + client_ip + ': ' + data);
+            console.log(TAG, getTime() + client_ip + ': ' + data);
         });
         socket.on('disconnect', function () {
-            console.log(TAG + getTime() + client_ip + " disconnect.");
+            console.log(TAG, getTime() + client_ip + " disconnect.");
         });
 
         socket.on("ImportTestCaseLib", function (params, callback) {
@@ -98,7 +98,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryCaseLib", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryCaseLib(params, function (result) {
                 //callback(JSON.stringify(result));
@@ -107,7 +107,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryCaseLibP", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryCaseLibP(params, function (result, total) {
                 //callback(JSON.stringify(result));
@@ -116,7 +116,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryCaseLibGroup", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryCaseLibGroup(params, function (result) {
                 //callback(JSON.stringify(result));
@@ -125,7 +125,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryCaseLibDetail", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryCaseLibDetail(params, function (result) {
                 //callback(JSON.stringify(result));
@@ -134,7 +134,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryCases", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryCases(params, function (result) {
                 //callback(JSON.stringify(result));
@@ -143,7 +143,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryCaseDetail", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryCaseDetail(params, function (result) {
                 //callback(JSON.stringify(result));
@@ -152,7 +152,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("createTestProject", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             createTestProject(params, function (result) {
                 //callback(JSON.stringify(result));
@@ -161,7 +161,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryTestProject", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryTestProject(params, function (result, total) {
                 //callback(JSON.stringify(result));
@@ -170,7 +170,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryTestProjectDetail", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             QueryTestProjectDetail(params, function (result) {
                 //callback(JSON.stringify(result));
@@ -180,7 +180,7 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("Login", function (params, callback) {
-            console.log(TAG + "--------------------------------------------------");
+            console.log(TAG, "--------------------------------------------------");
             console.log(params);
             Login(params, function (result) {
                 //callback(result);

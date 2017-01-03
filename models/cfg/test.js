@@ -6,100 +6,278 @@
 //
 ///////////////////////////////////////////////////////////////////////////
 
-/*[CheckResult]----------------------------------------------*/
-var cardNum = ZJPeckerData.getData("cardNum");
-console.log("[CheckResult]: " + cardNum);
-console.log("OK");
-changeStatus("OK");
+/*[测试成功]----------------------------------------------*/
+var TAG = "[测试成功]: ";
+function EntryAction() {
+    ZJPeckerTestCase.setCaseResult("OK", onResult);
+    ZJPeckerTrace.appTrace("INFO", "测试成功");
+    console.log(TAG, "OK");
+    changeStatus("OK");
+}
+function onResult(err, result) {
+    if (err) {
+        console.log(err);
+        Global.LogFile().log(TAG + "测试状态更新失败");
+    }
+}
 
-/*[EjectCard]----------------------------------------------*/
+/*[测试错误]----------------------------------------------*/
+var TAG = "[测试错误]: ";
+function EntryAction() {
+    ZJPeckerTestCase.setCaseResult("NG", onResult);
+    ZJPeckerTrace.appTrace("INFO", "测试错误");
+    console.log(TAG, "OK");
+    changeStatus("OK");
+}
+function onResult(err, result) {
+    if (err) {
+        console.log(err);
+        Global.LogFile().log(TAG + "测试状态更新失败");
+    }
+}
 
-/*[InputPassword]----------------------------------------------*/
-var uuid = UUID();
-function entryAction() {
-    var traceLevel = uuid;
-    var traceContent = {
-        "msgid": "abcdef0123456789",
-        "msgtype": "request",
-        "processid": "login",
-        "request": {
-            "loginid": uuid
+/*[插卡]----------------------------------------------*/
+var TAG = "[插卡]: ";
+function EntryAction() {
+    var InsertCardByType = {
+        "head": {
+            "appid": "ZJPecker",
+            "cmdcode": "010001",
+            "requestid": " FE09875DCA453345FE09875DCA453345"
+        },
+        "cmddata": {
+            "actionname": "InsertCardByType",
+            "actiondata": {
+                "cardtype": "VisaCard"
+            }
         }
     };
-    ZJPeckerTrace.appTrace(traceLevel, traceContent, onPINSPMessage);
+    ZJPeckerComm.sendCommMsg("ZJSIMIDC", InsertCardByType);
+    ZJPeckerComm.onCommMsg("ZJSIMIDC", onResult);
     changeStatus("RESERVE");
 }
-function onPINSPMessage(err, resMessage) {
-    // var resMsgObj = JSON.parse(resMessage);
-    // if (resMsgObj == undefine) {
-    //     changeStatus("Comm_Error");
-    //     return;
-    // }
-    // 判断SP 返回
-    // if (resMsgObj.resultdata.eventid == "InputPassword_Ok")
-    // {
-    // 		chageState("InputPassword_Ok");
-    // }else if (resMsgObj.resultdata.eventid == "InputPassword_Error" )
-    // {
-    // 		chageState("InputPassword_Error")
-    // }else {
-    // 		chageState("Comm_Error")
-    // }
-    console.log(JSON.stringify(resMessage));
-    console.log("InputPassword_Ok");
-    changeStatus("InputPassword_Ok");
+function onResult(msg) {
+    if (msg === "TIMEOUT") {
+        Global.LogFile().log(TAG + "消息超时");
+        ZJPeckerTrace.appTrace("INFO", "消息超时[插卡]");
+        console.log(TAG, "TIMEOUT");
+        changeStatus("Error");
+        return;
+    }
+    console.log(JSON.stringify(msg));
+    console.log(TAG, "OK");
+    changeStatus("OK");
 }
-entryAction();
 
-/*[InsertCard]----------------------------------------------*/
-var uuid = UUID();
-function entryAction() {
-    var cardNum = uuid;
-    console.log("[InsertCard]: " + cardNum);
-    ZJPeckerData.setData("cardNum", cardNum);
-    console.log("CardInsert_OK");
-    changeStatus("CardInsert_OK");
-}
-entryAction();
-
-/*[PressInquery]----------------------------------------------*/
-var uuid = UUID();
-function entryAction() {
-    // 查询浏览器前端当前的状态
-    var reqMsgObj = {
-        "msgid": "abcdef0123456789",
-        "msgtype": "request",
-        "processid": "login",
-        "request": {
-            "loginid": uuid
+/*[初始化IDC]----------------------------------------------*/
+var TAG = "[初始化IDC]: ";
+function EntryAction() {
+    var SetModuleStatus_IDC = {
+        "head": {
+            "appid": "ZJPecker",
+            "cmdcode": "010001",
+            "requestid": " FE09875DCA453345FE09875DCA453345"
+        },
+        "cmddata": {
+            "actionname": "SetModuleStatus",
+            "actiondata": {
+                "modulename": "IDC",
+                "statusdata": {
+                    "fwDevice": "WFS_IDC_DEVONLINE",
+                    "fwMedia": "WFS_IDC_MEDIAPRESENT",
+                    "fwRetainBin": "WFS_IDC_RETAINBINOK",
+                    "fwSecurity": "WFS_IDC_SECOPEN",
+                    "usCards": 0,
+                    "fwChipPower": "WFS_IDC_CHIPONLINE"
+                }
+            }
         }
     };
-    var reqMsgStr = JSON.stringify(reqMsgObj);
-    // ZJPeckerComm.sendData("client", reqMsgStr);
-    // ZJPeckerComm.on("zjPeckerClient", onPINSPMessage);
-    ZJPeckerComm.sendCommMsg(uuid, reqMsgObj);
-    ZJPeckerComm.onCommMsg(uuid, onPINSPMessage);
+    ZJPeckerComm.sendCommMsg("ZJSIMIDC", SetModuleStatus_IDC);
+    ZJPeckerComm.onCommMsg("ZJSIMIDC", onResult);
     changeStatus("RESERVE");
 }
-function onPINSPMessage(resMessage) {
-    // var resMsgObj = JSON.parse(resMessage);
-    // if (resMsgObj == undefine) {
-    //     changeStatus("Comm_Error");
-    //     return;
-    // }
-    // // 判断SP 返回
-    // if (resMsgObj.resdata == "0") {
-    //     chageState("clickOk");
-    // } else if (resMsgObj.resultdata.eventid == "-1") {
-    //     chageState("clickFailed")
-    // } else {
-    //     chageState("Comm_Error")
-    // }
-    console.log(JSON.stringify(resMessage));
-    console.log("clickOk");
-    changeStatus("clickOk");
+function onResult(msg) {
+    if (msg === "TIMEOUT") {
+        Global.LogFile().log(TAG + "消息超时");
+        ZJPeckerTrace.appTrace("INFO", "消息超时[初始化IDC]");
+        console.log(TAG, "TIMEOUT");
+        changeStatus("Error");
+        return;
+    }
+    console.log(JSON.stringify(msg));
+    console.log(TAG, "OK");
+    changeStatus("OK");
 }
-entryAction();
+
+/*[初始化PIN]----------------------------------------------*/
+var TAG = "[初始化PIN]: ";
+function EntryAction() {
+    var SetModuleStatus_PIN = {
+        "head": {
+            "appid": "ZJPecker",
+            "cmdcode": "010001",
+            "requestid": " FE09875DCA453345FE09875DCA453345"
+        },
+        "cmddata": {
+            "actionname": "SetModuleStatus",
+            "actiondata": {
+                "modulename": "PIN",
+                "statusdata": {
+                    "fwDevice": "WFS_PIN_DEVONLINE",
+                    "fwEncStat": "WFS_PIN_ENCREADY"
+                }
+            }
+        }
+    };
+    ZJPeckerComm.sendCommMsg("ZJSIMPIN", SetModuleStatus_PIN);
+    ZJPeckerComm.onCommMsg("ZJSIMPIN", onResult);
+    changeStatus("RESERVE");
+}
+function onResult(msg) {
+    if (msg === "TIMEOUT") {
+        Global.LogFile().log(TAG + "消息超时");
+        ZJPeckerTrace.appTrace("INFO", "消息超时[初始化PIN]");
+        console.log(TAG, "TIMEOUT");
+        changeStatus("Error");
+        return;
+    }
+    console.log(JSON.stringify(msg));
+    console.log(TAG, "OK");
+    changeStatus("OK");
+}
+
+/*[交易选择]----------------------------------------------*/
+var TAG = "[交易选择]: ";
+function EntryAction() {
+    var click = {
+        "head": {
+            "cmdCode": "010001",
+            "requestId": "1000010101010101010",
+            "tranTime": "2016-08-30 14:36:20"
+        },
+        "body": {
+            "type": "1",
+            "fromId": "aa",
+            "destination": "atmclient",
+            "action": "click",
+            "clickName": "确认"
+        }
+    };
+    ZJPeckerComm.sendCommMsg("client", click);
+    ZJPeckerComm.onCommMsg("client", onResult);
+    changeStatus("RESERVE");
+}
+function onResult(msg) {
+    if (msg === "TIMEOUT") {
+        Global.LogFile().log(TAG + "消息超时");
+        ZJPeckerTrace.appTrace("INFO", "消息超时[交易选择]");
+        console.log(TAG, "TIMEOUT");
+        changeStatus("Error");
+        return;
+    }
+    console.log(JSON.stringify(msg));
+    console.log(TAG, "OK");
+    changeStatus("OK");
+}
+
+/*[密码输入]----------------------------------------------*/
+var TAG = "[密码输入]: ";
+function EntryAction() {
+    var InputPassword = {
+        "head": {
+            "appid": "ZJPecker",
+            "cmdcode": "010001",
+            "requestid": " FE09875DCA453345FE09875DCA453345"
+        },
+        "cmddata": {
+            "actionname": "InputPassword",
+            "actiondata": {
+                "encdata": "7|5|9|4|F2|3|4"
+            }
+        }
+    };
+    ZJPeckerComm.sendCommMsg("ZJSIMPIN", InputPassword);
+    ZJPeckerComm.onCommMsg("ZJSIMPIN", onResult);
+    changeStatus("RESERVE");
+}
+function onResult(msg) {
+    if (msg === "TIMEOUT") {
+        Global.LogFile().log(TAG + "消息超时");
+        ZJPeckerTrace.appTrace("INFO", "消息超时[密码输入]");
+        console.log(TAG, "TIMEOUT");
+        changeStatus("Error");
+        return;
+    }
+    console.log(JSON.stringify(msg));
+    console.log(TAG, "OK");
+    changeStatus("OK");
+}
+
+/*[退卡]----------------------------------------------*/
+var TAG = "[退卡]: ";
+function EntryAction() {
+    var TakeCard = {
+        "head": {
+            "appid": "ZJPecker",
+            "cmdcode": "010001",
+            "requestid": " FE09875DCA453345FE09875DCA453345"
+        },
+        "cmddata": {
+            "actionname": "TakeCard",
+            "actiondata": {}
+        }
+    };
+    ZJPeckerComm.sendCommMsg("ZJSIMIDC", TakeCard);
+    ZJPeckerComm.onCommMsg("ZJSIMIDC", onResult);
+    changeStatus("RESERVE");
+}
+function onResult(msg) {
+    if (msg === "TIMEOUT") {
+        Global.LogFile().log(TAG + "消息超时");
+        ZJPeckerTrace.appTrace("INFO", "消息超时[退卡]");
+        console.log(TAG, "TIMEOUT");
+        changeStatus("Error");
+        return;
+    }
+    console.log(JSON.stringify(msg));
+    console.log(TAG, "OK");
+    changeStatus("OK");
+}
+
+/*[页面显示]----------------------------------------------*/
+var TAG = "[页面显示]: ";
+function EntryAction() {
+    var getHtml = {
+        "head": {
+            "cmdCode": "010001",
+            "requestId": "1000010101010101010",
+            "tranTime": "2016-08-30 14:36:20"
+        },
+        "body": {
+            "type": "1",
+            "fromId": "aa",
+            "destination": "atmclient",
+            "action": "getHtml"
+        }
+    };
+    ZJPeckerComm.sendCommMsg("client", getHtml);
+    ZJPeckerComm.onCommMsg("client", onResult);
+    changeStatus("RESERVE");
+}
+function onResult(msg) {
+    if (msg === "TIMEOUT") {
+        Global.LogFile().log(TAG + "消息超时");
+        ZJPeckerTrace.appTrace("INFO", "消息超时[页面显示]");
+        console.log(TAG, "TIMEOUT");
+        changeStatus("Error");
+        return;
+    }
+    console.log(JSON.stringify(msg));
+    console.log(TAG, "OK");
+    changeStatus("OK");
+}
+
 
 ///////////////////////////////////////////////////////////////////////////
 //

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <CaseLib name="建行测试" type="AP_CASE" developer="Chance">
+        <CaseGroup name="CWD">
+            <Case name="CWD_002">
+                <CaseId>CWD_001</CaseId>
+                <SerialNo>4.001</SerialNo>
+                <Caption>正常的查询交易</Caption>
+                <MediaType>IC</MediaType>
+                <Description>正常的查询交易</Description>
+                <FileTitle>CWD_001</FileTitle>
+                <Deveploper>Chance1</Deveploper>
+                <Expectation>（1）页面显示：
+                    1.页面先显示请取走凭条...；
+                    2.再显示交易选择页面；
+                    3.无打印凭条按钮；
+                    （2）页面显示：
+                    交易选择页面；
+                    （3）页面显示：
+                    页面先显示磁卡退出...，再显示等待插卡页面；
+                    （4）查看交易报文，查询交易报文格式正确.
+                </Expectation>
+            </Case>
+        </CaseGroup>
+        <CaseGroup name="INQ">
+            <Case name="INQ_002">
+                <CaseId>INQ_001</CaseId>
+                <SerialNo>4.001</SerialNo>
+                <Caption>正常的取款交易</Caption>
+                <MediaType>IC</MediaType>
+                <Description>正常的取款交易</Description>
+                <FileTitle>INQ_001</FileTitle>
+                <Deveploper>Chance2</Deveploper>
+                <Expectation>（1）页面显示：
+                    1.页面先显示请取走凭条...；
+                    2.再显示交易选择页面；
+                    3.无打印凭条按钮；
+                    （2）页面显示：
+                    交易选择页面；
+                    （3）页面显示：
+                    页面先显示磁卡退出...，再显示等待插卡页面；
+                    动作：
+                    流水记录：出钞张数.取款成功.钞箱剩余张数.退出磁卡；
+                    （4）查看交易报文，取款交易报文格式正确.
+                </Expectation>
+            </Case>
+        </CaseGroup>
+    </CaseLib>
+</root>

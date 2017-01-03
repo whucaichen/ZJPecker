@@ -11,7 +11,20 @@
 ////json对象转为json形式字符串
 //var jsonStr = JSON.stringify(json);
 ////json字符串转为json对象
-//var json2 = JSON.parse(jsonStr);
+// var json2 = JSON.parse(jsonStr);
+
+// try {
+//     var json2 = JSON.parse({abc:"abc"}+"ABCDEF");
+//     console.log(json2);
+// } catch (e) {
+//     console.log(e instanceof SyntaxError);
+//     console.log(e.message);
+//     console.log(e.name);
+//     console.log(e.filename);
+//     console.log(e.lineNumber);
+//     console.log(e.columnNumber);
+//     console.log(e.stack);
+// }
 //
 ////json对象和打印时会自动转为字符串
 //console.log(typeof json);
@@ -54,3 +67,7 @@
 //        && !obj.length;
 //};
 //console.log(isJson(str));
+
+console.log("haha");
+var vm = require("vm");
+vm.runInThisContext('console.log("haha");');

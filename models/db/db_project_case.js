@@ -14,6 +14,7 @@ function ProjectCase(projectcase) {
     this.caseId = projectcase.caseId;
     this.caseCaption = projectcase.caseCaption;
     this.caseLibId = projectcase.caseLibId;
+    this.caseLibName = projectcase.caseLibName;
     this.groupName = projectcase.groupName;
     this.caseDeveloper = projectcase.caseDeveloper;
     this.serialNo = projectcase.serialNo;

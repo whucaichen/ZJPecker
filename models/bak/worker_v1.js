@@ -1,4 +1,4 @@
-﻿var stateMachine = require('./../stateMachine.js');
+﻿var stateMachine = require('./../flow/stateMachine.js');
 
 // //进程参数信息
 // console.log("work process.argv.id: " + process.argv[2]);

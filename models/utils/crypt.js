@@ -14,10 +14,8 @@ module.exports = function(){
     this.getHexStr = function(bs){
         return getHexStr(bs);
     };
-};
-//module.exports.Mac_919 = Mac_919;
-//module.exports.getUuid = getUuid;
-//module.exports.int2byte = int2byte;
+    return this;
+}();
 
 var s1 = [
     [14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
@@ -682,7 +680,7 @@ function Bytes2Str(arr) {
 //var uuid = "7BE9BEEA870E6F226979D4872556EFE9";
 //var uuid = "051e38e058f3498a873791e7d6cd9e00";
 //console.log(uuid);
-//var testMac = Mac_919(uuid, null, "ABCDEF");
+//var testMac = crypt(uuid, null, "ABCDEF");
 //console.log(testMac);
 
 //var s2b = string2Binary("abcdef");

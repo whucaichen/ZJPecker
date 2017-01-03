@@ -1,99 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?>
-<statechart defaultstate="查询0011">
+<?xml version="1.0" encoding="utf-8" ?>
+<statechart defaultstate="系统初始化4">
 	<inparamchart>
 	</inparamchart>
 	<outparamchart>
 	</outparamchart>
 	<tempdatachart>
 	</tempdatachart>
-	<state id="查询0011" property="logic" classname="查询001" majortype="2" subflow="查询001">
-		<transition result="案例测试结束" targetstate="查询0021"/>
-	</state>
-	<state id="查询0021" property="logic" classname="查询002" majortype="2" subflow="查询002">
-		<transition result="NT" targetstate="查询61"/>
-		<transition result="NG" targetstate="查询61"/>
-		<transition result="NS" targetstate="查询61"/>
-		<transition result="OK" targetstate="查询61"/>
-		<transition result="出口控件5" targetstate="查询61"/>
+	<state id="交易退出1" property="logic" classname="交易退出" majortype="2" subflow="交易退出">
+		<transition result="OK" targetstate="测试成功1"/>
+		<transition result="Error" targetstate="测试错误1"/>
 			<inparamchart>
 			</inparamchart>
 			<outparamchart>
 			</outparamchart>
 	</state>
-	<state id="查询61" property="logic" classname="查询6" majortype="2" subflow="查询6">
-		<transition result="END" targetstate="END"/>
+	<state id="业务菜单2" property="logic" classname="业务菜单" majortype="2" subflow="业务菜单">
+		<transition result="OK" targetstate="交易退出1"/>
+		<transition result="Error" targetstate="测试错误1"/>
 			<inparamchart>
 			</inparamchart>
 			<outparamchart>
 			</outparamchart>
 	</state>
-	<state id="查询001" defaultstate="InsertCard1" property="sub">
+	<state id="系统初始化4" property="logic" classname="系统初始化" majortype="2" subflow="系统初始化">
+		<transition result="OK" targetstate="用户信息输入2"/>
+		<transition result="Error" targetstate="测试错误1"/>
+			<inparamchart>
+			</inparamchart>
+			<outparamchart>
+			</outparamchart>
+	</state>
+	<state id="用户信息输入2" property="logic" classname="用户信息输入" majortype="2" subflow="用户信息输入">
+		<transition result="OK" targetstate="业务菜单2"/>
+		<transition result="Error" targetstate="测试错误1"/>
+			<inparamchart>
+			</inparamchart>
+			<outparamchart>
+			</outparamchart>
+	</state>
+	<state id="测试成功1" action="测试成功" timeout="0" loadpage="" property="" classname="测试成功" majortype="1">
+		<transition result="OK" targetstate="END" assit="END"/>
+	</state>
+	<state id="测试错误1" action="测试错误" timeout="0" loadpage="" property="" classname="测试错误" majortype="1">
+		<transition result="OK" targetstate="END" assit="END"/>
+	</state>
+	
+	<state id="交易退出" defaultstate="初始化IDC1" property="sub">
 		<inparamchart>
 		</inparamchart>
 		<outparamchart>
 		</outparamchart>
 		<tempdatachart>
 		</tempdatachart>
-		<state id="InsertCard1" action="InsertCard" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="Comm_Error" targetstate="END" assit="案例测试结束"/>
-			<transition result="CardInsert_OK" targetstate="InputPassword1"/>
-			<transition result="CardInsert_Error" targetstate="END" assit="案例测试结束"/>
+		<state id="初始化IDC1" action="初始化IDC" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="初始化PIN1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
 		</state>
-		<state id="InputPassword1" action="InputPassword" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="Comm_Error" targetstate="END" assit="案例测试结束"/>
-			<transition result="InputPassword_Ok" targetstate="PressInquery1"/>
-			<transition result="InputPassword_Error" targetstate="END" assit="案例测试结束"/>
-		</state>
-		<state id="PressInquery1" action="PressInquery" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="Comm_Error" targetstate="END" assit="案例测试结束"/>
-			<transition result="clickOk" targetstate="CheckResult1"/>
-			<transition result="clickFailed" targetstate="END" assit="案例测试结束"/>
-		</state>
-		<state id="CheckResult1" action="CheckResult" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="NG" targetstate="END" assit="案例测试结束"/>
-			<transition result="NS" targetstate="END" assit="案例测试结束"/>
-			<transition result="NT" targetstate="END" assit="案例测试结束"/>
-			<transition result="OK" targetstate="END" assit="案例测试结束"/>
-		</state>
-	</state><state id="查询002" defaultstate="InsertCard1" property="sub">
-		<inparamchart>
-		</inparamchart>
-		<outparamchart>
-		</outparamchart>
-		<tempdatachart>
-		</tempdatachart>
-		<state id="InsertCard1" action="InsertCard" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="Comm_Error" targetstate="END" assit="出口控件5"/>
-			<transition result="CardInsert_OK" targetstate="InputPassword1"/>
-			<transition result="CardInsert_Error" targetstate="END" assit="NG"/>
-		</state>
-		<state id="InputPassword1" action="InputPassword" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="Comm_Error" targetstate="END" assit="出口控件5"/>
-			<transition result="InputPassword_Ok" targetstate="PressInquery1"/>
-			<transition result="InputPassword_Error" targetstate="END" assit="NG"/>
-		</state>
-		<state id="PressInquery1" action="PressInquery" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="Comm_Error" targetstate="END" assit="出口控件5"/>
-			<transition result="clickOk" targetstate="CheckResult1"/>
-			<transition result="clickFailed" targetstate="END" assit="NG"/>
-		</state>
-		<state id="CheckResult1" action="CheckResult" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="NG" targetstate="END" assit="NG"/>
-			<transition result="NS" targetstate="END" assit="NS"/>
-			<transition result="NT" targetstate="END" assit="NT"/>
+		<state id="初始化PIN1" action="初始化PIN" timeout="0" loadpage="" property="" TimeOutState="操作超时">
 			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
 		</state>
-	</state><state id="查询6" defaultstate="InsertCard1" property="sub">
+	</state><state id="业务菜单" defaultstate="页面显示1" property="sub">
 		<inparamchart>
 		</inparamchart>
 		<outparamchart>
 		</outparamchart>
 		<tempdatachart>
 		</tempdatachart>
-		<state id="InsertCard1" action="InsertCard" timeout="0" loadpage="" property="" TimeOutState="操作超时">
-			<transition result="Comm_Error" targetstate="InsertCard1"/>
-			<transition result="CardInsert_OK" targetstate="END"  assit="END"/>
-			<transition result="CardInsert_Error" targetstate="InsertCard1"/>
+		<state id="页面显示1" action="页面显示" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="交易选择1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+		<state id="交易选择1" action="交易选择" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+	</state><state id="系统初始化" defaultstate="初始化IDC1" property="sub">
+		<inparamchart>
+		</inparamchart>
+		<outparamchart>
+		</outparamchart>
+		<tempdatachart>
+		</tempdatachart>
+		<state id="初始化IDC1" action="初始化IDC" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="初始化PIN1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+		<state id="初始化PIN1" action="初始化PIN" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+	</state><state id="用户信息输入" defaultstate="插卡1" property="sub">
+		<inparamchart>
+		</inparamchart>
+		<outparamchart>
+		</outparamchart>
+		<tempdatachart>
+		</tempdatachart>
+		<state id="插卡1" action="插卡" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="密码输入1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+		<state id="密码输入1" action="密码输入" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
 		</state>
 	</state>
 </statechart>

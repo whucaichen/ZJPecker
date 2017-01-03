@@ -19,7 +19,7 @@ function User(user) {
 //添加用户
 User.addUser = function (user, callback) {
     if (!(user.userid && user.password)) {
-        console.log(TAG + "userid or password undefined!");
+        console.log(TAG, "userid or password undefined!");
         return;
     }
     mongodb.open(function (err, db) {
@@ -34,16 +34,16 @@ User.addUser = function (user, callback) {
             collection.findOne({userid: user.userid}, function (err, result) {
                 if (err || result) {  //确认是否有相同用户存在, 如果出现错误或者用户存在就立即返回错误
                     mongodb.close();
-                    console.log(TAG + user.userid + " exists or dbError!");
+                    console.log(TAG, user.userid + " exists or dbError!");
                     return callback(err, result);
                 }
                 collection.insert(user, {safe: true}, function (err, result) { //插入用户信息
                     mongodb.close();
                     if (err) {
-                        console.log(TAG + err);
+                        console.log(TAG, err);
                         return callback(err);
                     }
-                    console.log(TAG + "addUser finished!");
+                    console.log(TAG, "addUser finished!");
                     return callback(null, result.result);
                 });
             });
@@ -78,7 +78,7 @@ User.addUser2 = function (users, callback) {
 //User.prototype.addUser = function (callback) {
 //    var user = this;    //this为User实例
 //    if (!(user.userid && user.password)) {
-//        console.log(TAG + "userid or password undefined!");
+//        console.log(TAG, "userid or password undefined!");
 //        return;
 //    }
 //    mongodb.open(function (err, db) {
@@ -93,16 +93,16 @@ User.addUser2 = function (users, callback) {
 //            collection.findOne({userid: user.userid}, function (err, result) {
 //                if (err || result) {  //确认是否有相同用户存在, 如果出现错误或者用户存在就立即返回错误
 //                    mongodb.close();
-//                    console.log(TAG + user.userid + " exists or dbError!");
+//                    console.log(TAG, user.userid + " exists or dbError!");
 //                    return callback(err);
 //                }
 //                collection.insert(user, {safe: true}, function (err, result) { //插入用户信息
 //                    mongodb.close();
 //                    if (err) {
-//                        console.log(TAG + err);
+//                        console.log(TAG, err);
 //                        return callback(err);
 //                    }
-//                    console.log(TAG + "addUser finished!");
+//                    console.log(TAG, "addUser finished!");
 //                    return callback(null, result.result);
 //                });
 //            });
@@ -125,10 +125,10 @@ User.deleteUser = function (userid, callback) {
             collection.remove({userid: userid}, {safe: true}, function (err, result) {
                 mongodb.close();
                 if (err) {
-                    console.log(TAG + err);
+                    console.log(TAG, err);
                     return callback(err);
                 }
-                console.log(TAG + "deleteUser finished!");
+                console.log(TAG, "deleteUser finished!");
                 callback(null, result.result);
             });
         });
@@ -154,10 +154,10 @@ User.getUsers = function (filter, out, callback) {
             collection.find(filter, out).toArray(function (err, result) {
                 mongodb.close();
                 if (err) {
-                    console.log(TAG + err);
+                    console.log(TAG, err);
                     return callback(err);
                 }
-                console.log(TAG + "getUsers finished!");
+                console.log(TAG, "getUsers finished!");
                 callback(null, result);
             });
         });
@@ -183,10 +183,10 @@ User.getUser = function (user, callback) {
             collection.findOne(user, function (err, result) {
                 mongodb.close();
                 if (err) {
-                    console.log(TAG + err);
+                    console.log(TAG, err);
                     return callback(err);
                 }
-                console.log(TAG + "getUser finished!");
+                console.log(TAG, "getUser finished!");
                 callback(null, result);
             });
         });
@@ -212,10 +212,10 @@ User.getUser2 = function (query, options, callback) {
 //            collection.findOne({userid: userid}, function (err, result) {
 //                mongodb.close();
 //                if (err) {
-//                    console.log(TAG + err);
+//                    console.log(TAG, err);
 //                    return callback(err);
 //                }
-//                console.log(TAG + "getUser finished!");
+//                console.log(TAG, "getUser finished!");
 //                callback(null, result);
 //            });
 //        });
@@ -244,10 +244,10 @@ User.updateUser = function (user, callback) {
                 function (err, result) {
                     mongodb.close();
                     if (err) {
-                        console.log(TAG + err);
+                        console.log(TAG, err);
                         return callback(err);
                     }
-                    console.log(TAG + "updateUser finished!");
+                    console.log(TAG, "updateUser finished!");
                     callback(null, result.result);
                 });
         });

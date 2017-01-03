@@ -11,11 +11,11 @@ function wsapscript() {
 
         var content = fs.readFileSync(varPath.toString(), 'utf-8');
 
-        global.require = require;//有什么用？
-        global.exports = this.exports;
-        global.__filename = this.scriptFile;
-        global.__dirname = __dirname;
-        global.module = this;
+        // global.require = require;//有什么用？
+        // global.exports = this.exports;
+        // global.__filename = this.scriptFile;
+        // global.__dirname = __dirname;
+        // global.module = this;
 
         var arr_case = null;
         var varPrevFlag = "/*[";
@@ -46,6 +46,7 @@ function wsapscript() {
                 var varLength = arr_case.index - varPreIndex - varPreFlagLength;
                 var varFileName = varPath.toString() + ":" + parseInt(varPreIndex);
                 var varCurContent = content.substring(varPreIndex + varPreFlagLength, arr_case.index);
+                varCurContent += "\r\nEntryAction();";
                 // vm.createScript(code, [filename])，存储vm.Script对象
                 var varScript = new vm.Script(varCurContent, {filename: varFileName, displayErrors: false});
                 //
@@ -64,6 +65,7 @@ function wsapscript() {
         if (varPreIndex != 0) {
             var varFileName = varPath.toString() + ":" + parseInt(varPreIndex);
             var varCurContent = content.substring(varPreIndex + varPreFlagLength);
+            varCurContent += "\r\nEntryAction();";
             var varScript = new vm.Script(varCurContent, {filename: varPath.toString()});
             //
             this.mapScript.put(varPreName, varScript);

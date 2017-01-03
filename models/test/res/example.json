@@ -1,0 +1,30 @@
+{
+  "msgid": "AD121A5FFFECF53F37A2AF03B411519B",
+  "msgtype": "request",
+  "processid": "senddata",
+  "request": {
+    "destinationid": "Chance",
+    "datatype": "json",
+    "data": {
+      "head": {
+        "appid": "ZJPecker",
+        "cmdcode": "010001",
+        "requestid": " FE09875DCA453345FE09875DCA453345"
+      },
+      "cmddata": {
+        "actionname": "SetModuleStatus",
+        "actiondata": {
+          "modulename": "IDC",
+          "statusdata": {
+            "fwDevice": "WFS_IDC_DEVONLINE",
+            "fwMedia": "WFS_IDC_MEDIAPRESENT",
+            "fwRetainBin": "WFS_IDC_RETAINBINOK",
+            "fwSecurity": "WFS_IDC_SECOPEN",
+            "usCards": 0,
+            "fwChipPower": "WFS_IDC_CHIPONLINE"
+          }
+        }
+      }
+    }
+  }
+}

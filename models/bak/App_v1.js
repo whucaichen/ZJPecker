@@ -23,32 +23,32 @@ function callbackOnTimer(ms, sleepCallback) {
     }, ms);
 }
 
-// var websocket_server = child.fork("./uiws/Server.js");
-var websocket_server = forkBug("./uiws/Server.js");
+// var wsServer = child.fork("./uiws/wsServer.js");
+var websocket_server = forkBug("./uiws/wsServer.js");
 websocket_server.on("message", function (msg) {
-    console.log(TAG + msg);
+    console.log(TAG, msg);
 });
 //Server异常重启
 websocket_server.on('exit', function (code) {
     if (code !== 0) {
-        // websocket_server = child.fork("./uiws/Server.js");
-        websocket_server = forkBug("./uiws/Server.js");
+        // wsServer = child.fork("./uiws/wsServer.js");
+        websocket_server = forkBug("./uiws/wsServer.js");
     }
 });
 
 
-// var comm_server = child.fork("./uiws/Comm.js");
-var comm_server = forkBug("./uiws/Comm.js");
+// var commClient = child.fork("./uiws/commClient.js");
+var comm_server = forkBug("./uiws/commClient.js");
 //Server异常重启
 comm_server.on('exit', function (code) {
     if (code !== 0) {
-        comm_server = forkBug("./uiws/Comm.js");
+        comm_server = forkBug("./uiws/commClient.js");
     }
 });
 
-var Mac_919 = require('./../encrypt/Mac_919');
+
 global.UUID = function () {
-    return new Mac_919().getUuid(16, 16);
+    return require('./utils/crypt').getUuid(len || 16, 16);
 };
 global.ZJPeckerComm = {};
 global.ZJPeckerComm.sendCommMsg = function (target, msg) {
@@ -114,7 +114,7 @@ global.ZJPeckerTestCase.setCaseResult = function (caseResult, callback) {
 // //子进程中的主线程global不可用
 // var workflow_server = child.fork("./worker_v1.js");
 // workflow_server.on("message", function (msg) {
-//     console.log(TAG + msg);
+//     console.log(TAG, msg);
 // });
 // //Server异常重启
 // workflow_server.on('exit', function (code) {
@@ -123,7 +123,7 @@ global.ZJPeckerTestCase.setCaseResult = function (caseResult, callback) {
 //     }
 // });
 
-var stateMachine = require('./../stateMachine.js');
+var stateMachine = require('./../flow/stateMachine.js');
 var runQueue = [
     [0, "test0.js", "test0.xml", false],
     [1, "test1.js", "test1.xml", false],
