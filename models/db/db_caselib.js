@@ -12,7 +12,7 @@ function CaseLib(caselib) {
     this.caseLibType = caselib.caseLibType;
     this.importTime = caselib.importTime;
     this.importUser = caselib.importUser;
-    this.casedeveloper = caselib.casedeveloper;
+    this.caseDeveloper = caselib.caseDeveloper;
 }
 
 //添加案例库

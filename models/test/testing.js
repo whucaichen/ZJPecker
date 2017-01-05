@@ -215,3 +215,5 @@ var child = require("child_process");
 // console.log(Math.round(Math.random() * 100 / 10));
 // var json = {a: {b: "\tb"}};
 // console.log(json.a.b);
+// console.log(JSON.stringify("hello"));
+

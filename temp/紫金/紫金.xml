@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<CaseLib name="紫金" type="" developer="">
+		<CaseGroup name="SIU">
+			<Case name="SIU001">
+				<SerialNo>曦曦</SerialNo>
+				<Caption>曦曦</Caption>
+				<MediaType>曦曦</MediaType>
+				<Description>曦曦</Description>
+				<Developer>曦曦</Developer>
+				<Expectation>曦曦</Expectation>
+			</Case>
+		</CaseGroup>
+		</CaseLib>
+</root>

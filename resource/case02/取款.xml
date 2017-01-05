@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<statechart defaultstate="初始化状态检查1">
+	<inparamchart>
+	</inparamchart>
+	<outparamchart>
+	</outparamchart>
+	<tempdatachart>
+	</tempdatachart>
+	<state id="初始化状态检查1" action="初始化状态检查" timeout="0" loadpage="" property="" classname="初始化状态检查" majortype="1">
+		<transition result="OK" targetstate="插卡1"/>
+		<transition result="Error" targetstate="错误12"/>
+	</state>
+	<state id="插卡1" action="插卡" timeout="0" loadpage="" property="" classname="插卡" majortype="1">
+		<transition result="TimeoutError" targetstate="超时错误1"/>
+		<transition result="TrueError" targetstate="错误12"/>
+		<transition result="FlaseError" targetstate="错误21"/>
+		<transition result="OK" targetstate="输入密码1"/>
+	</state>
+	<state id="输入密码1" action="输入密码" timeout="0" loadpage="" property="" classname="输入密码" majortype="1">
+		<transition result="TimeoutError" targetstate="超时错误1"/>
+		<transition result="TrueError" targetstate="错误12"/>
+		<transition result="FlaseError" targetstate="错误21"/>
+		<transition result="OK" targetstate="完成1"/>
+	</state>
+	<state id="完成1" action="完成" timeout="0" loadpage="" property="" classname="完成" majortype="1">
+		<transition result="DONE" targetstate="END" assit="出口控件1"/>
+	</state>
+	
+	<state id="超时错误1" action="超时错误" timeout="0" loadpage="" property="" classname="超时错误" majortype="1">
+		<transition result="DONE" targetstate="END" assit="出口控件1"/>
+	</state>
+	<state id="错误12" action="错误1" timeout="0" loadpage="" property="" classname="错误1" majortype="1">
+		<transition result="DONE" targetstate="END" assit="出口控件1"/>
+	</state>
+	<state id="错误21" action="错误2" timeout="0" loadpage="" property="" classname="错误2" majortype="1">
+		<transition result="DONE" targetstate="END" assit="出口控件1"/>
+	</state>
+	
+	
+</statechart>

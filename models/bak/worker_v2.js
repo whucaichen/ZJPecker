@@ -79,33 +79,43 @@ global.Global.Include = function (file) {
     url && fs.existsSync(url) && vm.runInThisContext(fs.readFileSync(url, 'utf-8'));
 };
 
+var isLogin = false;
 var commMsg = null;
 var commClient = null;
 global.ZJPeckerComm = {};
 global.ZJPeckerComm.sendCommMsg = function (target, msg) {
+    isLogin = false;
     commClient = Utils.forkBug("./uiws/commClient.js");
     commMsg = msg;
-    commClient.send({dst: target, data: msg});
+    var timer = setInterval(function () {
+        if (isLogin) {
+            try {
+                commClient.send({dst: target, data: msg});
+            } catch (e) {
+                console.error(e);
+            }
+            clearInterval(timer);
+            console.error(new Date().toLocaleString());
+        }
+        console.error(new Date().getSeconds());
+    }, 200);
 };
 global.ZJPeckerComm.onCommMsg = function (target, callback, timeout) {
-    if (!commClient) {
-        commClient = Utils.forkBug("./uiws/commClient.js");
-    }
-    // console.error(TAG, global.nodeName, commMsg);
+    if (!commClient) commClient = Utils.forkBug("./uiws/commClient.js");
+    console.error(TAG, global.nodeName, commMsg);
+    var isTimeout = true;
     commClient.on("message", function (msg) {
+        isTimeout = false;
+        // msg.request.data = JSON.parse(msg.request.data);
         // console.error(TAG + JSON.stringify(msg));
-        clearTimeout(timer);
-        msg.request.data = JSON.parse(msg.request.data);
-        // (typeof callback === "function") && (callback(msg));
-        // (typeof callback === "function") && (callback(msg.request.data));
-        (typeof callback === "function") && (callback(JSON.parse(msg.request.data.srcdata)));
+        (msg == "login") && (isLogin = true);
+        (msg != "login") && (typeof callback === "function") && (callback(msg));
         return;
     });
-    var timer = setTimeout(function () {
-        (typeof callback === "function") && (callback("TIMEOUT"));
-        // (typeof callback === "function") && (callback({head: commMsg.head, body: {error: "TIMEOUT"}}));
+    setTimeout(function () {
+        isTimeout && (typeof callback === "function") && (callback("TIMEOUT"));
         return;
-    }, timeout || 10000);
+    }, timeout || 5000);
 };
 
 global.ZJPeckerData = {};

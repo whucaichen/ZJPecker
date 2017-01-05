@@ -78,10 +78,10 @@ var execWorkflow = function (flows, start) {
         if (msg === "SingleFinished") {
             console.error(">>>>>>>>>> [SingleFinished]: " + flows[start]);
             changeProjectCaseStatus(flows[start][0], "TESTED");
-            runNode = start + 1;
-            flowWorker && flowWorker.send("SingleExit");
             // wsServer.send({message: "pushProgress", progress: start});
             wsServer.send({type: "DataUpdate", data: {type: "ProjectCase", id: flows[start][0]}});
+            runNode = start + 1;
+            flowWorker && flowWorker.send("SingleExit");
         }
     });
     flowWorker.on("exit", function (code) {
@@ -137,7 +137,7 @@ var flowInit = function (caseProjectId, callback) {
                 caseLibName //指定流程脚本路径
             ];
         }
-        // console.error(JSON.stringify(workflows));
+        console.error(JSON.stringify(workflows));
         callback({code: "00"});
         // });
     });

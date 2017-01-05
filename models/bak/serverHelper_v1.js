@@ -372,46 +372,45 @@ var CreateTestProject = function (params, callback) {
     project.projectStatus = "NEW";
     project.projectCreateTime = new Date().toLocaleString();
     var caseItems = params.body && params.body.caseItems;
-    if (!(Array.isArray(caseItems) && caseItems.length > 0)) {
-        (typeof callback === "function") && (callback({retcode: "01", err: "案例不合法"}));
-        return;
-    }
     var cases = [];
     Project.addProject2(project, function (err, result) {
-        var caseProjectId = result && result.ops && result.ops[0] && result.ops[0]._id;
+        var caseProjectId = result.insertedIds && result.insertedIds[1];
         if (err || !caseProjectId) {
-            (typeof callback === "function") && (callback({retcode: "02", err: err}));
+            (typeof callback === "function") && (callback({retcode: "01", err: err}));
             return;
         }
         var projectName = result.ops[0].projectName;
-        for (var i = 0; i < caseItems.length; i++) {
-            caseItems[i] = ObjectId(caseItems[i]._id);
-        }
-        Case.getCases2({_id: {$in: caseItems}}, {}, function (err, result) {
-            if (err || result.length == 0) {
+        Case.getCases2({}, {}, function (err1, result1) {
+            if (err1) {
                 Project.deleteProject2({_id: ObjectId(caseProjectId)});
-                (typeof callback === "function") && (callback({retcode: "03", err: err}));
+                (typeof callback === "function") && (callback({retcode: "02", err: err1}));
                 return;
             }
-            CaseLib.getCaseLib2({_id: result[0].caseLibId}, {}, function (err1, result1) {
-                if (err1 || result1.length) {
-                    (typeof callback === "function") && (callback({retcode: "04", err: err1}));
+            (result1.length > 0) && CaseLib.getCaseLib2({_id: result1[0].caseLibId}, {}, function (err2, result2) {
+                if (err2) {
+                    (typeof callback === "function") && (callback({retcode: "03", err: err2}));
                     return;
                 }
-                var caseLibId = result1.caseLibId;
-                var caseLibName = result1.caseLibName;
-                result.forEach(function (res) {
-                    res.caseProjectId = caseProjectId;
-                    res.testInfo = {
-                        caseStatus: "UNTESTED",
-                        caseFilePath: "./" + projectName + "/" + res.caseId
-                    };
-                    res.caseLibName = caseLibName;
-                    cases.push(res);
+                var caseLibId = result1[0].caseLibId;
+                var caseLibName = result2.caseLibName;
+                caseItems && caseItems.forEach(function (item) {
+                    result1 && result1.forEach(function (res) {
+                        if (res._id.toString() === item._id) {
+                            res.caseProjectId = caseProjectId;
+                            res.testInfo = {
+                                caseStatus: "UNTESTED",
+                                caseFilePath: "./" + projectName + "/" + res.caseId
+                            };
+                            res.caseLibName = caseLibName;
+
+                            // caseLibId = res.caseLibId;
+                            cases.push(res);
+                        }
+                    });
                 });
                 ProjectCase.addProjectCase2(cases, function (err2, result2) {
                     if (err2) {
-                        (typeof callback === "function") && callback({retcode: "05", err: err2})
+                        (typeof callback === "function") && callback({retcode: "03", err: err2})
                     } else {
                         (typeof callback === "function") && callback({retcode: "00"});
                         global.socket_ui.emit("DataUpdate", {type: "TestProject", id: caseProjectId});

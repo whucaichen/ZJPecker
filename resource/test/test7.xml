@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<statechart defaultstate="系统初始化4">
+	<inparamchart>
+	</inparamchart>
+	<outparamchart>
+	</outparamchart>
+	<tempdatachart>
+	</tempdatachart>
+	<state id="交易退出1" property="logic" classname="交易退出" majortype="2" subflow="交易退出">
+		<transition result="OK" targetstate="测试成功1"/>
+		<transition result="Error" targetstate="测试错误1"/>
+			<inparamchart>
+			</inparamchart>
+			<outparamchart>
+			</outparamchart>
+	</state>
+	<state id="业务菜单2" property="logic" classname="业务菜单" majortype="2" subflow="业务菜单">
+		<transition result="OK" targetstate="交易退出1"/>
+		<transition result="Error" targetstate="测试错误1"/>
+			<inparamchart>
+			</inparamchart>
+			<outparamchart>
+			</outparamchart>
+	</state>
+	<state id="系统初始化4" property="logic" classname="系统初始化" majortype="2" subflow="系统初始化">
+		<transition result="OK" targetstate="用户信息输入2"/>
+		<transition result="Error" targetstate="测试错误1"/>
+			<inparamchart>
+			</inparamchart>
+			<outparamchart>
+			</outparamchart>
+	</state>
+	<state id="用户信息输入2" property="logic" classname="用户信息输入" majortype="2" subflow="用户信息输入">
+		<transition result="OK" targetstate="业务菜单2"/>
+		<transition result="Error" targetstate="测试错误1"/>
+			<inparamchart>
+			</inparamchart>
+			<outparamchart>
+			</outparamchart>
+	</state>
+	<state id="测试成功1" action="测试成功" timeout="0" loadpage="" property="" classname="测试成功" majortype="1">
+		<transition result="OK" targetstate="END" assit="END"/>
+	</state>
+	<state id="测试错误1" action="测试错误" timeout="0" loadpage="" property="" classname="测试错误" majortype="1">
+		<transition result="OK" targetstate="END" assit="END"/>
+	</state>
+	
+	<state id="交易退出" defaultstate="初始化IDC1" property="sub">
+		<inparamchart>
+		</inparamchart>
+		<outparamchart>
+		</outparamchart>
+		<tempdatachart>
+		</tempdatachart>
+		<state id="初始化IDC1" action="初始化IDC" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="初始化PIN1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+		<state id="初始化PIN1" action="初始化PIN" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+	</state><state id="业务菜单" defaultstate="页面显示1" property="sub">
+		<inparamchart>
+		</inparamchart>
+		<outparamchart>
+		</outparamchart>
+		<tempdatachart>
+		</tempdatachart>
+		<state id="页面显示1" action="页面显示" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="交易选择1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+		<state id="交易选择1" action="交易选择" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+	</state><state id="系统初始化" defaultstate="初始化IDC1" property="sub">
+		<inparamchart>
+		</inparamchart>
+		<outparamchart>
+		</outparamchart>
+		<tempdatachart>
+		</tempdatachart>
+		<state id="初始化IDC1" action="初始化IDC" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="初始化PIN1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+		<state id="初始化PIN1" action="初始化PIN" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+	</state><state id="用户信息输入" defaultstate="插卡1" property="sub">
+		<inparamchart>
+		</inparamchart>
+		<outparamchart>
+		</outparamchart>
+		<tempdatachart>
+		</tempdatachart>
+		<state id="插卡1" action="插卡" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="密码输入1"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+		<state id="密码输入1" action="密码输入" timeout="0" loadpage="" property="" TimeOutState="操作超时">
+			<transition result="OK" targetstate="END" assit="OK"/>
+			<transition result="Error" targetstate="END" assit="Error"/>
+		</state>
+	</state>
+</statechart>

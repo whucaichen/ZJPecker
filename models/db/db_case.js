@@ -12,7 +12,7 @@ function Case(_case) {
     this.caseCaption = _case.caseCaption;
     this.caseLibId = _case.caseLibId;
     this.groupName = _case.groupName;
-    this.casedeveloper = _case.casedeveloper;
+    this.caseDeveloper = _case.caseDeveloper;
     this.serialNo = _case.serialNo;
     this.description = _case.description;
     this.mediaType = _case.mediaType;

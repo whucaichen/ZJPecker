@@ -4,6 +4,8 @@
 
 var TAG = "[commClient.js]: ";
 var net = require('net');
+var iconv = require('iconv-lite');
+var jschardet = require("jschardet");
 var crypt = require('../utils/crypt');
 var options = {
     port: 60001,
@@ -29,15 +31,14 @@ function CommData(logindata) {
     this.request.maccode = logindata.request.maccode;
 }
 
+var isLogin = false;
 var client = new net.Socket();
 // client.setEncoding("hex");
 client.connect(options, function () {
-    console.log(TAG, 'CONNECTED TO: ' + options.host + ":" + options.port);
     send(loginData);
+    console.log(TAG, 'CONNECTED TO: ' + options.host + ":" + options.port);
 });
 client.on('data', function (data) {
-    var iconv = require('iconv-lite');
-    var jschardet = require("jschardet");
     data = data.toString("binary").substr(4, data.length - 20);
     var encoding = jschardet.detect(data).encoding;
     try {
@@ -45,14 +46,12 @@ client.on('data', function (data) {
         data = iconv.decode(data, "gbk");
         // console.error(encoding, data);
         data = JSON.parse(data);
-        (data.processid == "login") && process.send("login");
-        (data.processid == "senddata") && process.send(data);
+        (data.processid == "login") && (isLogin = true);
+        // (data.processid == "login") && process.send("login");
+        (data.processid == "senddata") && (data.request.data != "login") && process.send(data);
     } catch (e) {
         console.error(e.stack);
     }
-    // var str = data.toString("ascii").substr(4);
-    // console.error(TAG, str);
-    // process.send(str);
 });
 // 为客户端添加“close”事件处理函数
 client.on('close', function () {
@@ -62,32 +61,34 @@ client.on('close', function () {
 
 //监听主线程消息
 process.on('message', function (msg) {
-    msg.dst ? sendComm(msg.dst, msg.data) : send(msg);    //发送
-    //console.log(TAG, msg);
-    //if (!msg.body) {
-    //    return;
-    //}
-    //switch (msg.body.processid) {
-    //    case "login":
-    //    case "senddata":
-    //        sendComm(msg.body);
-    //        break;
-    //    default:
-    //        console.log(TAG, "异常的CommServer操作");
-    //}
+    var timer = setInterval(function () {
+        if (isLogin) {
+            try {
+                msg.dst ? sendComm(msg.dst, msg.data) : send(msg);
+            } catch (e) {
+                console.error(e);
+            }
+            clearInterval(timer);
+            // console.error(new Date().toLocaleString());
+        }
+    }, 200);
 });
 // process.send("Comm Server is properly functioning!");
 
 var send = function (data) {
+    data = JSON.stringify(data);
     var uuid = crypt.getUuid(32, 16);
-    var chkHex = crypt.Mac_919(uuid, null, crypt.getHexStr(JSON.stringify(data)));
-    var srcData = new Buffer(JSON.stringify(data));
+    var chkHex = crypt.Mac_919(uuid, null, crypt.getHexStr(data));
+    var srcData = iconv.encode(data, "gbk");
+    // var srcData = new Buffer(data);
     var chkData = new Buffer(chkHex);
     var lenData = crypt.int2byte(srcData.length + chkData.length);
 
     var dstData = new Buffer(lenData.length + srcData.length + chkData.length);
     lenData.copy(dstData);
-    dstData.write(JSON.stringify(data) + chkHex, lenData.length);
+    srcData.copy(dstData, lenData.length);
+    chkData.copy(dstData, lenData.length + srcData.length);
+    // dstData.write(data + chkHex, lenData.length);
 
     client.write(dstData);
 };
