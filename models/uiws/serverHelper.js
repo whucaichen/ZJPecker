@@ -45,9 +45,13 @@ module.exports = function () {
     this.Login = function (params, callback) {
         Login(params, callback);
     };
+    this.QueryCaseFiles = function (params, callback) {
+        QueryCaseFiles(params, callback);
+    };
     return this;
 }();
 
+var TAG = "[serverHelper.js]: ";
 var fs = require("fs");
 var rd = require("rd");
 var path = require("path");
@@ -60,6 +64,7 @@ var CaseLib = require("../db/db_caselib");
 var Project = require("../db/db_project");
 var ProjectCase = require("../db/db_project_case");
 var User = require("../db/db_user");
+var CASE_FILE_ROOT_PATH = "../../temp/caseFiles/";
 
 //打包案例库文件多个？索引文件多个？
 var readIndexIntoDB = function (index, callback) {
@@ -93,6 +98,8 @@ var readIndexIntoDB = function (index, callback) {
             var cases = select(iDom, "/root/CaseLib/CaseGroup[@name='" + groupName + "']/Case");
             for (var k = 0; k < cases.length; k++) {
                 var caseName = cases[k].getAttribute("name");
+                // var caseId = caseLibName + "_" + caseName;
+                // var fileTitle = caseLibName + "_" + caseName;
                 var caseId = caseName;
                 var fileTitle = caseName;
 
@@ -114,6 +121,11 @@ var readIndexIntoDB = function (index, callback) {
                     cases[k].getElementsByTagName("Expectation").item(0).firstChild.toString();
                 // console.log(caseId, caseCaption, caseDeveloper, serialNo, description, mediaType, fileTitle, expectation);
 
+                // var m = 0;
+                // for (; m < caseItems.length; m++) {
+                //     if (caseItems[m].caseId === caseId) break;
+                // }
+                // if (m < caseItems.length) continue;    //控制同一案例库的caseId不一致
                 caseItems.push({
                     caseId: caseId,
                     caseCaption: caseCaption,
@@ -129,8 +141,13 @@ var readIndexIntoDB = function (index, callback) {
             }
         }
         Case.addCase2(caseItems, function (err1, result1) {
-            err1 ? callback({retcode: "12", err: err1})
-                : callback({retcode: "00"});
+            if (err1) {
+                callback({retcode: "12", err: err1});
+                CaseLib.deleteCaseLib2({caseLibName: caseLibName}, function () {
+                });
+                return;
+            }
+            callback({retcode: "00"});
         });
     });
     // }
@@ -175,14 +192,17 @@ var ImportTestCaseLib = function (params, callback) {
     !fs.existsSync(caseLibDir) && fs.mkdirSync(caseLibDir);
 
     fs.createReadStream(fileName).pipe(unzip.Extract({path: tempFile}));
-    //读取案例库索引信息插入数据库
+    // var writeStream = fs.createWriteStream(tempFile);
+    // fs.createReadStream(fileName).pipe(unzip.Parse()).pipe(writeStream);
+    // //读取案例库索引信息插入数据库
+    // writeStream.on("close", function () {
     setTimeout(function () {
         if (!fs.existsSync(tempFile + "/" + caseLibName + ".xml")) {
             (typeof callback === "function") && (callback({retcode: "03", err: "找不到案例库索引文件：" + caseLibName}));
             return;
         }
         readIndexIntoDB(tempFile + "/" + caseLibName + ".xml", function (result) {
-            if (result.retcode != "00") {
+            if (result.retcode !== "00") {
                 (typeof callback === "function") && (callback(result));
                 return;
             }
@@ -191,7 +211,7 @@ var ImportTestCaseLib = function (params, callback) {
                 // console.log('file: %s', f);
                 var type = f.substring(f.lastIndexOf(".") + 1);
                 var name = f.substring(f.lastIndexOf("\\") + 1, f.lastIndexOf("."));
-                if (name == caseLibName) {
+                if (name === caseLibName) {
                     //不拷贝索引文件
                     // } else if (name == "userLib") { //用户自定义库
                 } else {    //案例流程和案例脚本
@@ -205,6 +225,7 @@ var ImportTestCaseLib = function (params, callback) {
             (typeof callback === "function") && (callback(result));
             global.socket_ui.emit("DataUpdate", {type: "CaseLib"});
         });
+        // });
     }, 2000);
     setTimeout(function () {
         //读取完成删除缓存
@@ -388,7 +409,7 @@ var CreateTestProject = function (params, callback) {
             caseItems[i] = ObjectId(caseItems[i]._id);
         }
         Case.getCases2({_id: {$in: caseItems}}, {}, function (err, result) {
-            if (err || result.length == 0) {
+            if (err || result.length === 0) {
                 Project.deleteProject2({_id: ObjectId(caseProjectId)});
                 (typeof callback === "function") && (callback({retcode: "03", err: err}));
                 return;
@@ -529,6 +550,43 @@ var Login = function (params, callback) {
             (typeof callback === "function") && (
                 !result ? callback({retcode: "03", err: "密码错误"})
                     : callback({retcode: "00"}));
+        });
+    });
+};
+
+var QueryCaseFiles = function (params, callback) {
+    var projectCaseId = params.body && params.body.projectCaseId;
+    var url = params.body && params.body.url;
+    if (!(projectCaseId && url)) {
+        callback({retcode: "01", err: "请求参数不合法"});
+        return;
+    }
+    ProjectCase.getProjectCase2({_id: ObjectId(projectCaseId)}, {}, function (err, result) {
+        if (err || result.length === 0) {
+            callback({retcode: "02", err: "数据库查询失败"});
+            return
+        }
+        // console.error(TAG, "result", JSON.stringify(result));
+        var caseFilePath = result.testInfo && result.testInfo.caseFilePath;
+        var realPath = path.resolve(__dirname, CASE_FILE_ROOT_PATH, caseFilePath, url);
+        fs.readdir(realPath, function (err, files) {
+            if (err) {
+                console.error(err);
+                callback({retcode: "03", err: "文件读取失败"});
+                return;
+            }
+            console.error(TAG, "files", JSON.stringify(files));
+            // var ip = require('os').networkInterfaces().以太网[0].address;//win7
+            // var ip = require('os').networkInterfaces().以太网[0].address;//win10
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var retUrl = path.join(caseFilePath, url, file);
+                retUrl = retUrl.replace(/\\/g, "/");
+                // files[i] = {fileName: file, url: ip + ":8080/" + retUrl};
+                files[i] = {fileName: file, url: retUrl};
+            }
+            // console.error(TAG, "files1", files);
+            callback({retcode: "00", files: files});
         });
     });
 };

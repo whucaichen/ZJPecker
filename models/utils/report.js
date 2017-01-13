@@ -193,7 +193,7 @@ var tempChart = path.resolve(__dirname, "../../temp/charts");
 function addDocData(datas, pOpt, tOpt) {
     if (!datas) return;
     var pObj = docx.createP(pOpt);
-    if (typeof datas == "string") {
+    if (typeof datas === "string") {
         pObj.addText(datas, tOpt);
     } else if (Array.isArray(datas)) {
         for (var i = 0; i < datas.length; i++) {

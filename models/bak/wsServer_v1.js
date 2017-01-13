@@ -4,48 +4,59 @@
 
 var TAG = "[wsServer.js]: ";
 var fs = require('fs');
-var url = require("url");
 var path = require("path");
 var helper = require("./serverHelper");
 var formidable = require('formidable');
-var mime = require("./mime").mime;
-var root = path.join(__dirname, "../../temp/caseFiles");
-if (!fs.existsSync(root)) {
-    fs.mkdirSync(root);
-}
 var http_server = require('http').createServer(function (req, res) {
-    //将url地址的中的%20替换为空格，不然Node.js找不到文件
-    var pathname = url.parse(req.url).pathname.replace(/%20/g, ' '),
-        re = /(%[0-9A-Fa-f]{2}){3}/g;
-    //能够正确显示中文，将三字节的字符转换为utf-8编码
-    pathname = pathname.replace(re, function (word) {
-        var buffer = new Buffer(3),
-            array = word.split('%');
-        array.splice(0, 1);
-        array.forEach(function (val, index) {
-            buffer[index] = parseInt('0x' + val, 16);
-        });
-        return buffer.toString('utf8');
-    });
-    if (pathname == '/') {
-        listDirectory(root, req, res);
-    } else {
-        filename = path.join(root, pathname);
-        fs.exists(filename, function (exists) {
-            if (!exists) {
-                console.error('找不到文件' + filename);
-                write404(req, res);
-            } else {
-                fs.stat(filename, function (err, stat) {
-                    if (stat.isFile()) {
-                        showFile(filename, req, res);
-                    } else if (stat.isDirectory()) {
-                        listDirectory(filename, req, res);
-                    }
-                });
+    if (req.url === '/upload' && req.method.toLowerCase() === 'post') {
+        var form = new formidable.IncomingForm();   //创建上传表单
+        // form.encoding = 'utf-8';		//设置编码
+        form.uploadDir = "../temp/";	 //缓存路径
+        // form.multiples = true;	 //多文件上传
+        form.keepExtensions = true;	 //保留后缀
+        // form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
+
+        form.parse(req, function (err, fields, files) {
+            if (err) {
+                console.log(err);
+                res.write(err);
+                res.end();
+                return;
             }
+            console.log(TAG, JSON.stringify(files));
+            var fileName = files.upload && files.upload.name;
+            if (!fileName) {
+                res.end("upload data is null");
+                return;
+            }
+            var suffix = fileName.substring(fileName.lastIndexOf("."));
+
+            if (suffix !== ".zip") {
+                console.log("案例库不为'zip'格式");
+                files.upload && fs.unlinkSync(files.upload.path);
+                res.write("file type error, upload 'zip' instead.");
+                res.end();
+                return;
+            }
+            var newPath = form.uploadDir + fileName;
+            fs.renameSync(files.upload.path, newPath);  //重命名
+
+            res.writeHead(200, {'content-type': 'text/plain'});
+            res.write("upload successfully");
+            res.end();
+            return;
         });
+        return;
     }
+    res.writeHead(200, {'content-type': 'text/html'});
+    // var page = fs.readFileSync("./uiws/index.html").toString();
+    // res.end(page);
+    res.end(
+        '<form action="/upload" enctype="multipart/form-data" method="post">' +
+        '<input type="file" name="upload" multiple="multiple"><br>' +
+        '<input type="submit" value="Upload">' +
+        '</form>'
+    );
 }).listen(8080);
 
 var socket = require('socket.io').listen(http_server);
@@ -305,70 +316,7 @@ process.on("message", function (msg) {
     msg && (msg.type === "DataUpdate") && socket_ui.emit("DataUpdate", msg.data);
 });
 
-//显示文件夹下面的文件
-function listDirectory(parentDirectory, req, res) {
-    fs.readdir(parentDirectory, function (error, files) {
-        var body = formatBody(parentDirectory, files);
-        res.writeHead(200, {
-            "Content-Type": "text/html;charset=utf-8",
-            "Content-Length": Buffer.byteLength(body, 'utf8'),
-            "Server": "NodeJs(" + process.version + ")"
-        });
-        res.write(body, 'utf8');
-        res.end();
-    });
 
-}
-//显示文件内容
-function showFile(file, req, res) {
-    fs.readFile(filename, 'binary', function (err, file) {
-        var contentType = mime.lookupExtension(path.extname(filename));
-        res.writeHead(200, {
-            "Content-Type": contentType,
-            "Content-Length": Buffer.byteLength(file, 'binary'),
-            "Server": "NodeJs(" + process.version + ")"
-        });
-        res.write(file, "binary");
-        res.end();
-    })
-}
-//在Web页面上显示文件列表，格式为<ul><li></li><li></li></ul>
-function formatBody(parent, files) {
-    var res = [],
-        length = files.length;
-    res.push("<!doctype>");
-    res.push("<html>");
-    res.push("<head>");
-    res.push("<meta http-equiv='Content-Type' content='text/html;charset=utf-8'></meta>");
-    res.push("<title>工程案例测试文件服务器</title>");
-    res.push("</head>");
-    res.push("<body width='100%'>");
-    res.push("<ul>");
-    files.forEach(function (val, index) {
-        var stat = fs.statSync(path.join(parent, val));
-        if (stat.isDirectory(val)) {
-            val = path.basename(val) + "/";
-        } else {
-            val = path.basename(val);
-        }
-        res.push("<li><a href='" + val + "'>" + val + "</a></li>");
-    });
-    res.push("</ul>");
-    res.push("</div>");
-    res.push("</body>");
-    return res.join("");
-}
-//如果文件找不到，显示404错误
-function write404(req, res) {
-    var body = "文件不存在:-(";
-    res.writeHead(404, {
-        "Content-Type": "text/html;charset=utf-8",
-        "Content-Length": Buffer.byteLength(body, 'utf8'),
-        "Server": "NodeJs(" + process.version + ")"
-    });
-    res.write(body);
-    res.end();
-}
 var getTime = function () {
     return "(" + new Date().toLocaleString() + ")";
 };

@@ -4,7 +4,7 @@
 
 var TAG = "[>>>db_case.js]: ";
 var COLLECTION = "cases";
-var INDEXS = {caseId: 1};
+var INDEXS = {caseId: 1, caseLibId: 1};
 var mongodb = require("./db");
 
 function Case(_case) {

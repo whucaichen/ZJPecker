@@ -26,7 +26,7 @@ function ImportTestCaseLib() {
             "action": "ImportTestCaseLib"
         },
         "body": {
-            caseLibFileName: "haha.zip"
+            caseLibFileName: "case03.zip"
         }
     }, function (result) {
         console.log("--------------------------------------------------ImportTestCaseLib");
@@ -226,13 +226,27 @@ function Login() {
         console.log(result);
     });
 }
+function QueryCaseFiles() {
+    ui.emit("QueryCaseFiles", {
+        "head": {
+            "action": "QueryCaseFiles"
+        },
+        "body": {
+            "projectCaseId": "58733c04f1e65200c00b1455",
+            "url": "./截图"
+        }
+    }, function (result) {
+        console.log("--------------------------------------------------QueryCaseFiles");
+        console.log(result);
+    });
+}
 function StartTest() {
     ui.emit("StartTest", {
         "head": {
             "action": "StartTest"
         },
         "body": {
-            "projectId": "582d694b22fbf30768b62636"
+            "projectId": "5875f060332e5a32d4c3bad0"
             // "projectId": "584013685393e32a48247831"
 
         }
@@ -247,7 +261,7 @@ function SuspendTest() {
             "action": "SuspendTest"
         },
         "body": {
-            "projectId": "582d694b22fbf30768b62636"
+            "projectId": "5875f060332e5a32d4c3bad0"
 
         }
     }, function (result) {
@@ -261,7 +275,7 @@ function ResumeTest() {
             "action": "ResumeTest"
         },
         "body": {
-            "projectId": "582d694b22fbf30768b62636"
+            "projectId": "586e01eac915052110543f22"
 
         }
     }, function (result) {
@@ -275,7 +289,7 @@ function StopTest() {
             "action": "StopTest"
         },
         "body": {
-            "projectId": "582d694b22fbf30768b62636"
+            "projectId": "586e01eac915052110543f22"
 
         }
     }, function (result) {
@@ -289,7 +303,7 @@ function RestartTest() {
             "action": "RestartTest"
         },
         "body": {
-            "projectId": "582d694b22fbf30768b62636"
+            "projectId": "586e01eac915052110543f22"
 
         }
     }, function (result) {
@@ -355,6 +369,9 @@ process.stdin.on("readable", function () {
                 break;
             case "11":
                 DeleteTestProject();
+                break;
+            case "12":
+                QueryCaseFiles();
                 break;
             case "a":
                 StartTest();

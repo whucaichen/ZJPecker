@@ -96,7 +96,11 @@ function wsapscript() {
             return false;
         }
 
-        varScript.runInThisContext();
+        try {
+            varScript.runInThisContext();
+        } catch (e) {
+            require("../utils/logFile").log(e.stack);
+        }
         return true;
     };
 

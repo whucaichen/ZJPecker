@@ -1,28 +1,16 @@
+//{
+//  "msgid": "5C40AAD4B1424EC391BF500BE27DBF4E",
+//  "msgtype": "request",
+//  "processid": "senddata",
+//  "request": {
+//    "destinationid": "Chance",
+//    "datatype": "json",
+//    "data": "{\"srcdata\":\"{\\r\\n    \\\"head\\\":{\\r\\n        \\\"appid\\\":\\\"ZJPecker\\\",\\r\\n        \\\"cmdcode\\\":\\\"010001\\\",\\r\\n        \\\"requestid\\\":\\\"0FEAA6732BDF4295\\\"\\r\\n    },\\r\\n    \\\"resultdata\\\":{\\r\\n        \\\"actionname\\\":\\\"InsertCardByType\\\",\\r\\n        \\\"eventtype\\\":\\\"end\\\",\\r\\n        \\\"eventid\\\":\\\"CardInsert_OK\\\",\\r\\n        \\\"eventdata\\\":\\\"\\\"\\r\\n    }\\r\\n}\",\"funcname\":\"SendData\",\"sourceid\":\"ZJSIMIDC\"}"
+//  }
+//}
+
 {
-  "result": {
-    "ok": 1,
-    "n": 1
-  },
-  "ops": [
-    {
-      "projectName": "test",
-      "deviceType": "test",
-      "testSite": "test",
-      "projectCreateTime": "2017-01-04 18:23:16",
-      "tester": "test",
-      "environment": {
-        "SPVersion": "test",
-        "APVersion": "test",
-        "OSVersion": "test",
-        "systemPatchVersion": "test"
-      },
-      "projectStatus": "NEW",
-      "_id": "586ccd14ff1e892da0ea7bdc"
-    }
-  ],
-  "insertedCount": 1,
-  "insertedIds": [
-    null,
-    "586ccd14ff1e892da0ea7bdc"
-  ]
+  "srcdata": "{\r\n    \"head\":{\r\n        \"appid\":\"ZJPecker\",\r\n        \"cmdcode\":\"010001\",\r\n        \"requestid\":\"0ADA371255A9A41D\"\r\n    },\r\n    \"resultdata\":{\r\n        \"actionname\":\"InsertCardByType\",\r\n        \"eventtype\":\"end\",\r\n        \"eventid\":\"CardInsert_OK\",\r\n        \"eventdata\":\"\"\r\n    }\r\n}",
+  "funcname": "SendData",
+  "sourceid": "ZJSIMIDC"
 }

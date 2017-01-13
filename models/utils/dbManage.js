@@ -56,9 +56,9 @@ process.stdin.on("readable", function () {
 
 var deleteProjects = function (projectName) {
     console.log(JSON.stringify(projectName));
-    if (projectName.length == 0) return;
+    if (projectName.length === 0) return;
     Project.getProjects2({projectName: {$in: projectName}}, {}, function (err, result) {
-        if (err || result.length == 0) {
+        if (err || result.length === 0) {
             console.error(err);
             return;
         }
@@ -102,9 +102,9 @@ var queryProject = function (projectName) {
 };
 var deleteCaseLib = function (caseLibName) {
     console.log(JSON.stringify(caseLibName));
-    if (caseLibName.length == 0) return;
+    if (caseLibName.length === 0) return;
     CaseLib.getCaseLibs2({caseLibName: {$in: caseLibName}}, {}, function (err, result) {
-        if (err || result.length == 0) {
+        if (err || result.length === 0) {
             console.error(err);
             return;
         }

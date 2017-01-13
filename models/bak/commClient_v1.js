@@ -3,16 +3,14 @@
  */
 
 var TAG = "[commClient.js](" + new Date().toLocaleTimeString() + "): ";
-var LoginID = "Chance";
 var net = require('net');
-var ExBuffer = require('ExBuffer');
 var iconv = require('iconv-lite');
 var jschardet = require("jschardet");
 var crypt = require('../utils/crypt');
 var options = {
     port: 60001,
-    host: "10.34.10.233"
-    // host: "10.34.10.245"
+    // host: "10.34.10.223"
+    host: "10.34.10.245"
 };
 function CommData(logindata) {
     this.msgid = logindata.msgid;
@@ -34,33 +32,31 @@ function CommData(logindata) {
 }
 
 var isLogin = false;
-var exBuffer = new ExBuffer();
 var client = new net.Socket();
 // client.setEncoding("hex");
 client.connect(options, function () {
     send(loginData);
     console.log(TAG, 'CONNECTED TO: ' + options.host + ":" + options.port);
 });
-client.on('data', function (chunk) {
-    exBuffer.put(chunk);
-});
-//当客户端收到完整的数据包时
-exBuffer.on('data', function (buffer) {
-    if (buffer.length === 0) return;
-    // console.error(TAG, "buffer.length", buffer.length);
-    var encoding = jschardet.detect(buffer).encoding;
-    (encoding !== "utf8" || encoding !== "utf-8") && (buffer = iconv.decode(buffer, "gbk"));
-    var data = buffer.toString("binary");
-    data = data.substr(0, data.length - 16);
-    // console.error(TAG, encoding, data);
+client.on('data', function (data) {
+    data = data.toString("binary").substr(4, data.length - 20);
+    var encoding = jschardet.detect(data).encoding;
     try {
-        var retData = JSON.parse(data);
-        (retData.processid === "login") && (isLogin = true);
-        (retData.processid === "senddata") && (retData.request.data !== "login") && process.send(retData);
+        // data = iconv.decode(data, encoding);
+        (encoding !== "utf8" || encoding !== "utf-8") && (data = iconv.decode(data, "gbk"));
+        data = JSON.parse(data);
+        // console.error(TAG, encoding, JSON.stringify(data));
+        (data.processid === "login") && (isLogin = true);
+        (data.processid === "senddata") && (data.request.data !== "login") && process.send(data);
     } catch (e) {
-        console.error(TAG, e.stack);
+        console.error(e.stack);
     }
+    client.pause();
+    setTimeout(function () {
+        client.resume();
+    }, 10);
 });
+// 为客户端添加“close”事件处理函数
 client.on('close', function () {
     console.log(TAG, 'Connection closed');
     send(logoutData);
@@ -73,7 +69,7 @@ process.on('message', function (msg) {
             try {
                 msg.dst ? sendComm(msg.dst, msg.data) : send(msg);
             } catch (e) {
-                console.error(e.stack);
+                console.error(e);
             }
             clearInterval(timer);
             // console.error(new Date().toLocaleString());
@@ -108,12 +104,7 @@ var sendComm = function (target, data) {
         request: {
             destinationid: target,
             datatype: "json",
-            // data: data
-            data: {
-                sourceid: LoginID,
-                funcname: "SendData",
-                srcdata: data
-            }
+            data: data
         }
     });
     send(commData);
@@ -124,7 +115,7 @@ var loginData = new CommData({
     msgtype: "request",
     processid: "login",
     request: {
-        loginid: LoginID,
+        loginid: "Chance",
         masterkey: crypt.getUuid(32, 16),
         mastercode: crypt.getUuid(32, 16),
         mackey: crypt.getUuid(32, 16),
@@ -137,7 +128,7 @@ var logoutData = new CommData({
     msgtype: "request",
     processid: "Logout",
     request: {
-        logoutid: LoginID
+        logoutid: "Chance"
     }
 });
 

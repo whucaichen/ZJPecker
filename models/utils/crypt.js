@@ -119,7 +119,7 @@ var Mac_919 = function (key, vector, data) {
     //    console.log("params of ansix9.19 must be string");
     //    return null;
     //}
-    if (key.length != 32) {
+    if (key.length !== 32) {
         console.log("key of ansix9.19 must be 32");
         return null;
     }
@@ -134,16 +134,16 @@ var Mac_919 = function (key, vector, data) {
     return ret;
 };
 var MAC = function (key, vector, data) {
-    if (key.length != 16) {
+    if (key.length !== 16) {
         console.log("key of ansix9.9 must be 16");
         return null;
     }
-    if (vector == null || vector.length != 16) {
+    if (vector == null || vector.length !== 16) {
         vector = "0000000000000000";
     }
     var sb = data;
     var mod = data.length % 16;
-    if (mod != 0) {
+    if (mod !== 0) {
         for (var i = 0; i < 16 - mod; i++) {
             //sb.append("0");
             sb += "0";
@@ -161,7 +161,7 @@ var MAC = function (key, vector, data) {
     return vector;
 };
 var DES_1 = function (source, key, type) {
-    if (source.length != 16 || key.length != 16)
+    if (source.length !== 16 || key.length !== 16)
         return null;
     if (type == 0) {
         return encryption(source, key);
@@ -310,7 +310,7 @@ var binary2ASC = function (s) {
     var str = "";
     var ii = 0;
     var len = s.length;
-    if (len % 4 != 0) {
+    if (len % 4 !== 0) {
         while (ii < 4 - len % 4) {
             s = "0" + s;
         }
@@ -367,7 +367,7 @@ var intArr2Str = function (arr) {
     return sb.toString();
 };
 var xOrString = function (pan, pin) {
-    if (pan.length != pin.length) {
+    if (pan.length !== pin.length) {
         new Exception("异或因子长度不一致").printStackTrace();
         return null;
     }
@@ -650,7 +650,7 @@ var stringToBytes = function (str) {
 function Str2Bytes(str) {
     var pos = 0;
     var len = str.length;
-    if (len % 2 != 0) {
+    if (len % 2 !== 0) {
         return null;
     }
     len /= 2;

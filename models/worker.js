@@ -1,4 +1,4 @@
-﻿var TAG = "[worker.js]: ";
+﻿var TAG = "[worker.js](" + new Date().toLocaleTimeString() + "): ";
 var vm = require("vm");
 var fs = require("fs");
 var path = require("path");
@@ -35,10 +35,12 @@ var varWsapService = process.argv[5];
 var varPath = process.argv[6];				//状态文件路径
 
 var bService = false;								//是否为服务，默认为false
-if (varWsapService == 'true') {
+if (varWsapService === true) {
     bService = true;
 }
 
+var userLib = path.join(__dirname, "../resource", varPath, "userLib.js");
+fs.existsSync(userLib) && vm.runInThisContext(fs.readFileSync(userLib, 'utf-8'));
 stateMachine.initEnv(varStatId, varAction, varStatechart, bService, varPath);
 stateMachine.start();
 
@@ -52,7 +54,7 @@ process.on('message', function (msg) {
             stateMachine = null;
             setTimeout(function () {
                 process.exit(0);
-            }, 100);
+            }, 300);
             break;
     }
 });
@@ -66,46 +68,73 @@ global.Global.LogFile = function () {
 };
 global.Global.Include = function (file) {
     var url = null;
-    if (typeof file != "string") {
+    if (typeof file !== "string") {
         Global.LogFile().log(file.toString() + " not exists");
         return;
     }
-    if (file.substring(0, 12) == "appPublicLib") {  //公共库
+    if (file.substring(0, 12) === "appPublicLib") {  //公共库
         url = path.join(__dirname, "../resource", "libs", file);
-    } else if (file == "userLib.js") {
+    } else if (file === "userLib.js") {
         url = path.join(__dirname, "../resource", varPath, file);
     }
     // console.log(url);
     url && fs.existsSync(url) && vm.runInThisContext(fs.readFileSync(url, 'utf-8'));
 };
 
+var commID = 0;
+var commNode = null;
 var commMsg = null;
-var commClient = null;
+var commClient = Utils.forkBug("./uiws/commClient.js");
 global.ZJPeckerComm = {};
 global.ZJPeckerComm.sendCommMsg = function (target, msg) {
-    commClient = Utils.forkBug("./uiws/commClient.js");
+    console.log(TAG, "send", global.nodeName, commNode);
+    if (global.nodeName !== commNode) {
+        commNode = global.nodeName;
+        commID++;
+    }
     commMsg = msg;
     commClient.send({dst: target, data: msg});
 };
 global.ZJPeckerComm.onCommMsg = function (target, callback, timeout) {
-    if (!commClient) {
-        commClient = Utils.forkBug("./uiws/commClient.js");
+    console.log(TAG, "on", global.nodeName, commNode);
+    if (global.nodeName !== commNode) {
+        commNode = global.nodeName;
+        commID++;
     }
-    // console.error(TAG, global.nodeName, commMsg);
+    var tempID = commID;
     commClient.on("message", function (msg) {
-        // console.error(TAG + JSON.stringify(msg));
-        clearTimeout(timer);
-        msg.request.data = JSON.parse(msg.request.data);
-        // (typeof callback === "function") && (callback(msg));
-        // (typeof callback === "function") && (callback(msg.request.data));
-        (typeof callback === "function") && (callback(JSON.parse(msg.request.data.srcdata)));
-        return;
+        console.log(TAG, target, commID, tempID);
+        if (commID !== tempID) return;
+        console.error(TAG, target, JSON.stringify(msg));
+        try {
+            // (typeof msg.request.data === "string") && (msg.request.data = JSON.parse(msg.request.data));
+            // (typeof callback === "function") && (msg.request.data.sourceid === target) && (callback(JSON.parse(msg.request.data.srcdata)));
+            var msgRet = JSON.parse(msg.request.data);
+            console.error(TAG, "msgRet.srcdata", msgRet.srcdata);
+            if (msgRet.sourceid === target) {
+                var ret = msgRet.srcdata;
+                // var ret = JSON.parse(msgRet.srcdata);
+                (typeof ret === "string") && (ret = JSON.parse(ret));
+                (typeof callback === "function") && (callback(ret));
+                clearTimeout(timer);
+            }
+        } catch (e) {
+            console.error(TAG, target, e.stack);
+            // (typeof callback === "function") && callback(e.stack);
+        }
     });
     var timer = setTimeout(function () {
         (typeof callback === "function") && (callback("TIMEOUT"));
         // (typeof callback === "function") && (callback({head: commMsg.head, body: {error: "TIMEOUT"}}));
-        return;
     }, timeout || 10000);
+};
+global.ZJPeckerComm.setTimeout = function (callback, timeout) {
+    setTimeout(function () {
+        (typeof callback === "function") && (callback("TIMEOUT"));
+    }, timeout || 90000);
+};
+global.ZJPeckerComm.updateLisenter = function () {
+    commID++;
 };
 
 global.ZJPeckerData = {};

@@ -6,13 +6,8 @@ var fs = require("fs");
 var rd = require("rd");
 var path = require("path");
 var unzip = require("unzip");
-var AdmZip = require('adm-zip');
-var yauzl = require("yauzl");
-var zlib = require('zlib');
 var iconv = require('iconv-lite');
 var jschardet = require("jschardet");
-var unzipCN = require('unzip-zhcn');
-var unzipMbcs = require("unzip-mbcs");
 var child = require("child_process");
 
 //var crypt = require('./../utils/crypt');
@@ -111,7 +106,10 @@ var child = require("child_process");
 //     err ? console.log("01") : console.log("00");
 // });
 
-// var log = new require("../utils/logFile").log("hello");
+// var logFile = new require("../utils/logFile");
+// for (var i = 0; i < 20; i++) {
+//     logFile.log("hello, world" + i);
+// }
 // console.log(path.join(__dirname, "../../"));
 // console.log(path.resolve(__dirname, "../../"));
 // var string = "1 projectVCX projectV1 pro1x pro2 prox4 prox3 prox2 prox1";
@@ -210,6 +208,8 @@ var child = require("child_process");
 
 // var d = new Date();
 // console.log(d.toLocaleString());
+// console.log(new Date().toLocaleDateString());
+// console.log(new Date().toLocaleTimeString());
 // console.log("" + d.getFullYear() + (d.getMonth() + 1) + d.getDate());
 
 // console.log(Math.round(Math.random() * 100 / 10));
@@ -217,3 +217,46 @@ var child = require("child_process");
 // console.log(json.a.b);
 // console.log(JSON.stringify("hello"));
 
+// var a = null;
+// var b = {a:1};
+// // var c = JSON.stringify(b);
+// // console.log(c);
+// try {
+//     console.log(JSON.parse(a));
+// } catch (e) {
+//     console.error(e.stack);
+// }
+// console.log(JSON.parse(c));
+
+// console.log(new Date().toLocaleTimeString());
+// setInterval(function () {
+//     console.log(new Date().toLocaleTimeString());
+//     console.log(new Date().getMilliseconds());
+// }, 100);
+
+// var os = require('os');
+// console.log(os.hostname());
+// console.log(os.networkInterfaces().以太网[0].address);
+// var IPv4,hostName;
+// hostName=os.hostname();
+// for(var i=0;i<os.networkInterfaces().eth0.length;i++){
+//     if(os.networkInterfaces().en0[i].family=='IPv4'){
+//         IPv4=os.networkInterfaces().en0[i].address;
+//     }
+// }
+// console.log('----------local IP: '+IPv4);
+// console.log('----------local host: '+hostName);
+// console.log("haha\\xixi".replace("\\", "/"));
+
+// var b = "var a = '';" + "console.log(JSON.parse(a));";
+// try {
+//     vm.runInThisContext(b);
+// } catch (e) {
+//     console.log(e.stack);
+// }
+var m = 0;
+var a = [1, 2, 3, 4, 5];
+for (; m < a.length; m++) {
+    if (a[m] === 0) break;
+}
+console.log(m);
