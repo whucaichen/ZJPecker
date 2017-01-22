@@ -17,7 +17,8 @@ console.log("请输入你想执行的操作序号：\n",
     "4.重置案例测试结果；\n",
     "5.清空案例跟踪日志；\n",
     "6.查询测试工程信息；\n",
-    "7.删除指定案例库；\n"
+    "7.删除指定案例库；\n",
+    "8.添加用户；\n"
 );
 process.stdin.setEncoding("utf8");
 process.stdin.on("readable", function () {
@@ -47,6 +48,9 @@ process.stdin.on("readable", function () {
                 break;
             case "7":
                 deleteCaseLib(array.slice(1));
+                break;
+            case "8":
+                addUsers(array.slice(1));
                 break;
             default:
                 console.log("无效的菜单选项.");
@@ -80,7 +84,13 @@ var resetProStatus = function () {
     });
 };
 var resetCaseStatus = function () {
-    ProjectCase.updateProjectCase2({}, {$set: {"testInfo.caseStatus": "UNTESTED"}}, function (err, result) {
+    ProjectCase.updateProjectCase2({}, {
+        $set: {
+            "testInfo.caseStatus": "UNTESTED",
+            "testInfo.result": null,
+            testTrace: []
+        }
+    }, function (err, result) {
         err && console.error(err);
     });
 };
@@ -120,6 +130,15 @@ var deleteCaseLib = function (caseLibName) {
         });
     });
 };
+var addUsers = function (users) {
+    if (users.length === 0) return;
+    for (var i = 0; i < users.length; i++) {
+        users[i] = {username: users[i], userid: users[i], password: users[i]};
+    }
+    User.addUser2(users, function (err, result) {
+        err && console.error(err);
+    })
+};
 var addTime = function () {
     Project.updateProject2({}, {$set: {projectCreateTime: new Date().toLocaleString()}}, function (err, result) {
         err && console.error(err);
@@ -157,6 +176,18 @@ var addPCCLN = function () {
     });
 };
 // addPCCLN();
+var deleteField = function () {
+    var d = new Date().toLocaleString();
+    var traceParameter = [];
+    traceParameter.push({traceLevel: d, traceContent: d, screenPicName: d});
+    // ProjectCase.updateProjectCase2({}, {$unset: {testTrace: ''}}, function (err, result) {
+    ProjectCase.updateProjectCase2({},
+        {$set: {traceParameter: traceParameter}},
+        function (err, result) {
+            err && console.error(err);
+        })
+};
+deleteField();
 
 /**
  * 等于：{"name":{$eq:"steven"}

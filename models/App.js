@@ -76,16 +76,18 @@ var execWorkflow = function (flows, start) {
             err && console.error(err);
         });
     changeProjectCaseStatus(flows[start][0], "TESTING");
-    wsServer.send({type: "DataUpdate", data: {type: "ProjectCase", id: flows[start][0]}});
+    // wsServer.send({type: "DataUpdate", data: {type: "ProjectCase", id: flows[start][0]}});
     // flowWorker.send("SingleStart");
     flowWorker.on("message", function (msg) {
         if (msg === "SingleFinished") {
             console.error(">>>>>>>>>> [SingleFinished]: " + flows[start]);
             changeProjectCaseStatus(flows[start][0], "TESTED");
             // wsServer.send({message: "pushProgress", progress: start});
-            wsServer.send({type: "DataUpdate", data: {type: "ProjectCase", id: flows[start][0]}});
+            // wsServer.send({type: "DataUpdate", data: {type: "ProjectCase", id: flows[start][0]}});
             runNode = start + 1;
             flowWorker && flowWorker.send("SingleExit");
+        } else if (msg === "DataUpdate") {
+            wsServer.send({type: "DataUpdate", data: {type: "ProjectCase", id: flows[start][0]}});
         }
     });
     flowWorker.on("exit", function (code) {
@@ -102,7 +104,6 @@ var execWorkflow = function (flows, start) {
                 });
             changeProjectStatus(workProject, "TESTED", function (code) {
                 // wsServer.send({retcode: code, type: "StopTest"});
-                wsServer.send({type: "DataUpdate", data: {type: "TestProject", id: workProject}});
             });
         }
     })
@@ -120,30 +121,24 @@ var flowInit = function (caseProjectId, callback) {
             return;
         }
         var caseLibName = result[0].caseLibName;
+        // var caseFilePath = result[0].testInfo.caseFilePath;
         if (!caseLibName) {
             callback({code: "02"});
             console.error(TAG, "案例库名不存在");
             return;
         }
-        // var caseLibId = result[0].caseLibId;
-        // CaseLib.getCaseLibs2({_id: caseLibId}, {}, function (err1, result1) {
-        //     if (err1 || !result1 || result1.length == 0) {
-        //         callback({code: "02"});
-        //         return;
-        //     }
-        //     var caseLibName = result1[0].caseLibName;
         for (var i = 0; i < result.length; i++) { //初始化工程队列
             workflows[i] = [
                 result[i]._id,   //与状态机共用
                 result[i].fileTitle + ".js",
                 result[i].fileTitle + ".xml",
                 false,
-                caseLibName //指定流程脚本路径
+                caseLibName,    //指定流程脚本路径
+                result[i].testInfo.caseFilePath    //提供给脚本测试文件路径
             ];
         }
         // console.error(JSON.stringify(workflows));
         callback({code: "00"});
-        // });
     });
 };
 var StartTest = function (caseProjectId) {
@@ -159,7 +154,6 @@ var StartTest = function (caseProjectId) {
                     execWorkflow(workflows, runNode);
                     changeProjectStatus(caseProjectId, "TESTING", function (code) {
                         wsServer.send({retcode: code, type: "StartTest"});
-                        wsServer.send({type: "DataUpdate", data: {type: "TestProject", id: workProject}});
                     });
                 }
             } else {
@@ -172,7 +166,6 @@ var StartTest = function (caseProjectId) {
             execWorkflow(workflows, runNode);
             changeProjectStatus(caseProjectId, "TESTING", function (code) {
                 wsServer.send({retcode: code, type: "StartTest"});
-                wsServer.send({type: "DataUpdate", data: {type: "TestProject", id: workProject}});
             });
         }
     }
@@ -182,7 +175,6 @@ var SuspendTest = function (caseProjectId) {
         isSuspendTest = true;
         changeProjectStatus(caseProjectId, "SUSPEND", function (code) {
             wsServer.send({retcode: code, type: "SuspendTest"});
-            wsServer.send({type: "DataUpdate", data: {type: "TestProject", id: workProject}});
             flowWorker = null;
         });
         // setTimeout(function () {
@@ -203,7 +195,6 @@ var StopTest = function (caseProjectId) {
         runNode = 0;
         changeProjectStatus(caseProjectId, "TERMINATED", function (code) {
             wsServer.send({retcode: code, type: "StopTest"});
-            wsServer.send({type: "DataUpdate", data: {type: "TestProject", id: workProject}});
         });
         // wsServer.send({message:"pushProgress", progress: 0});
     } else {
@@ -211,7 +202,7 @@ var StopTest = function (caseProjectId) {
     }
 };
 var RestartTest = function (caseProjectId) {
-    if (workProject === caseProjectId) {
+    if (workProject === caseProjectId || !isSingleTest) {
         flowWorker = null;
         runNode = 0;
         ProjectCase.updateProjectCase2({caseProjectId: ObjectId(caseProjectId)},
@@ -239,12 +230,14 @@ var changeProjectStatus = function (caseProjectId, status, callback) {
     Project.updateProject2({_id: ObjectId(caseProjectId)}, {$set: {projectStatus: status}},
         function (err, result) {
             err ? callback("01") : callback("00");
+            wsServer.send({type: "DataUpdate", data: {type: "TestProject", id: workProject}});
         });
 };
 var changeProjectCaseStatus = function (_id, status) {
     ProjectCase.updateProjectCase2({_id: ObjectId(_id)}, {$set: {"testInfo.caseStatus": status}},
         function (err, result) {
             err && console.error(err);
+            wsServer.send({type: "DataUpdate", data: {type: "ProjectCase", id: workflows[runNode][0]}});
         });
 };
 

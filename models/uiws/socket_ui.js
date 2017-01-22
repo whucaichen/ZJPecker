@@ -205,7 +205,7 @@ function QueryTestProjectLog() {
             "action": "QueryTestProjectLog"
         },
         "body": {
-            projectId: "582d694b22fbf30768b62636"
+            projectId: "587ed5bc823ec7238817eaaf"
         }
     }, function (result) {
         console.log("--------------------------------------------------QueryTestProjectLog");
@@ -246,7 +246,7 @@ function StartTest() {
             "action": "StartTest"
         },
         "body": {
-            "projectId": "5875f060332e5a32d4c3bad0"
+            "projectId": "587ed5ab823ec7238817eaac"
             // "projectId": "584013685393e32a48247831"
 
         }

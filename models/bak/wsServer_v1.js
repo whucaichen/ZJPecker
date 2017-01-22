@@ -5,59 +5,65 @@
 var TAG = "[wsServer.js]: ";
 var fs = require('fs');
 var path = require("path");
-var helper = require("./serverHelper");
+// var helper = require("./serverHelper");
 var formidable = require('formidable');
 var http_server = require('http').createServer(function (req, res) {
-    if (req.url === '/upload' && req.method.toLowerCase() === 'post') {
-        var form = new formidable.IncomingForm();   //创建上传表单
-        // form.encoding = 'utf-8';		//设置编码
-        form.uploadDir = "../temp/";	 //缓存路径
-        // form.multiples = true;	 //多文件上传
-        form.keepExtensions = true;	 //保留后缀
-        // form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
+    if (req.url === '/upload/' && req.method.toLowerCase() === 'post') {
+        try {
+            var form = new formidable.IncomingForm();   //创建上传表单
+            // form.encoding = 'utf-8';		//设置编码
+            form.uploadDir = "../../temp/";	 //缓存路径
+            // form.multiples = true;	 //多文件上传
+            form.keepExtensions = true;	 //保留后缀
+            // form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
 
-        form.parse(req, function (err, fields, files) {
-            if (err) {
-                console.log(err);
-                res.write(err);
+            form.parse(req, function (err, fields, files) {
+                if (err) {
+                    console.log(err);
+                    res.write(err);
+                    res.end();
+                    return;
+                }
+                console.log(TAG, JSON.stringify(files));
+                var fileName = files.upload && files.upload.name;
+                if (!fileName) {
+                    res.end("upload data is null");
+                    return;
+                }
+                var suffix = fileName.substring(fileName.lastIndexOf("."));
+
+                // if (suffix !== ".zip") {
+                //     console.log("案例库不为'zip'格式");
+                //     files.upload && fs.unlinkSync(files.upload.path);
+                //     res.write("file type error, upload 'zip' instead.");
+                //     res.end();
+                //     return;
+                // }
+                var newPath = form.uploadDir + fileName;
+                fs.renameSync(files.upload.path, newPath);  //重命名
+
+                res.writeHead(200, {'content-type': 'text/plain'});
+                res.write("upload successfully");
                 res.end();
                 return;
-            }
-            console.log(TAG, JSON.stringify(files));
-            var fileName = files.upload && files.upload.name;
-            if (!fileName) {
-                res.end("upload data is null");
-                return;
-            }
-            var suffix = fileName.substring(fileName.lastIndexOf("."));
-
-            if (suffix !== ".zip") {
-                console.log("案例库不为'zip'格式");
-                files.upload && fs.unlinkSync(files.upload.path);
-                res.write("file type error, upload 'zip' instead.");
-                res.end();
-                return;
-            }
-            var newPath = form.uploadDir + fileName;
-            fs.renameSync(files.upload.path, newPath);  //重命名
-
-            res.writeHead(200, {'content-type': 'text/plain'});
-            res.write("upload successfully");
-            res.end();
-            return;
-        });
+            });
+        } catch (e) {
+            console.error(e.stack);
+        }
         return;
     }
-    res.writeHead(200, {'content-type': 'text/html'});
-    // var page = fs.readFileSync("./uiws/index.html").toString();
-    // res.end(page);
-    res.end(
-        '<form action="/upload" enctype="multipart/form-data" method="post">' +
-        '<input type="file" name="upload" multiple="multiple"><br>' +
-        '<input type="submit" value="Upload">' +
-        '</form>'
-    );
-}).listen(8080);
+    // res.writeHead(200, {'content-type': 'text/html'});
+    // // var page = fs.readFileSync("./uiws/index.html").toString();
+    // // res.end(page);
+    // res.end(
+    //     '<form action="/upload" enctype="multipart/form-data" method="post">' +
+    //     '<input type="file" name="upload" multiple="multiple"><br>' +
+    //     '<input type="submit" value="Upload">' +
+    //     '</form>'
+    // );
+    console.log(TAG, new Date().toLocaleString());
+    // res.end();
+}).listen(8888);
 
 var socket = require('socket.io').listen(http_server);
 // var socket = require('socket.io').listen(8080);
@@ -312,9 +318,9 @@ var TransFile = function (params, callback) {
     });
 };
 
-process.on("message", function (msg) {
-    msg && (msg.type === "DataUpdate") && socket_ui.emit("DataUpdate", msg.data);
-});
+// process.on("message", function (msg) {
+//     msg && (msg.type === "DataUpdate") && socket_ui.emit("DataUpdate", msg.data);
+// });
 
 
 var getTime = function () {

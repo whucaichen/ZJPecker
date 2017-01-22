@@ -517,19 +517,19 @@ var QueryTestProjectLog = function (params, callback) {
         return;
     }
     ProjectCase.getProjectCases2({caseProjectId: ObjectId(projectId)}, {
-        caseCaption: 1, traceParameter: 1, _id: 0
+        caseCaption: 1, testTrace: 1, _id: 0
     }, function (err, result) {
         if (err) {
             (typeof callback === "function") && (callback({retcode: "02", err: err}));
             return;
         }
-        // result && result.forEach(function (cases) {
-        //     cases.traceContent = [];
-        //     cases.testTrace && cases.testTrace.forEach(function (trace) {
-        //         cases.traceContent.push(trace.content);
-        //     });
-        //     delete cases.testTrace;
-        // });
+        result && result.forEach(function (cases) {
+            cases.traceContent = [];
+            cases.testTrace && cases.testTrace.forEach(function (trace) {
+                cases.traceContent.push(trace.content);
+            });
+            delete cases.testTrace;
+        });
         (typeof callback === "function") && (callback({retcode: "00", log: result}));
     });
 };

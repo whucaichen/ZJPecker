@@ -161,14 +161,12 @@ global.ZJPeckerData.setData = function (key, value) {
 var ObjectID = require('mongodb').ObjectID;
 var ProjectCase = require("./db/db_project_case");
 global.ZJPeckerTrace = {};
-// global.ZJPeckerTrace.appTrace = function (traceLevel, traceContent, callback) {
-global.ZJPeckerTrace.appTrace = function (traceParam, callback) {
-    var traceParameter = {};
-    // traceParameter.logger = "APP";
-    // traceParameter.logTime = new Date().toLocaleString();
-    traceParameter.traceLevel = traceParam.traceLevel;
-    traceParameter.traceContent = "[" + new Date().toLocaleString() + "]" + traceParam.traceContent;
-    traceParameter.screenPicName = global.Global.getCasePath() + traceParam.screenPicName;
+global.ZJPeckerTrace.appTrace = function (traceLevel, traceContent, callback) {
+    var traceObj = {};
+    traceObj.logger = "APP";
+    traceObj.logTime = new Date().toLocaleString();
+    traceObj.logLevel = traceLevel;
+    traceObj.content = "[" + new Date().toLocaleString() + "]" + traceContent;
 
     var caseId = helper(varStatId);
     ProjectCase.getProjectCase2({_id: ObjectID(caseId)}, {}, function (err, result) {
@@ -176,12 +174,13 @@ global.ZJPeckerTrace.appTrace = function (traceParam, callback) {
             (typeof callback === "function") && (callback(err, result));
             return;
         }
-        var traceArray = result.traceParameter;
-        !traceArray && (traceArray = []);
-        traceArray.push(traceParameter);
-        ProjectCase.updateProjectCase2({_id: ObjectID(caseId)}, {$set: {traceParameter: traceArray}}, function (err, result) {
+        var traceArray = result.testTrace;
+        if (!traceArray) {
+            traceArray = [];
+        }
+        traceArray.push(traceObj);
+        ProjectCase.updateProjectCase2({_id: ObjectID(caseId)}, {$set: {testTrace: traceArray}}, function (err, result) {
             (typeof callback === "function") && (callback(err, result));
-            process.send("DataUpdate");
         });
     });
 };
@@ -191,7 +190,6 @@ global.ZJPeckerTestCase.setCaseResult = function (caseResult, callback) {
     var caseId = helper(varStatId);
     ProjectCase.updateProjectCase2({_id: ObjectID(caseId)}, {$set: {"testInfo.result": caseResult}}, function (err, result) {
         (typeof callback === "function") && (callback(err, result));
-        process.send("DataUpdate");
     });
 };
 

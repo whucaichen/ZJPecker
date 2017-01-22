@@ -12,7 +12,7 @@ function User(user) {
     this.userid = user.userid;
     this.password = user.password;
     this.roles = user.roles; //Arrays
-    this.useradddate = user.useradddate;
+    this.useradddate = user.useradddate || new Date().toLocaleString();
     this.userstatus = user.userstatus;
 }
 

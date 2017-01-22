@@ -10,7 +10,7 @@ var mongodb = require("./db");
 function CaseLib(caselib) {
     this.caseLibName = caselib.caseLibName;
     this.caseLibType = caselib.caseLibType;
-    this.importTime = caselib.importTime;
+    this.importTime = caselib.importTime || new Date().toLocaleString();
     this.importUser = caselib.importUser;
     this.caseDeveloper = caselib.caseDeveloper;
 }

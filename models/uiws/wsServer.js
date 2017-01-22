@@ -294,7 +294,7 @@ var TransFile = function (params, callback) {
     //     callback({retcode: "03", err: "案例库文件不合法"});
     //     return;
     // }
-    fs.writeFile(path.join(__dirname, "../../temp/" + fileName), data, function (err) {
+    fs.writeFile(path.join(__dirname, "../../temp/upload/" + fileName), data, function (err) {
         (typeof callback === "function") && (
             err ? callback({retcode: "03", err: err})
                 : callback({retcode: "00"}));

@@ -10,7 +10,23 @@
 //}
 
 {
-  "srcdata": "{\r\n    \"head\":{\r\n        \"appid\":\"ZJPecker\",\r\n        \"cmdcode\":\"010001\",\r\n        \"requestid\":\"0ADA371255A9A41D\"\r\n    },\r\n    \"resultdata\":{\r\n        \"actionname\":\"InsertCardByType\",\r\n        \"eventtype\":\"end\",\r\n        \"eventid\":\"CardInsert_OK\",\r\n        \"eventdata\":\"\"\r\n    }\r\n}",
-  "funcname": "SendData",
-  "sourceid": "ZJSIMIDC"
+  "retcode": "00",
+  "log": [
+    {
+      "caseCaption": "正常的查询交易",
+      "traceParameter": {
+        "traceLevel": "2017-01-20 14:00:23",
+        "traceContent": "2017-01-20 14:00:23",
+        "screenPicName": "2017-01-20 14:00:23"
+      }
+    },
+    {
+      "caseCaption": null,
+      "traceParameter": {
+        "traceLevel": "2017-01-20 14:00:23",
+        "traceContent": "2017-01-20 14:00:23",
+        "screenPicName": "2017-01-20 14:00:23"
+      }
+    }
+  ]
 }

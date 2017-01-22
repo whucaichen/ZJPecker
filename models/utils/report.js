@@ -2,9 +2,16 @@
  * Created by Chance on 16/12/20.
  */
 
+// var testData = {
+//     projectName: "",
+//     projectName: "",
+//     projectName: "",
+//     projectName: "",
+//     projectName: "",
+// };
+
 var fs = require('fs');
 var path = require('path');
-var charts = require("./node-echarts");
 var officegen = require('officegen');
 
 var docx = officegen('docx');
@@ -20,7 +27,9 @@ docx.on('error', function (err) {
 /**
  * Cover
  */
-addDocData("文件编号：");
+
+var pObj = docx.createP();
+pObj.addImage("logo.png", {cx: 220, cy: 60});
 addLineBreak(5);
 
 addDocData([
@@ -43,6 +52,10 @@ var tableStyle = {
     borders: true
 };
 docx.createTable(tableData, tableStyle);
+addLineBreak(7);
+
+var pObj = docx.createP();
+pObj.addImage("logol.png", {cx: 550, cy: 60});
 
 docx.putPageBreak();
 
@@ -50,134 +63,195 @@ docx.putPageBreak();
  * Chapter1
  */
 addDocData("1 引言", null, {bold: true, font_size: 16});
-
-addDocData("1.1 名词定义", null, {bold: true, font_size: 12});
-addDocData([
-    "ATM：自助设备，包含取款机、存款机、循环机、存取款一体机。",
-    "ATMC：ATM控制系统，用于驱动自助设备的软件，实现与ATMP，ATMV的信息交换。",
-    "WSAP：紫金公司的跨平台ATMC应用平台。",
-    "SP：Service Provider，在本文中特指由各设备厂商提供的符合WOSA/XFS国际标准的硬件驱动。",
-    "OK：表示测试结果符合要求",
-    "NG：表示测试结果不符合要求",
-    "NT：表示测试案例在本次测试中不需要进行的测试或未完成的测试。"
-]);
+addDocData("1.1 编写目的", null, {bold: true, font_size: 14});
+addDocData("在完成XX行“XXX补丁升级包”/“XXX全量安装包”/“XX系统”的测试任务后，对此测试项目的工作进行总结。（性能测试不适用，见性能测试报告模板）");
+addDocData("1.2 项目背景", null, {bold: true, font_size: 14});
+addDocData("项目背景简述。");
+addDocData("1.3 定义", null, {bold: true, font_size: 14});
+addDocData("简称定义");
+addDocData("1.4 参考资料", null, {bold: true, font_size: 14});
+addDocData(["XXX_标准版案例设计.xls"]);
 
 /**
  * Chapter2
  */
-addDocData("2 测试流程", null, {bold: true, font_size: 16});
+addDocData("2 测试执行", null, {bold: true, font_size: 16});
 
-addDocData("2.1 设备模块XFS自测", null, {bold: true, font_size: 12});
+addDocData("2.1 测试机构人员", null, {bold: true, font_size: 14});
+docx.createTable([[{val: "测试执行人员", opts: {shd: {fill: "#aaaaaa"}}}, ""]],
+    {tableColWidth: 6666, tableAlign: "left", borders: true});
+addDocData("2.2 测试环境", null, {bold: true, font_size: 14});
+docx.createTable([[{val: "测试执行地点", opts: {shd: {fill: "#aaaaaa"}}}, ""]],
+    {tableColWidth: 6666, tableAlign: "left", borders: true});
+addDocData("终端（C端必填）：");
+docx.createTable([
+    [{val: "应用基础版本", opts: {shd: {fill: "#aaaaaa"}}}, ""],
+    [{val: "应用版本", opts: {shd: {fill: "#aaaaaa"}}}, ""]
+], {tableColWidth: 6666, tableAlign: "left", borders: true});
+addDocData("测试机型：");
+docx.createTable([
+    [{val: "CPU", opts: {shd: {fill: "#aaaaaa"}}}, ""],
+    [{val: "内存", opts: {shd: {fill: "#aaaaaa"}}}, ""],
+    [{val: "操作系统", opts: {shd: {fill: "#aaaaaa"}}}, ""],
+    [{val: "SP版本", opts: {shd: {fill: "#aaaaaa"}}}, ""]
+], {tableColWidth: 6666, tableAlign: "left", borders: true});
+addDocData("服务端（服务端软件必填）：");
+docx.createTable([
+    [{val: "服务器端软件", opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
+    ["操作系统", ""],
+    ["数据库", ""],
+    ["通讯中间件", ""],
+    ["Node.js", ""],
+    ["基础版本", ""],
+    ["测试版本号", ""],
+    [{val: "测试客户端", opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
+    ["操作系统", ""],
+    ["IE版本", ""]
+], {tableColWidth: 6666, tableAlign: "left", borders: true});
+addDocData("测试卡种分析（C\\P必填）：");
+docx.createTable([
+    [{
+        val: "本次测试所需卡种",
+        opts: {shd: {fill: "#aaaaaa"}}
+    }, {opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
+    ["卡种", "卡BIN", "是否具备"],
+    ["本行借记卡1（磁条）", "", ""],
+    ["本行借记卡2（芯片）", "", ""],
+    ["本行借记卡2（复合）", "", ""],
+    ["本行贷记卡1", "", ""],
+    ["他行卡1", "", ""]
+], {tableColWidth: 6666, tableAlign: "left", borders: true});
+
+addDocData("2.3 测试方法", null, {bold: true, font_size: 14});
 addDocData([
-    "设备模块XFS自测是由设备生产厂商按照我行提出的设备模块技术要求进行自测试，以满足向我行提交设备测试的基本技术条件。",
-    "在进行ATM选型测试之前，项目组发给各厂商XFS测试标准案例，由厂商根据XFS测试标准案例负责SP的测试。" +
-    "厂商测试完成后，将测试结论、机器配置说明、设备操作手册及设备特性说明等提交给项目组，由项目组审核，" +
-    "自测结果满足测试要求，才能进行技术测试；如不满足测试要求，则通知厂商停止本次测试。"
-]);
-addDocData("2.2 项目组XFS测试", null, {bold: true, font_size: 12});
-addDocData([
-    "项目组XFS测试是我行对厂商提交设备的技术基本条件审核性测试，测试案例、标准与设备模块XFS自测一致，以验证厂商自测的结果是否正确。",
-    "设备模块XFS自测结束，由项目组负责对XFS案例进行全量测试，项目组XFS测试通过后，开始应用测试；若测试不通过，则通知厂商停止本次测试。"
-]);
-addDocData("2.3 应用测试", null, {bold: true, font_size: 12});
-addDocData([
-    "应用测试是在设备符合技术基本条件的基础上，安装跨平台ATMC软件，测试设备是否满足生产运行要求。",
-    "XFS测试通过后，在设备上安装ATMC软件，使用模拟ATMP软件，测试人员根据测试计划的要求，按照应用测试案例进行应用测试。" +
-    "应用测试中若发现存在较严重问题从而造成应用测试无法进行的，项目组可以根据具体情况通知厂商停止本次测试。应用测试结束后，" +
-    "测试人员将测试结果提交项目组与厂商，项目组审核所存在问题，提出测试意见。如果建议继续测试，厂商对应用测试发现的问题进行修改，" +
-    "回归测试通过后，再进行异常交易测试；如存在严重问题不宜继续测试，则通知厂商结束测试。"
-]);
-addDocData("2.4 性能及压力测试", null, {bold: true, font_size: 12});
-addDocData([
-    "性能及压力测试是测试设备在连续大交易量情况下的交易速度、资源消耗等的性能，以验证设备在实际生产情况下的稳定交易处理能力。",
-    "性能及压力测试是在应用测试完成之后进行的，性能和压力测试目的是测试目标机器在长时间交易情况下对于系统资源的损耗情况以及自身的稳定性。" +
-    "性能及压力测试全部完成之后，测试人员按照性能及压力测试数据分析要求对测试数据进行分析统计，提交项目组评核。"
-]);
-addDocData("2.5 异常交易测试", null, {bold: true, font_size: 12});
-addDocData([
-    "异常交易测试是通过模拟各种异常交易与故障，以测试设备在异常情况下的处理和恢复能力。",
-    "在应用测试通过以后，参照自助设备异常交易测试案例，进行自助设备异常交易的测试。" +
-    "本次测试中若发现存在较严重问题从而造成测试无法进行的，项目组可以根据具体情况通知厂商停止本次测试。" +
-    "本测试结束后，测试人员将测试结果提交项目组与厂商，项目组审核存在问题，提出测试意见。如果建议继续测试，" +
-    "厂商对本次测试中发现的问题进行修改，回归测试通过后，再进行性能压力测试；如存在严重问题不宜继续测试，则通知厂商结束测试。"
-]);
+    "[例如：",
+    "测试工具：采用黑盒测试方法，手工进行功能测试。",
+    "测试问题：使用“项目管理软件问题跟踪表”进行BUG的记录，待开发人员将BUG进行处理，且置为Fixed状态后，对新提交的版本进行回归测试。]"
+], null, {bold: true, font_size: 14});
+addDocData("2.4 测试时间", null, {bold: true, font_size: 14});
+docx.createTable([
+    [
+        {val: "任务", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "时间", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "参与人员", opts: {shd: {fill: "#aaaaaa"}}}
+    ],
+    ["BETA1测试", "卡BIN", "是否具备"],
+    ["BETA2测试", "", ""],
+    ["BETA3测试", "", ""],
+    ["BETA4测试", "", ""]
+], {tableColWidth: 6666, tableAlign: "left", borders: true});
 
 /**
  * Chapter3
  */
-addDocData("3 测试概况", null, {bold: true, font_size: 16});
+addDocData("3 测试执行情况", null, {bold: true, font_size: 16});
 
-addDocData("3.1 测试人员", null, {bold: true, font_size: 12});
+addDocData("3.1功能测试/安装测试/SP测试", null, {bold: true, font_size: 14});
+addDocData("本次升级涉及到的测试需求功能如下：");
+
+addDocData("3.2 测试结果统计与分析", null, {bold: true, font_size: 14});
+addDocData("3.2.1测试需求覆盖分析", null, {bold: true, font_size: 12});
+addDocData([
+    "【分析测试案例是否完全覆盖测试需求，把没有覆盖到的测试需求列出并给出原因。】",
+    "测试需求包括：测试目标版本的功能需求；测试用例模板约定的其他共性测试需求；",
+    "需求覆盖率=(被验证到的需求数量)/(总的需求数量)",
+    "需求覆盖率="
+]);
+addDocData("3.2.2测试执行分析", null, {bold: true, font_size: 12});
+addDocData("执行统计");
 docx.createTable([
-    [{opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
-    ["测试人员", "李清泉"],
-    ["厂商支持人员", "谢志杰"],
-    ["银行支持人员", ""]
+    [
+        {val: "轮次", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "案例总数", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "OK案例数", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "NG案例数", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "NT案例数", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "案例执行率", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "测试通过率", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "总体通过率", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "版本质量评价", opts: {shd: {fill: "#aaaaaa"}}}
+    ],
+    ["BETA1测试", "", "", "", "", "", "", "", ""],
+    ["BETA2测试", "", "", "", "", "", "", "", ""],
+    ["测试结束总评", ""]
 ], {tableColWidth: 6666, tableAlign: "left", borders: true});
-addDocData("3.2 测试环境", null, {bold: true, font_size: 12});
+addDocData([
+    "【案例执行率】=（案例总数-NT案例数）/案例总数",
+    "【测试通过率】=OK案例数/(案例总数-NT案例数)",
+    "【总体通过率】=OK案例数/ 案例总数",
+    "",
+    "【版本质量评价标准】"
+]);
 docx.createTable([
-    [{opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
-    ["测试银行", "平安银行"],
-    ["测试地点", "平安银行科技开发中心"]
+    [{val: "初始版本beta_1", opts: {shd: {fill: "#aaaaaa"}}}],
+    ["", "优秀", "良好", "一般", "差"],
+    ["测试案例通过率", ">=95%", "90%-95%", "80%-90%", "<80%"],
+    ["备注：通过案例/总有效案例"],
+    [{val: "中间版本beta_x", opts: {shd: {fill: "#aaaaaa"}}}],
+    ["", "优秀", "良好", "一般", "差"],
+    ["bug修复率", ">=95%", "90%-95%", "80%-90%", "<80%"],
+    ["备注：bug修复率=本轮关闭缺陷数/(上轮遗留缺陷数+开发新增缺陷数)"],
+    [{val: "测试结束总评", opts: {shd: {fill: "#aaaaaa"}}}],
+    ["", "优秀", "良好", "一般", "差"],
+    ["beta版本数", "1", "2-3", "4-5", ">5"],
+    ["需求变更引起的beta数不计，一次需求变更，beta数-1（需求变更和测试问题同时存在的版本，beta数不变）"],
 ], {tableColWidth: 6666, tableAlign: "left", borders: true});
-addDocData("3.3 测试时间", null, {bold: true, font_size: 12});
-docx.createTable([
-    [{opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
-    ["测试开始时间", "2015/11/02 10:46:19"],
-    ["测试完成时间", ""]
-], {tableColWidth: 6666, tableAlign: "left", borders: true});
-addDocData("3.4 测试设备", null, {bold: true, font_size: 12});
-docx.createTable([
-    [{opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
-    ["设备厂商", "恒银"],
-    ["设备型号", "CASH80AWG"]
-], {tableColWidth: 6666, tableAlign: "left", borders: true});
-addDocData("3.5 测试平台信息", null, {bold: true, font_size: 12});
-docx.createTable([
-    [{opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
-    ["系统版本", "Microsoft Windows XP [Service Pack 3]"],
-    ["CPU", "Intel(R) Core(TM)2 Duo CPU E8400@3.00GHz"],
-    ["物理内存", "2GB"],
-    ["虚拟内存", "2GB"],
-    ["硬盘空间", "465.753441 GB"]
-], {tableColWidth: 6666, tableAlign: "left", borders: true});
-addDocData("3.7 设备逻辑模块映射", null, {bold: true, font_size: 12});
-addDocData("3.6 设备模块属性", null, {bold: true, font_size: 12});
-addDocData("3.8 设备特性配置", null, {bold: true, font_size: 12});
+
+addDocData("3.3 不符合项报告", null, {bold: true, font_size: 14});
+addDocData([
+    "将非 closed问题项，整理记录到3.3.1表中：",
+    "注：问题级别：",
+    "高——导致系统死机或后续部分测试项功能不能实现；或存在重大安全或功能、性能缺陷，严重不合理，核心功能完全违反软件规范或业务规范；",
+    "中——影响该部分的测试功能的完整性且需解决；",
+    "低——轻度不合理，存在歧义，属于系统中的小bug，或根据测试过程发现的需要调整的部分，但并非急需解决。"
+]);
+
+addDocData("3.4 未测试项报告", null, {bold: true, font_size: 14});
+addDocData([
+    "测试案例中NT数：",
+    "NT说明：[xxx环境不具备]"
+]);
 
 /**
  * Chapter4
  */
-addDocData("4 测试过程", null, {bold: true, font_size: 16});
-
-addDocData("4.1 测试任务CIM", null, {bold: true, font_size: 14});
-addDocData("4.1.1 测试结果统计表", null, {bold: true, font_size: 12});
+addDocData("4 测试结论", null, {bold: true, font_size: 16});
 docx.createTable([
-    [{opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}},
-        {opts: {shd: {fill: "#aaaaaa"}}}, {opts: {shd: {fill: "#aaaaaa"}}}],
-    ["通过案例数(OK)", 300, "所占比例(%)", "50%"],
-    ["未通过案例数(NG)", 200, "所占比例(%)", "33.33%"],
-    ["未测试案例数(NT)", 100, "所占比例(%)", "16.67%"],
-    ["案例总数", "600", "", ""]
+    [
+        {val: "", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "检查点", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "结论", opts: {shd: {fill: "#aaaaaa"}}},
+        {val: "备注", opts: {shd: {fill: "#aaaaaa"}}}
+    ],
+    ["1", "测试需求覆盖", "[是]", "[需求覆盖率=100%]"],
+    ["1", "案例执行覆盖", "[是]", "[案例执行率=100%]"],
+    ["1", "机型覆盖", "[是/否]", "[否：见3.2.3机型覆盖分析]"],
+    ["1", "卡种覆盖", "[是/否]", "[否：见3.2.4卡种覆盖分析]"],
+    ["1", "测试是否通过", "[是/否]", "[不存在严重缺陷/否：见3.3不符合项报告]"]
 ], {tableColWidth: 6666, tableAlign: "left", borders: true});
-addDocData("4.1.2 未通过案例统计表", null, {bold: true, font_size: 12});
-addDocData("4.1.3 测试结果统计图", null, {bold: true, font_size: 12});
-charts.getChart({name: ["OK", "NG", "NT"], value: [300, 200, 100]}, function (result) {
-    console.log(result);
-    if (result && result.chart) {
-        var pObj = docx.createP();
-        pObj.addImage(result.chart);
-    }
-});
 
-addDocData("4.2 测试任务IDC", null, {bold: true, font_size: 14});
-addDocData("4.3 测试任务PIN", null, {bold: true, font_size: 14});
-addDocData("4.4 测试任务RPR", null, {bold: true, font_size: 14});
-addDocData("4.5 测试任务SIU", null, {bold: true, font_size: 14});
-addDocData("4.6 测试任务VDM", null, {bold: true, font_size: 14});
+/**
+ * Chapter5
+ */
+addDocData("5 风险评估", null, {bold: true, font_size: 16});
+addDocData([
+    "案例未覆盖的需求风险：xxxxx",
+    "未执行案例的风险：xxxxx",
+    "未解决的测试问题风险：xxxxx",
+    "未遍历的生产机型的风险：xxxxx",
+    "未遍历卡种的风险：xxxxx",
+    "其他个人经验总结的风险：xxxxx"
+]);
 
-var repName = "完整测试报告(" + new Date().toLocaleString() + ")";
-var report = path.resolve(__dirname, "../../temp/reports/", repName) + ".docx";
+/**
+ * Chapter5
+ */
+addDocData("6 项目经理意见", null, {bold: true, font_size: 16});
+
+
+// var repName = "完整测试报告(" + new Date().toLocaleTimeString() + ")";
+var repName = "完整测试报告.docx";
+var report = path.resolve(__dirname, "../../temp/reports/", repName);
 var out = fs.createWriteStream(report);// 文件写入
 out.on('close', function () {
     console.log('Finished to create the DOCX file!');
@@ -186,8 +260,6 @@ out.on('error', function (err) {
     console.log(err);
 });
 docx.generate(out);// 服务端生成word
-var tempChart = path.resolve(__dirname, "../../temp/charts");
-// deleteFolderRecursive(tempChart);
 
 
 function addDocData(datas, pOpt, tOpt) {

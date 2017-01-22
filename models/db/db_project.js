@@ -13,7 +13,7 @@ function Project(project) {
     this.caseLibName = project.caseLibName;
     this.deviceType = project.deviceType;
     this.testSite = project.testSite;
-    this.projectCreateTime = project.projectCreateTime;
+    this.projectCreateTime = project.projectCreateTime || new Date().toLocaleString();
     this.testStartTime = project.testStartTime;
     this.testEndTime = project.testEndTime;
     this.tester = project.tester;

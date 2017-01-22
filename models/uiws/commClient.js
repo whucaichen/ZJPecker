@@ -11,8 +11,8 @@ var jschardet = require("jschardet");
 var crypt = require('../utils/crypt');
 var options = {
     port: 60001,
-    host: "10.34.10.233"
-    // host: "10.34.10.245"
+    // host: "10.34.10.233"
+    host: "10.34.10.245"
 };
 function CommData(logindata) {
     this.msgid = logindata.msgid;
