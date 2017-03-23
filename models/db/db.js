@@ -3,10 +3,19 @@
  */
 
 var TAG = "[db.js]: ";
+var fs = require("fs");
+var path = require("path");
 var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/ZJPecker';
+var SETTINGS = fs.readFileSync(path.join(__dirname,"../settings.json"));
+try {
+    SETTINGS = JSON.parse(SETTINGS.toString());
+} catch (e) {
+    console.error(TAG, e);
+}
+var DB_HOST = SETTINGS.DB_HOST || "localhost";
+var url = "mongodb://" + DB_HOST + ":27017/ZJPecker";
 // var url = 'mongodb://10.34.10.245:27017/ZJPecker';
 
 //old with some problems
@@ -22,7 +31,7 @@ module.exports.insert = function (collection, indexs, docs, callback) {
             col.ensureIndex(indexs, {"unique": true})
                 .then(function (indexName) {
                     col.insert(docs, {keepGoing: true, ordered: true}, function (err, result) {
-                        err && console.error("err", err);
+                        err && console.error(TAG, "insert error");
                         log("insert", collection);
                         callback(err, result);
                         db.close();
@@ -41,7 +50,7 @@ module.exports.insertMany = function (collection, indexs, docs, callback) {
             col.ensureIndex(indexs, {"unique": true})
                 .then(function (indexName) {
                     col.insertMany(docs, {keepGoing: true, ordered: true}, function (err, result) {
-                        err && console.error("err", err);
+                        err && console.error(TAG, "insert error");
                         log("insertMany", collection);
                         callback(err, result);
                         db.close();
@@ -60,7 +69,7 @@ module.exports.insertOne = function (collection, indexs, doc, callback) {
             col.ensureIndex(indexs, {"unique": true})
                 .then(function (indexName) {
                     col.insertOne(doc, {keepGoing: true}, function (err, result) {
-                        err && console.error("err", err);
+                        err && console.error(TAG, "insert error");
                         log("insertOne", collection);
                         callback(err, result);
                         db.close();
@@ -78,7 +87,7 @@ module.exports.remove = function (collection, selector, callback) {
         MongoClient.connect(url, function (err, db) {
             var col = db.collection(collection);
             col.remove(selector, {w: 1}, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "remove error");
                 log("remove", collection, selector);
                 callback(err, result);
                 db.close();
@@ -94,7 +103,7 @@ module.exports.deleteMany = function (collection, filter, callback) {
         MongoClient.connect(url, function (err, db) {
             var col = db.collection(collection);
             col.deleteMany(filter, {w: 1}, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "remove error");
                 log("deleteMany", collection, filter);
                 callback(err, result);
                 db.close();
@@ -110,7 +119,7 @@ module.exports.deleteOne = function (collection, filter, callback) {
         MongoClient.connect(url, function (err, db) {
             var col = db.collection(collection);
             col.deleteOne(filter, {w: 1}, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "remove error");
                 log("deleteOne", collection, filter);
                 callback(err, result);
                 db.close();
@@ -128,7 +137,7 @@ module.exports.getMany = function (collection, query, options, callback) {
             var col = db.collection(collection);
             col.find(query, options).sort({_id: 1}).toArray(function (err, result) {
                 // col.find(query, options).toArray(function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "query error");
                 log("getMany", collection, query);
                 callback(err, result);
                 db.close();
@@ -144,7 +153,7 @@ module.exports.getOne = function (collection, query, options, callback) {
         MongoClient.connect(url, function (err, db) {
             var col = db.collection(collection);
             col.findOne(query, options, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "query error");
                 log("getOne", collection, query);
                 callback(err, result);
                 db.close();
@@ -171,7 +180,7 @@ module.exports.getPage = function (collection, query, pageSize, pageNum, callbac
                 }).toArray(function (err, docs) {
                     db.close();
                     if (err) {
-                        console.error(err);
+                        console.error(TAG, "query error");
                         return callback(err);
                     }
                     log("getPage", collection, pageSize, pageNum);
@@ -190,7 +199,7 @@ module.exports.distinct = function (collection, key, query, options, callback) {
         MongoClient.connect(url, function (err, db) {
             var col = db.collection(collection);
             col.distinct(key, query, options, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "query error");
                 log("distinct", collection, key, query);
                 callback(err, result);
                 db.close();
@@ -208,7 +217,7 @@ module.exports.update = function (collection, selector, document, callback) {
             err && console.error("err", err);
             var col = db.collection(collection);
             col.update(selector, document, {multi: true, keepGoing: true}, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "update error");
                 log("update", collection, selector);
                 callback(err, result);
                 db.close();
@@ -224,7 +233,7 @@ module.exports.updateMany = function (collection, filter, update, callback) {
         MongoClient.connect(url, function (err, db) {
             var col = db.collection(collection);
             col.updateMany(filter, update, {keepGoing: true}, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "update error");
                 log("updateMany", collection, filter);
                 callback(err, result);
                 db.close();
@@ -240,7 +249,7 @@ module.exports.updateOne = function (collection, filter, update, callback) {
         MongoClient.connect(url, function (err, db) {
             var col = db.collection(collection);
             col.updateOne(filter, update, {keepGoing: true}, function (err, result) {
-                err && console.error("err", err);
+                err && console.error(TAG, "update error");
                 log("updateOne", collection, filter);
                 callback(err, result);
                 db.close();

@@ -40,23 +40,27 @@ function wsapworkflow() {
     this.bExeService = false;							//是否正在执行服务
     this.serviceName = '';								//服务名称
     this.getScriptData = function (varName) {
-        return Data.getValue(varName);
+        // return Data.getValue(varName);
+        return undefined;
     };
 
     this.setScriptData = function (varName, varValue) {
-        return Data.setValue(varName, varValue);
+        // return Data.setValue(varName, varValue);
+        return undefined;
     }
 
     this.setScriptInParam = function (varIndex, varValue) {
         var varParam = 'inparam' + varIndex;
-        var varRet = Data.setValue(varParam, varValue);
+        // var varRet = Data.setValue(varParam, varValue);
+        var varRet;
 
         return varRet;
     };
 
     this.getScriptOutParam = function (varIndex) {
         var varParam = 'outparam' + varIndex;
-        var varRet = Data.getValue(varParam);
+        // var varRet = Data.getValue(varParam);
+        var varRet;
 
         return varRet;
     }
@@ -367,12 +371,18 @@ function wsapworkflow() {
     };
 
     this.dealInParam = function () {
+        global.ZJPeckerData.stateInParam = {};
         //console.log("status dealInParam ");
         var varNodes = select(this.runNode[0], 'inparam');
         //console.log("status dealInParam varNodes:" + varNodes);
         for (var varIndex = 0; varIndex < varNodes.length; varIndex++) {
             var varNodeIndex = varNodes[varIndex].getAttribute('id');
             var varNodeText = varNodes[varIndex].getAttribute('value');
+
+            var varNodeRemark = varNodes[varIndex].getAttribute('remark');
+            // global.ZJPeckerData.stateInParam[varNodeRemark] = varNodeText;
+            global.ZJPeckerData.stateInParam[varNodeIndex] = varNodeText;
+
             //console.log("status dealInParam varNodeText:" + varNodeText + ',varNodeIndex:' + varNodeIndex);
             if ((varNodeText.length >= 1) && (varNodeText.substring(0, 1) == '$')) {
                 var varName = varNodeText.substring(1);

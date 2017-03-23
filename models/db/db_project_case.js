@@ -25,7 +25,9 @@ function ProjectCase(projectcase) {
     this.testInfo = projectcase.testInfo || {};
     this.testInfo.caseStatus = projectcase.testInfo && projectcase.testInfo.caseStatus;
     this.testInfo.result = projectcase.testInfo && projectcase.testInfo.result;
-    this.testTrace = projectcase.testTrace; //Arrays
+    // this.testTrace = projectcase.testTrace; //Arrays
+    this.traceParameter = projectcase.traceParameter || [];
+    this.caseParamKey = projectcase.caseParamKey || {};
 }
 
 //添加工程案例

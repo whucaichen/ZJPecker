@@ -2,13 +2,17 @@
  * Created by Chance on 16/11/14.
  */
 
-var TAG = "[wsServer.js]: ";
+var TAG = function () {
+    return "[wsServer.js](" + new Date().toLocaleTimeString() + "): ";
+};
 var fs = require('fs');
 var url = require("url");
 var path = require("path");
 var helper = require("./serverHelper");
+var ObjectID = require('mongodb').ObjectId;
+var DeviceInfo = require("../db/db_device_info");
 var formidable = require('formidable');
-var mime = require("./mime").mime;
+var mime = require("../utils/mime").mime;
 var root = path.join(__dirname, "../../temp/caseFiles");
 if (!fs.existsSync(root)) {
     fs.mkdirSync(root);
@@ -46,7 +50,7 @@ var http_server = require('http').createServer(function (req, res) {
             }
         });
     }
-}).listen(8080);
+}).listen(process.argv[2] || 8080);
 
 var socket = require('socket.io').listen(http_server);
 // var socket = require('socket.io').listen(8080);
@@ -54,71 +58,71 @@ var socket = require('socket.io').listen(http_server);
 var socket_ui = socket.of("/ui")
     .on('connection', function (socket) {
         var client_ip = socket.request.connection.remoteAddress;
-        console.log(TAG, getTime() + client_ip + ': ' + socket.id + " connected.");
+        console.log(TAG(), client_ip + ': ' + socket.id + " connected.");
 
         socket.on('message', function (data) {
-            console.log(TAG, getTime() + client_ip + ': ' + data);
+            console.log(TAG(), client_ip + ': ' + data);
         });
         socket.on('disconnect', function () {
-            console.log(TAG, getTime() + client_ip + ': ' + socket.id + " disconnect.");
+            console.log(TAG(), client_ip + ': ' + socket.id + " disconnect.");
         });
 
         socket.on("ImportTestCaseLib", function (params, callback) {
-            console.log(TAG, getTime() + "ImportTestCaseLib--------------------------------------------------");
+            console.log(TAG(), "ImportTestCaseLib--------------------------------------------------");
             console.log(params);
             helper.ImportTestCaseLib(params, callback);
         });
 
         socket.on("QueryCaseLib", function (params, callback) {
-            console.log(TAG, getTime() + "QueryCaseLib--------------------------------------------------");
+            console.log(TAG(), "QueryCaseLib--------------------------------------------------");
             console.log(params);
             helper.QueryCaseLib(params, callback);
         });
 
         socket.on("QueryCaseLibP", function (params, callback) {
-            console.log(TAG, getTime() + "QueryCaseLibP--------------------------------------------------");
+            console.log(TAG(), "QueryCaseLibP--------------------------------------------------");
             console.log(params);
             helper.QueryCaseLibP(params, callback);
         });
 
         socket.on("DeleteCaseLib", function (params, callback) {
-            console.log(TAG, getTime() + "DeleteCaseLib--------------------------------------------------");
+            console.log(TAG(), "DeleteCaseLib--------------------------------------------------");
             console.log(params);
             helper.DeleteCaseLib(params, callback);
         });
 
         socket.on("QueryCaseLibGroup", function (params, callback) {
-            console.log(TAG, getTime() + "QueryCaseLibGroup--------------------------------------------------");
+            console.log(TAG(), "QueryCaseLibGroup--------------------------------------------------");
             console.log(params);
             helper.QueryCaseLibGroup(params, callback);
         });
 
         socket.on("QueryCaseLibDetail", function (params, callback) {
-            console.log(TAG, getTime() + "QueryCaseLibDetail--------------------------------------------------");
+            console.log(TAG(), "QueryCaseLibDetail--------------------------------------------------");
             console.log(params);
             helper.QueryCaseLibDetail(params, callback);
         });
 
         socket.on("QueryCases", function (params, callback) {
-            console.log(TAG, getTime() + "QueryCases--------------------------------------------------");
+            console.log(TAG(), "QueryCases--------------------------------------------------");
             console.log(params);
             helper.QueryCases(params, callback);
         });
 
         socket.on("QueryCaseDetail", function (params, callback) {
-            console.log(TAG, getTime() + "QueryCaseDetail--------------------------------------------------");
+            console.log(TAG(), "QueryCaseDetail--------------------------------------------------");
             console.log(params);
             helper.QueryCaseDetail(params, callback);
         });
 
         socket.on("CreateTestProject", function (params, callback) {
-            console.log(TAG, getTime() + "CreateTestProject--------------------------------------------------");
+            console.log(TAG(), "CreateTestProject--------------------------------------------------");
             console.log(params);
             helper.CreateTestProject(params, callback);
         });
 
         socket.on("DeleteTestProject", function (params, callback) {
-            console.log(TAG, getTime() + "DeleteTestProject--------------------------------------------------");
+            console.log(TAG(), "DeleteTestProject--------------------------------------------------");
             console.log(params);
             // helper.DeleteTestProject(params, callback);
             var projectId = params.body && params.body.projectId;
@@ -136,69 +140,128 @@ var socket_ui = socket.of("/ui")
         });
 
         socket.on("QueryTestProject", function (params, callback) {
-            console.log(TAG, getTime() + "QueryTestProject--------------------------------------------------");
+            console.log(TAG(), "QueryTestProject--------------------------------------------------");
             console.log(params);
             helper.QueryTestProject(params, callback);
         });
 
         socket.on("QueryTestProjectDetail", function (params, callback) {
-            console.log(TAG, getTime() + "QueryTestProjectDetail--------------------------------------------------");
+            console.log(TAG(), "QueryTestProjectDetail--------------------------------------------------");
             console.log(params);
             helper.QueryTestProjectDetail(params, callback);
         });
 
         socket.on("QueryTestProjectLog", function (params, callback) {
-            console.log(TAG, getTime() + "QueryTestProjectLog--------------------------------------------------");
+            console.log(TAG(), "QueryTestProjectLog--------------------------------------------------");
             console.log(params);
             helper.QueryTestProjectLog(params, callback);
         });
 
         socket.on("Login", function (params, callback) {
-            console.log(TAG, getTime() + "Login--------------------------------------------------");
+            console.log(TAG(), "Login--------------------------------------------------");
             console.log(params);
             helper.Login(params, callback);
         });
 
         socket.on("QueryCaseFiles", function (params, callback) {
-            console.log(TAG, getTime() + "QueryCaseFiles--------------------------------------------------");
+            console.log(TAG(), "QueryCaseFiles--------------------------------------------------");
             console.log(params);
             helper.QueryCaseFiles(params, callback);
         });
 
+        socket.on("AddAtmap", function (params, callback) {
+            console.log(TAG(), "AddAtmap--------------------------------------------------");
+            console.log(params);
+            helper.AddAtmap(params, callback);
+        });
+
+        socket.on("DropAtmap", function (params, callback) {
+            console.log(TAG(), "DropAtmap--------------------------------------------------");
+            console.log(params);
+            helper.DropAtmap(params, callback);
+        });
+
+        socket.on("QueryAtmap", function (params, callback) {
+            console.log(TAG(), "QueryAtmap--------------------------------------------------");
+            console.log(params);
+            helper.QueryAtmap(params, callback);
+        });
+
+        socket.on("QueryPageAtmap", function (params, callback) {
+            console.log(TAG(), "QueryPageAtmap--------------------------------------------------");
+            console.log(params);
+            helper.QueryPageAtmap(params, callback);
+        });
+
+        socket.on("UpdateAtmap", function (params, callback) {
+            console.log(TAG(), "UpdateAtmap--------------------------------------------------");
+            console.log(params);
+            helper.UpdateAtmap(params, callback);
+        });
+
         socket.on("StartTest", function (params, callback) {
-            console.log(TAG, getTime() + "StartTest--------------------------------------------------");
+            console.log(TAG(), "StartTest--------------------------------------------------");
             console.log(params);
             StartTest(params, callback);
         });
 
         socket.on("SuspendTest", function (params, callback) {
-            console.log(TAG, getTime() + "SuspendTest--------------------------------------------------");
+            console.log(TAG(), "SuspendTest--------------------------------------------------");
             console.log(params);
             SuspendTest(params, callback);
         });
 
         socket.on("ResumeTest", function (params, callback) {
-            console.log(TAG, getTime() + "ResumeTest--------------------------------------------------");
+            console.log(TAG(), "ResumeTest--------------------------------------------------");
             console.log(params);
             ResumeTest(params, callback);
         });
 
         socket.on("StopTest", function (params, callback) {
-            console.log(TAG, getTime() + "StopTest--------------------------------------------------");
+            console.log(TAG(), "StopTest--------------------------------------------------");
             console.log(params);
             StopTest(params, callback);
         });
 
         socket.on("RestartTest", function (params, callback) {
-            console.log(TAG, getTime() + "RestartTest--------------------------------------------------");
+            console.log(TAG(), "RestartTest--------------------------------------------------");
             console.log(params);
             RestartTest(params, callback);
         });
 
         socket.on("TransFile", function (params, callback) {
-            console.log(TAG, getTime() + "TransFile--------------------------------------------------");
+            console.log(TAG(), "TransFile--------------------------------------------------");
             console.log(params);
             TransFile(params, callback);
+        });
+
+        socket.on("UploadPublicLib", function (params, callback) {
+            console.log(TAG(), "UploadPublicLib--------------------------------------------------");
+            console.log(params);
+            UploadPublicLib(params, callback);
+        });
+
+        socket.on("UploadReportTemplate", function (params, callback) {
+            console.log(TAG(), "UploadReportTemplate--------------------------------------------------");
+            console.log(params);
+            UploadReportTemplate(params, callback);
+        });
+
+        socket.on("UploadDeviceCsv", function (params, callback) {
+            console.log(TAG(), "UploadDeviceCsv--------------------------------------------------");
+            console.log(params);
+            UploadDeviceCsv(params, callback);
+        });
+
+        socket.on("QueryDeviceInfos", function (params, callback) {
+            console.log(TAG(), "QueryDeviceInfos--------------------------------------------------");
+            console.log(params);
+            // QueryDeviceCsv(params, callback);
+            var query = params.body._id && {_id: ObjectID(params.body._id)} || {};
+            DeviceInfo.getInfos(query, {}, function (err, result) {
+                if (typeof callback !== "function") return;
+                err ? callback({retcode: "01", err: err}) : callback({retcode: "00", infos: result});
+            });
         });
     });
 global.socket_ui = socket_ui;
@@ -276,6 +339,31 @@ var TransFile = function (params, callback) {
         return;
     }
     console.log(fileName);
+    if (fileName.substring(fileName.lastIndexOf(".")) !== ".zip") {
+        (typeof callback === "function") && callback({retcode: "03", err: "文件名不合法"});
+        return;
+    }
+    fs.writeFile(path.join(__dirname, "../../temp/upload/" + fileName), data, function (err) {
+        (typeof callback === "function") && (
+            err ? callback({retcode: "03", err: err})
+                : callback({retcode: "00"}));
+        // if (typeof callback != "function") return;
+        // if (err) {
+        //     callback({retcode: "03", err: err});
+        //     return
+        // }
+        // callback({retcode: "00"});
+    });
+};
+
+var UploadPublicLib = function (params, callback) {
+    var fileName = params.body && params.body.fileName;
+    var data = params.body && params.body.data;
+    if (!(fileName && data)) {
+        callback({retcode: "01", err: "报文参数不合法"});
+        return;
+    }
+    console.log(fileName);
     if (fileName.substring(0, 12) === "appPublicLib"
         && fileName.substring(fileName.lastIndexOf(".") + 1) === "js") {    //公共依赖库
         fs.writeFile(path.join(__dirname, "../../resource/libs/" + fileName),
@@ -284,21 +372,50 @@ var TransFile = function (params, callback) {
                     err ? callback({retcode: "02", err: err})
                         : callback({retcode: "00"}));
             });
+    } else {
+        (typeof callback === "function") && callback({retcode: "03", err: "文件名错误"});
+    }
+};
+
+var UploadReportTemplate = function (params, callback) {
+    var fileName = params.body && params.body.fileName;
+    var data = params.body && params.body.data;
+    if (!(fileName && data)) {
+        callback({retcode: "01", err: "报文参数不合法"});
         return;
     }
-    // if (fs.existsSync("../temp/" + fileName)) {
-    //     callback({retcode: "02", err: "案例库已存在"});
-    //     return;
-    // }
-    // if (fileName.length == 0 || fileName.substring(fileName.lastIndexOf(".") + 1) != "zip") {
-    //     callback({retcode: "03", err: "案例库文件不合法"});
-    //     return;
-    // }
-    fs.writeFile(path.join(__dirname, "../../temp/upload/" + fileName), data, function (err) {
-        (typeof callback === "function") && (
-            err ? callback({retcode: "03", err: err})
-                : callback({retcode: "00"}));
-    });
+    console.log(fileName);
+    if (fileName === "report.docx" || fileName === "report.json") { //测试报表模板
+        fs.writeFile(path.join(__dirname, "../../models/res/" + fileName),
+            data, function (err) {
+                (typeof callback === "function") && (
+                    err ? callback({retcode: "02", err: err})
+                        : callback({retcode: "00"}));
+            });
+    } else {
+        (typeof callback === "function") && callback({retcode: "03", err: "文件名错误"});
+    }
+};
+
+var UploadDeviceCsv = function (params, callback) {
+    var fileName = params.body && params.body.fileName;
+    var data = params.body && params.body.data;
+    if (!(fileName && data)) {
+        callback({retcode: "01", err: "报文参数不合法"});
+        return;
+    }
+    console.log(fileName);
+    if (fileName.substring(fileName.lastIndexOf(".")) === ".csv") { //设备信息表
+        fs.writeFile(path.join(__dirname, "../../temp/upload/" + fileName), data, function (err) {
+            DeviceInfo.addInfoFromCSV(path.join(__dirname, "../../temp/upload/" + fileName),
+                function (err, result) {
+                    err && console.error(TAG(), "设备信息表存在错误或重复");
+                    (typeof callback === "function") && callback({retcode: "00"});
+                });
+        });
+    } else {
+        (typeof callback === "function") && callback({retcode: "03", err: "文件名错误"});
+    }
 };
 
 process.on("message", function (msg) {
@@ -323,6 +440,7 @@ function listDirectory(parentDirectory, req, res) {
 function showFile(file, req, res) {
     fs.readFile(filename, 'binary', function (err, file) {
         var contentType = mime.lookupExtension(path.extname(filename));
+        filename.substring(filename.lastIndexOf(".")) === ".docx" && (contentType = "application/msword");
         res.writeHead(200, {
             "Content-Type": contentType,
             "Content-Length": Buffer.byteLength(file, 'binary'),
@@ -369,6 +487,3 @@ function write404(req, res) {
     res.write(body);
     res.end();
 }
-var getTime = function () {
-    return "(" + new Date().toLocaleString() + ")";
-};

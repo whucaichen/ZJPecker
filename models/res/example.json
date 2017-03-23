@@ -14,19 +14,23 @@
   "log": [
     {
       "caseCaption": "正常的查询交易",
-      "traceParameter": {
-        "traceLevel": "2017-01-20 14:00:23",
-        "traceContent": "2017-01-20 14:00:23",
-        "screenPicName": "2017-01-20 14:00:23"
-      }
+      "traceParameter": [
+        {
+          "traceLevel": "2017-01-22 15:42:04",
+          "traceContent": "2017-01-22 15:42:04",
+          "screenPicName": "2017-01-22 15:42:04"
+        }
+      ]
     },
     {
       "caseCaption": null,
-      "traceParameter": {
-        "traceLevel": "2017-01-20 14:00:23",
-        "traceContent": "2017-01-20 14:00:23",
-        "screenPicName": "2017-01-20 14:00:23"
-      }
+      "traceParameter": [
+        {
+          "traceLevel": "2017-01-22 15:42:04",
+          "traceContent": "2017-01-22 15:42:04",
+          "screenPicName": "2017-01-22 15:42:04"
+        }
+      ]
     }
   ]
 }

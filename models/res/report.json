@@ -1,0 +1,19 @@
+{
+  "project": "自动测试工具",
+  "version": "0.0.1",
+  "author": "Chance",
+  "date": "date",
+  "purpose": "在完成XX行“XXX补丁升级包”/“XXX全量安装包”/“XX系统”的测试任务后，对此测试项目的工作进行总结。（性能测试不适用，见性能测试报告模板）",
+  "background": "项目背景简述。",
+  "filename": "XXX_标准版案例设计.xls",
+  "Tester": "Tester",
+  "testSite": "testSite",
+  "APVersion": "APVersion",
+  "deviceType": "deviceType",
+  "OSVersion": "OSVersion",
+  "SPVersion": "SPVersion",
+  "testMethod": "[例如：测试工具：采用黑盒测试方法，手工进行功能测试。测试问题：使用“项目管理软件问题跟踪表”进行BUG的记录，待开发人员将BUG进行处理，且置为Fixed状态后，对新提交的版本进行回归测试。]",
+  "projectName": "projectName",
+  "testStartTime": "testStartTime",
+  "testEndTime": "testEndTime"
+}

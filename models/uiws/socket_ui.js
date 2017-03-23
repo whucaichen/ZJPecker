@@ -26,7 +26,7 @@ function ImportTestCaseLib() {
             "action": "ImportTestCaseLib"
         },
         "body": {
-            caseLibFileName: "case03.zip"
+            caseLibFileName: "紫金标准版006S.zip"
         }
     }, function (result) {
         console.log("--------------------------------------------------ImportTestCaseLib");
@@ -39,7 +39,7 @@ function QueryCaseLib() {
             "action": "QueryCaseLib"
         },
         "body": {
-            "caseLibId": "582559b0bbc3b00564141d2c"
+            "caseLibId": "58be26631d800b2a30e1f239"
         }
     }, function (result) {
         console.log("--------------------------------------------------QueryCaseLib");
@@ -107,7 +107,7 @@ function QueryCases() {
             "action": "QueryCases"
         },
         "body": {
-            "caseLibId": "586365fd01edf53968b915fc"
+            "caseLibId": "58be26631d800b2a30e1f239"
         }
     }, function (result) {
         console.log("--------------------------------------------------QueryCases");
@@ -240,6 +240,37 @@ function QueryCaseFiles() {
         console.log(result);
     });
 }
+function QueryPageAtmap() {
+    ui.emit("QueryPageAtmap", {
+        "head": {
+            "action": "QueryPageAtmap"
+        },
+        "body": {
+            "pageSize": 20,
+            "pageNum": 1
+        }
+    }, function (result) {
+        console.log("--------------------------------------------------QueryPageAtmap");
+        console.log(result);
+    });
+}
+function UpdateAtmap() {
+    ui.emit("UpdateAtmap", {
+        "head": {
+            "action": "UpdateAtmap"
+        },
+        "body": {
+            testClientID: 'IDX003',
+            testClientIP: '滚动',
+            bank: '安徽农信',
+            company: '广电',
+            machineType: 'GRG_H68NL'
+        }
+    }, function (result) {
+        console.log("--------------------------------------------------UpdateAtmap");
+        console.log(result);
+    });
+}
 function StartTest() {
     ui.emit("StartTest", {
         "head": {
@@ -335,8 +366,8 @@ process.stdin.on("readable", function () {
             case "0":
                 process.exit(1);
             case "1":
-                //QueryCaseLib();
-                QueryCaseLibP();
+                QueryCaseLib();
+                // QueryCaseLibP();
                 break;
             case "2":
                 DeleteCaseLib();
@@ -390,6 +421,12 @@ process.stdin.on("readable", function () {
                 break;
             case "f":
                 TransFile();
+                break;
+            case "g":
+                QueryPageAtmap();
+                break;
+            case "h":
+                UpdateAtmap();
                 break;
             default:
                 console.log("default");

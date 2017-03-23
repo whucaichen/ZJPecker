@@ -187,7 +187,7 @@ var deleteField = function () {
             err && console.error(err);
         })
 };
-deleteField();
+// deleteField();
 
 /**
  * 等于：{"name":{$eq:"steven"}

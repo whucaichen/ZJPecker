@@ -18,6 +18,7 @@ function Case(_case) {
     this.mediaType = _case.mediaType;
     this.expectation = _case.expectation;
     this.fileTitle = _case.fileTitle;
+    this.caseOrder = _case.caseOrder;
 }
 
 //添加案例

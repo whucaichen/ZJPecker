@@ -1,0 +1,716 @@
+银行,厂商,机器型号,设备类型,操作系统,杀毒软件,是否有测试机,SP测试版本,中间件测试版本,生产使用SP版本,生产使用中间件版本,生产设备数量,银行前置P,备注
+安徽农信,NCR,NCR_58XX,取款机(ATM),,,有,5.0.1,,,,72,,
+安徽农信,NCR,NCR_6622,取款机(ATM),,,有,5.0.1,,,,2,,
+安徽农信,NCR,NCR_6625,取款机(ATM),,,无,5.0.1,,,,199,,
+安徽农信,NCR,NCR_6633,存取款一体机(CRS),XP,无,无,,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,NCR,NCR_6635,存取款一体机(CRS),XP,无,无,,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,NCR,NCR_6687,存取款一体机(CRS),XP,无,无,,ZJAXV2_0_0_Update_016P,,ZJAXV2_0_0_Update_016P,,,
+安徽农信,迪堡,OPTEVA_368,存取款一体机(CRS),XP SP2,,,XFS4.0.0.0_2013Y1C,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,迪堡,OPTEVA_378,存取款一体机(CRS),XP,无,无,,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,东信,东信_2000XE,取款机(ATM),,,,"ProBase11.10,ProBase11.20",,,,8,,
+安徽农信,东信,东信_2050XE,取款机(ATM),,,,"ProBase11.10,ProBase11.20",,,,326,,
+安徽农信,东信,东信_8800F,取款机(ATM),XP SP2,,,,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,东信,东信_8800T,取款机(ATM),XP,无,无,,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,广电,GRG_H22N,取款机(ATM),XP SP2,,,GRG SP4.3.12.63,ZJAXV2_0_0_Update_012P,GRG SP4.3.13.04.0411,,,,
+安徽农信,广电,GRG_H22NL,取款机(ATM),XP,无,无,GRG SP4.3.12.63,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,广电,GRG_H68N,存取款一体机(CRS),XP SP2,,,GRG SP4.3.12.63,ZJAXV2_0_0_Update_012P,GRG SP4.3.13.04.0411,,,,
+安徽农信,广电,GRG_H68NL,存取款一体机(CRS),XP,无,无,GRG SP4.3.12.63,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,恒银,CASH80AWG,存取款一体机(CRS),XP SP2,,,1.3.3.0,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,恒银,CASH80AWI,取款机(ATM),XP SP2,,,1.3.3.0,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,日立,HT_2845SR,存取款一体机(CRS),XP SP2,,,STD060405,ZJAXV2_0_0_Update_012P,,,,,
+安徽农信,日立,HT_2845V,存取款一体机(CRS),,,有,SP100315,,,,623,,
+安徽农信,御银,KingTeller_A4,取款机(ATM),XP SP2,,有,2.0.7,,,,1,,
+安徽农信,御银,KingTeller_A4（08）,取款机(ATM),XP SP2,,有,2.0.7,,,,8,,
+安徽农信,御银,KingTeller_A5（08）,取款机(ATM),XP SP2,,有,2.0.7,,,,1582,,
+安徽农信,怡化,YH_6040T,存取款一体机(CRS),,,有,AHRCU072,,,,12,,
+安徽农信,怡化,YH_6040W,存取款一体机(CRS),,,有,AHRCU072,,,,205,,
+北京农商行,NCR,NCR_58XX,取款机(ATM),XP,趋势,有,ncr xfs511,KAL068,ncr xfs511,KAL068,342,紫金,生产SP版本：ncr xfs511
+北京农商行,NCR,NCR_6622,取款机(ATM),XP,趋势,有,非触摸屏ncr xfs511，触摸屏ncr xfs611,KAL068,非触摸屏ncr xfs511，触摸屏ncr xfs611,KAL068,8,紫金,非触摸屏ncr xfs511，触摸屏ncr xfs611
+北京农商行,NCR,NCR_6625,取款机(ATM),XP,趋势,有,非触摸屏ncr xfs511，触摸屏ncr xfs611,KAL068,非触摸屏ncr xfs511，触摸屏ncr xfs611,KAL068,31,紫金,非触摸屏ncr xfs511，触摸屏ncr xfs611
+北京农商行,OKI,OKI_21S,存取款一体机(CRS),XP,趋势,有,1.6.0.0,KAL068,1.6.0.0,KAL068,203,紫金,
+北京农商行,OKI,OKI_21SE,存取款一体机(CRS),XP,趋势,有,1.5.4.0,KAL068,1.5.4.0,KAL068,429,紫金,
+北京农商行,长城湘计,湘计_306_大堂,查询机,XP,趋势,有,3.0.4,KAL075,3.0.4,KAL075,,,已投产
+北京农商行,长城湘计,湘计_508_壁挂,查询机,XP,趋势,有,3.0.5,KAL075,3.0.5,KAL075,,,已投产
+北京农商行,迪堡,OPTEVA_562,取款机(ATM),XP,趋势,有,Pxpp2.2.0.6,KAL068,Pxpp2.2.0.6,KAL068,,,迪堡设备数量：48台
+北京农商行,东信,东信_8100,取款机(ATM),XP,趋势,有,2.0.6.2,KAL068,2.0.6.2,KAL068,19,紫金,
+北京农商行,广电,H68N_CENL,存取款一体机(CRS),XP SP3,趋势,有,4.3.13.04 0227,Kal068,4.3.13.04 0227,Kal068,10,紫金,无
+北京农商行,恒银,CASH39AG_JR1,查询机,XP SP3,趋势,有,1.3.1.0,Kal075,1.3.1.0,Kal075,,紫金,
+北京农商行,浪潮,浪潮_1511TN,查询机,XP SP3,趋势,无,3.1.18,KAL075,3.1.18,Kal075,,,试运行一台
+北京农商行,浪潮,浪潮_1711TN,查询机,XP SP3,趋势,有,3.1.18,KAL075,3.1.18,Kal075,,,测试通过，未投产
+北京农商行,日立,HT_2845SR_13款,存取款一体机(CRS),XP,趋势,有,ZJHTSP_10018S,Kal068,ZJHTSP_10018S,Kal068,26,紫金,
+北京农商行,日立,HT_2845V,存取款一体机(CRS),XP,趋势,有,SP100319,KAL068,SP100319,KAL068,195,紫金,设备是和美销售。14年左右改有紫金维保
+北京农商行,神州数码,神码_C3004,取款机(ATM),XP,趋势,有,JXSPSetup1.1.3_C3000 Build20121114,KAL068,JXSPSetup1.1.3_C3000 Build20121114,KAL068,46,紫金,
+北京农商行,神州数码,神码_C3006,取款机(ATM),XP,趋势,有,JXSPSetup1.1.3_C3000 Build20121114,KAL068,JXSPSetup1.1.3_C3000 Build20121114,KAL068,30,紫金,
+北京农商行,神州数码,神码_C6000,取款机(ATM),XP,趋势,有,JXSPSetup1.1.3_C6000 Build20121114,KAL068,JXSPSetup1.1.3_C6000 Build20121114,KAL068,545,紫金,
+北京农商行,神州数码,神码_C7000,存取款一体机(CRS),XP SP2,趋势,有,1.5.2,Kal068,1.5.2,Kal068,,,"生产一台，测试机留在空港
+神州数码设备数量：406台"
+北京农商行,证通,ZT2071_大堂,查询机,XP,趋势,有,3.0.7,KAL075,3.0.7,KAL075,,,已投产
+北京农商行,证通,ZT2832_壁挂,查询机,XP,趋势,有,3.0.7,KAL075,3.0.7,KAL075,,,已投产
+北京银行,NCR,NCR_5877,取款机(ATM),XP SP3,无,无,5.1.0,ZJAX,,,,,"126台
+
+测试环境下的5877机器已拉走，并且银行打算淘汰生产上的NCR58XX系列的机器。"
+北京银行,NCR,NCR_5884,取款机(ATM),XP SP3,无,无,5.1.0,ZJAX,,,,,"2台
+
+测试环境下的5877机器已拉走，并且银行打算淘汰生产上的NCR58XX系列的机器。"
+北京银行,NCR,NCR_5887,取款机(ATM),,无,无,5.1.0,ZJAX,,,,,2台
+北京银行,NCR,NCR_6622,取款机(ATM),,无,有,5.1.0,ZJAX,,,,,120台
+北京银行,NCR,NCR_6625,取款机(ATM),,无,无,5.1.0,ZJAX,,,,,58台
+北京银行,NCR,NCR_6634,取款机(ATM),,无,无,5.1.0,ZJAX,,,,,1台
+北京银行,长城,BST305,查询机,XP SP3,McAfee,有,V1.0.0.7,ZJAXV2_0_0_Update_016P,V1.0.0.3,ZJAXV2_0_0_Update_016P,3,紫金,V1.0.0.7等待投产。
+北京银行,长城,BST306,查询机,XP SP3,无,有,V1.0.0.7,ZJAX,1.0.0.3,ZJAXV2_0_0_Update_016P,30,紫金,V1.0.0.7等待投产。
+北京银行,长城,BST508,查询机,XP SP3,暂无使用,无,V1.0.0.7,ZJAXV2_0_0_Update_016P,,暂未投产,0,紫金,测试机设备已拉走，仍未投产。
+北京银行,长城,PZ650S,取款机(ATM),,无,无,3.1.0,ZJAX,,,,,2台
+北京银行,长城,PZ720,取款机(ATM),,无,有,3.1.0,ZJAX,,,,,26台
+北京银行,迪堡,OPTEVA_328,存取款一体机(CRS),,无,有,Opteva-XFS-4.0.0.0-2013Y1A,ZJAX,,,,,59台
+北京银行,迪堡,OPTEVA_368,存取款一体机(CRS),,无,无,Opteva-XFS-4.0.0.0-2013Y1A,ZJAX,,,,,8台
+北京银行,迪堡,OPTEVA_522,取款机(ATM),,无,无,Opteva-XFS-4.0.0.0-2013Y1A,ZJAX,,,,,49台
+北京银行,迪堡,OPTEVA_529,取款机(ATM),,无,无,Opteva-XFS-4.0.0.0-2013Y1A,ZJAX,,,,,25台
+北京银行,迪堡,OPTEVA_562,取款机(ATM),,无,有,Opteva-XFS-4.0.0.0-2013Y1A,ZJAX,,,,,102台
+北京银行,迪堡,OPTEVA_569,取款机(ATM),,无,无,Opteva-XFS-4.0.0.0-2013Y1A,ZJAX,,,,,15台
+北京银行,东信,东信_2000XE,取款机(ATM),,无,有,Probase1130+SPC1212,ZJAX,,,,,15台
+北京银行,恒银,CASH37AG-JR1L,查询机,XP SP3,McAfee,无,V1.0.0Update002,ZJAXV2_0_0_Update_016P,,ZJAXV2_0_0_Update_016P,0,紫金,测试机设备已拉走，仍未投产。
+北京银行,恒银,CASH39AG-JRI,查询机,XP SP3,McAfee,有,V1.0.0Update002,ZJAXV2_0_0_Update_016P,V1.0.0Update001,ZJAXV2_0_0_Update_016P,3,紫金,V1.0.0Update002等待投产。
+北京银行,恒银,CASH80AWI,取款机(ATM),XP SP3,无,有,1.3.3.0,ZJAX2.0,,,,宇信易诚,新机型安装包正在测试中。将随BOBJ_WSAP0206_008S投产。
+北京银行,日立,HT_2845SR_12款,存取款一体机(CRS),XP,,无,,ZJAX,SP100321,ZJAX,,,
+北京银行,日立,HT_2845V,存取款一体机(CRS),,无,有,SP100321,ZJAX,SP100321,ZJAX,,,216台
+北京银行,神州数码,神码_C6000,取款机(ATM),,无,有,1.6.1.C,ZJAX,,,,,58台
+沧州银行,东信,东信_2000XE,取款机(ATM),XP,趋势,无,ProDevice4160,ZJAXV2_0_0_Update_014P,ProDevice4160,ZJAXV2_0_0_Update_014P,75,恒生电子,2015年8月底统计：东信2000XE和2050XE设备总共：75台
+沧州银行,东信,东信_2050XE,取款机(ATM),XP,趋势,无,ProDevice4160,ZJAXV2_0_0_Update_014P,ProDevice4160,ZJAXV2_0_0_Update_014P,75,恒生电子,2015年8月底统计：东信2000XE和2050XE总共75台
+沧州银行,东信,东信_8100,取款机(ATM),XP,趋势,无,SP2.0.7.26,ZJAXV2_0_0_Update_014P,SP2.0.7.26,ZJAXV2_0_0_Update_014P,1,恒生电子,2015年8月底统计：东信8100共1台
+沧州银行,日立,HT_2845SR,存取款一体机(CRS),XP SP3,趋势,无,ZJHTSP_10020P,ZJAXV2_0_0_Update_014P,ZJHTSP_10020P,ZJAXV2_0_0_Update_014P,95,恒生电子,2015年8月底统计：HT2845V和HT2845SR总共95台
+沧州银行,日立,HT_2845V,存取款一体机(CRS),XP,趋势,无,ZJHTSP_10020P,ZJAXV2_0_0_Update_014P,ZJHTSP_10020P,ZJAXV2_0_0_Update_014P,95,恒生电子,2015年8月底统计：HT2845V和HT2845SR总共95台
+稠州银行,OKI,OKI_21S,存取款一体机(CRS),,,无,,,,,8,,
+稠州银行,OKI,OKI_21SE,存取款一体机(CRS),,,有,,,,,22,,
+稠州银行,迪堡,OPTEVA_368,存取款一体机(CRS),,,有,,,,,9,,
+稠州银行,迪堡,OPTEVA_569,取款机(ATM),,,有,,,,,5,,
+稠州银行,广电,GRG_H22N,取款机(ATM),XP,,有,4.3.13.04.0266,,SP10-4.3.13.04.0266,,17,,
+稠州银行,广电,GRG_H68N,存取款一体机(CRS),XP SP3,,有,4.3.13.04.0266,,SP10-4.3.13.04.0266,,14,,
+稠州银行,日立,HT_2845SR-14款,存取款一体机(CRS),XP SP2,,无,,ZJAXV2_0_0_Update_021P_T3,,ZJAXV2_0_0_Update_021P_T3,1,,
+稠州银行,御银,KingTeller_A5（08）,取款机(ATM),XP,,有,2.0.9,,,,83,,
+稠州银行,御银,KingTeller_K1（08）,存取款一体机(CRS),XP,,有,2.0.9,,,,4,,
+稠州银行,御银,KingTeller_K3,存取款一体机(CRS),XP SP2,,有,,,,,,,
+东海银行,NCR,NCR_58XX,取款机(ATM),XP SP3,卡巴斯基,无,5.0.1,ZJAXV2_0_0_Update_006P,5.0.1,ZJAXV2_0_0_Update_006P_T1,4,,5887和5877各2台
+东海银行,NCR,NCR_6625,取款机(ATM),XP SP3,卡巴斯基,无,5.0.1,ZJAXV2_0_0_Update_006P,5.0.1,ZJAXV2_0_0_Update_006P_T1,1,,1台
+东海银行,广电,DT H22NL,取款机(ATM),XP SP3,卡巴斯基,有,GRG_XFS_SP4.0_WITH_SP10_0908,ZJAXV2_0_0_Update_006P,GRG_XFS_SP4.0_WITH_SP10_0908,ZJAXV2_0_0_Update_006P,2,,2台
+东海银行,御银,KingTeller_A5（08）,取款机(ATM),XP SP3,卡巴斯基,无,2.0.9,ZJAXV2_0_0_Update_006P,2.0.9,ZJAXV2_0_0_Update_006P_T1,1,,1台
+东海银行,御银,KingTeller_K1（08）,存取款一体机(CRS),XP SP3,卡巴斯基,无,2.0.9,ZJAXV2_0_0_Update_006P,2.0.9,ZJAXV2_0_0_Update_006P_T1,1,,1台
+甘肃农信,LG,LG_850WS,取款机(ATM),XP SP3,无,无,SP3.0,ZJAXV2_0_0_Update_006P,SP3.0,ZJAXV2_0_0_Update_012P,6,,无
+甘肃农信,WINCOR,WINCOR_2000XE,取款机(ATM),XP SP2,无,无,ProBase11.20,ZJAXV2_0_0_Update_006P,ProBase11.20,ZJAXV2_0_0_Update_012P,40,,
+甘肃农信,WINCOR,WINCOR_2050XE,取款机(ATM),XP SP2,无,无,ProBase11.20,ZJAXV2_0_0_Update_006P,ProBase11.20,ZJAXV2_0_0_Update_012P,99,,
+甘肃农信,北京兆维,CWFA1A,查询机,XP SP2,无,无,GSSP_V2.0,ZJAXV2_0_0_Update_006P,,ZJAXV2_0_0_Update_010P,23,,
+甘肃农信,北京兆维,CWFAIB,查询机,XP SP2,无,无,GSSP_V2.0,ZJAXV2_0_0_Update_006P,GSSP_V2.0,ZJAXV2_0_0_Update_010P,13,,
+甘肃农信,长城,BST306,查询机,XP SP2,无,无,GWIXFS_SP3.0 v3.2.0.3,ZJAXV2_0_0_Update_006P,GWIXFS_SP3.0 v3.2.1.2_甘肃农信自助项目基线版本,ZJAXV2_0_0_Update_010P,6,,
+甘肃农信,长城,GWI312,查询机,XP SP2,无,有,GWIXFS_SP3.0 v3.2.1.2_甘肃农信自助项目基线版本,ZJAXV2_0_0_Update_006P,GWIXFS_SP3.0 v3.2.1.2_甘肃农信自助项目基线版本,ZJAXV2_0_0_Update_010P,1,,
+甘肃农信,迪堡,OPTEVA_522,取款机(ATM),XP SP3,无,无,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_006P,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_012P,35,,
+甘肃农信,迪堡,OPTEVA_529,取款机(ATM),XP SP3,无,无,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_006P,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_012P,65,,4.0.0.0_2012Q1B_Patch01+EOA
+甘肃农信,迪堡,OPTEVA_562,取款机(ATM),XP SP3,无,无,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_006P,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_012P,270,,4.0.0.0_2012Q1B_Patch01+EOA
+甘肃农信,迪堡,OPTEVA_562C,取款机(ATM),XP SP2,无,无,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_006P,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_008P_T1,467,,
+甘肃农信,迪堡,OPTEVA_569,取款机(ATM),XP SP2,无,无,,ZJAXV2_0_0_Update_006P,,ZJAXV2_0_0_Update_012P,52,,
+甘肃农信,东信,东信_8000,取款机(ATM),XP SP3,无,无,2.0.6.2,ZJAXV2_0_0_Update_006P,2.0.6.2,ZJAXV2_0_0_Update_012P,7,,后屏为TTU的老机器
+甘肃农信,东信,东信_8100,取款机(ATM),XP SP3,无,无,2.0.6.2,ZJAXV2_0_0_Update_006P,2.0.6.2,ZJAXV2_0_0_Update_012P,111,,"SP_V2.0.6.2
+SP2.0安装手册V1.0北京农商银行"
+甘肃农信,广电,GRG_H68,存取款一体机(CRS),XP SP2,无,无,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_006P,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_012P,23,,
+甘肃农信,广电,GRG_H68L,存取款一体机(CRS),XP SP2,无,无,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_006P,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_012P,15,,"GRG XFS SP4.0 PR3 WITH SP10.exe
+GRG_XFS_SP_4.0_PR3-b12-63_HotFix4-b5.exe
+广电机型：DT7000-H68, DT7000-H68L,DT7000-H68NL,DT7000-H68N"
+甘肃农信,广电,GRG_H68N,存取款一体机(CRS),XP SP2,无,无,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_006P,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_012P,135,,
+甘肃农信,广电,GRG_H68NL,存取款一体机(CRS),XP SP2,无,无,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_006P,GRG SP4.3.12.63.0405,ZJAXV2_0_0_Update_012P,26,,"GRG XFS SP4.0 PR3 WITH SP10.exe
+GRG_XFS_SP_4.0_PR3-b12-63_HotFix4-b5.exe
+广电机型：DT7000-H68, DT7000-H68L,DT7000-H68NL,DT7000-H68N"
+甘肃农信,国光,2031C1,查询机,XP SP2,无,无,江苏国光CEN/XFS SP(V1.3.0),ZJAXV2_0_0_Update_006P,江苏国光CEN/XFS SP(V1.3.0),ZJAXV2_0_0_Update_010P,3,,
+甘肃农信,国光,NB2031B+,查询机,XP SP2,无,无,江苏国光CEN/XFS SP(V1.3.0),ZJAXV2_0_0_Update_006P,江苏国光CEN/XFS SP(V1.3.0),ZJAXV2_0_0_Update_010P,3,,
+甘肃农信,恒银,CASH80ALG,存取款一体机(CRS),XP SP3,无,无,1.3.1.1,ZJAXV2_0_0_Update_006P,1.3.1.1,ZJAXV2_0_0_Update_012P,19,,
+甘肃农信,恒银,CASH80AWG,存取款一体机(CRS),XP SP3,无,无,1.3.1.1,ZJAXV2_0_0_Update_006P,1.3.1.1,ZJAXV2_0_0_Update_012P,137,,
+甘肃农信,迈普,ST-A02-GS,三农终端,XP SP3,,有,v1.0.0,ZJAXV2_0_0_Update_006P,,,,,
+甘肃农信,南天,南天_4200,查询机,XP SP2,无,无,CIS@FSSEDriver Update 1.2.3[20140916][甘肃农信],ZJAXV2_0_0_Update_006P,CIS@FSSEDriver Update 1.2.3[20140916][甘肃农信],ZJAXV2_0_0_Update_010P,56,,
+甘肃农信,南天,南天_4230,查询机,XP SP2,无,无,CIS@FSSEDriver Update 1.2.3[20140916][甘肃农信],ZJAXV2_0_0_Update_006P,CIS@FSSEDriver Update 1.2.3[20140916][甘肃农信],ZJAXV2_0_0_Update_010P,17,,
+甘肃农信,瑞至海润,rich-6000,查询机,XP SP3,无,无,1.0.0.1,ZJAXV2_0_0_Update_006P,1.0.0.1,ZJAXV2_0_0_Update_010P,6,,
+甘肃农信,瑞至海润,RICH-5600,查询机,XP SP3,无,有,山东瑞至海润sp安装程序(壁挂)1.0.0.1.exe,ZJAXV2_0_0_Update_006P,山东瑞至海润sp安装程序(壁挂)1.0.0.1.exe,ZJAXV2_0_0_Update_010P,1,,
+甘肃农信,瑞至海润,RICH-7800,三农终端,XP SP2,无,,1.0.0.1,ZJAXV2_0_0_Update_006P,,,,,
+甘肃农信,瑞至海润,RICH-7900,三农终端,,,,1.0.0.1,,,,,,
+甘肃农信,瑞至海润,RICH-8200B,三农终端,,,,,,,,,,
+甘肃农信,神州数码,神码_C6000,取款机(ATM),XP SP3,无,无,1.1.4b、1.6.3,ZJAXV2_0_0_Update_006P,1.6.3,ZJAXV2_0_0_Update_012P,277,,JXSPSetup1.1.4b_C6000 Build20130427(全新安装包)
+甘肃农信,神州数码,神码_C7000,存取款一体机(CRS),XP SP3,无,有,1.6.4,ZJAXV2_0_0_Update_006P,1.6.4_C,ZJAXV2_0_0_Update_012P,43,,此型号包括C7000-大堂机、C7000穿墙机
+甘肃农信,新达通,NDT_F2112,取款机(ATM),XP SP3,无,无,甘肃农信跨平台SP安装V1.0.0.exe,ZJAXV2_0_0_Update_006P,甘肃农信跨平台SP安装V1.0.0.exe,ZJAXV2_0_0_Update_012P,93,,甘肃农信跨平台SP安装V1.0.0.exe
+甘肃农信,新达通,NDT_NF3120,取款机(ATM),XP SP3,无,无,甘肃农信跨平台SP安装V1.0.0.exe,ZJAXV2_0_0_Update_006P,甘肃农信跨平台SP安装V1.0.0.exe,ZJAXV2_0_0_Update_012P,7,,
+甘肃农信,御银,KingTeller_K3,存取款一体机(CRS),XP SP2,无,无,KTWSP V2.0.9补丁1,ZJAXV2_0_0_Update_006P,2.0.9,ZJAXV2_0_0_Update_012P,8,,k3在甘肃农信有两种机芯：LG机芯和富士通机芯
+甘肃农信,御银,KingTeller_K4,存取款一体机(CRS),XP SP2,无,无,2.0.9,ZJAXV2_0_0_Update_006P,,ZJAXV2_0_0_Update_012P,3,,甘肃农信只有K4-LG机芯机器
+甘肃农信,怡化,YH_6040WF,存取款一体机(CRS),XP SP2,无,无,YHSP_V5.1.2.24,ZJAXV2_0_0_Update_006P,,ZJAXV2_0_0_Update_012P,0,,
+甘肃农信,怡化,YH_6040WR,存取款一体机(CRS),XP SP2,无,无,YHSP_V5.1.2.24,ZJAXV2_0_0_Update_006P,YHSP_V5.1.2.24,ZJAXV2_0_0_Update_012P,9,,
+赣州银行,NCR,NCR_58XX,取款机(ATM),XP,无,无,4.5.1,ZJAXV2_0_0_Update_010P,,ZJAXV2_0_0_Update_010P,7,,20151225
+赣州银行,NCR,NCR_6633,存取款一体机(CRS),XP,无,无,NCR_SP150904,ZJAXV2_0_0_Update_013P,NCR_SP150904,ZJAXV2_0_0_Update_013P,3,,20151225
+赣州银行,NCR,NCR_6635,存取款一体机(CRS),XP,无,有,NCR_SP130313,ZJAXV2_0_0_Update_010P,NCR_SP130313,ZJAXV2_0_0_Update_010P,52,,20151225
+赣州银行,长城湘计,BST306A,查询机,XP,无,有,3.1.1,ZJAXV2_0_0_Update_006P_T1,,ZJAXV2_0_0_Update_006P_T1,57,,"20151225
+大堂机"
+赣州银行,长城湘计,BST312G,查询机,XP,无,无,3.1.1,ZJAXV2_0_0_Update_006P_T1,,ZJAXV2_0_0_Update_006P_T1,50,,"20151225
+穿墙机"
+赣州银行,迪堡,OPTEVA_529,取款机(ATM),XP,无,有,4.0.0.0_2012Q1B,ZJAXV2_0_0_Update_010P,4.0.0.0_2012Q1B,ZJAXV2_0_0_Update_010P,0,,
+赣州银行,迪堡,OPTEVA_569,取款机(ATM),XP,无,无,4.0.0.0_2012Q1B,ZJAXV2_0_0_Update_010P,4.0.0.0_2012Q1B,ZJAXV2_0_0_Update_010P,58,,20151225
+赣州银行,广电,GRG_H22N,取款机(ATM),XP,无,有,4.3.13.04.0106,ZJAXV2_0_0_Update_010P,,,20,,20151225
+赣州银行,恒银,306A,发卡机,WIN7,无,,,,,,,,
+赣州银行,日立,HT_2845SR_13款,存取款一体机(CRS),XP SP2,无,有,ZJHTSP_10018D_T1,ZJAXV2_0_0_Update_010P,,ZJAXV2_0_0_Update_010P,34,,"20151225
+1台大堂，33台穿墙"
+赣州银行,晓星,Monimax5600T,取款机(ATM),XP,无,,RCB(GanZhou)_WOSA_UPDATE_MX5600_SERIES(20141103),ZJAXV2_0_0_Update_010P,,,11,,"20151225
+晓星5600包括有穿墙和大堂的2款；"
+赣州银行,晓星,Monimax8000A,存取款一体机(CRS),XP,无,,RCB(GanZhou)_WOSA_UPDATE_MX8000A_SERIES(20141013),ZJAXV2_0_0_Update_010P,,,18,,"20151225
+Monimax8000A大堂2台，Monimax8000TA穿墙16台
+晓星8000包括有8000大堂和穿墙 2款；"
+赣州银行,御银,御银KT1688-A5,取款机(ATM),XP,无,有,2.0.9,ZJAXV2_0_0_Update_010P,2.0.9,ZJAXV2_0_0_Update_010P,42,,20151225
+赣州银行,御银,御银KT1688-K1,存取款一体机(CRS),XP,无,有,2.0.9,ZJAXV2_0_0_Update_010P,2.0.9,ZJAXV2_0_0_Update_010P,23,,20151225
+工银亚洲,NCR,NCR_58XX,取款机(ATM),XP,诺顿,有,NCR XFS APTRA 5.01,KAL068,NCR XFS APTRA 5.01,KAL068,,,
+工银亚洲,NCR,NCR_6622,取款机(ATM),XP,诺顿,有,NCR XFS APTRA 5.01,KAL068,NCR XFS APTRA 5.01,KAL068,,,
+工银亚洲,NCR,NCR_6625,取款机(ATM),XP,诺顿,无,NCR XFS APTRA 5.01,KAL068,NCR XFS APTRA 5.01,KAL068,,,
+工银亚洲,NCR,NCR_6632,存取款一体机(CRS),XP,诺顿,有,NCR XFS APTRA 5.01,KAL068,NCR XFS APTRA 5.01,KAL068,,,
+工银亚洲,NCR,NCR_6632,存取款一体机(CRS),WIN7,无,有,06.01.00.02,Kal5.3_updata003,,,,,
+工银亚洲,WINCOR,WINCOR_1500,取款机(ATM),XP,诺顿,有,WINCOR SP PROBASE/C 1.1,KAL068,WINCOR SP PROBASE/C 1.1,KAL068,,,
+工银亚洲,WINCOR,WINCOR_2050,取款机(ATM),XP,诺顿,无,WINCOR SP PROBASE/C 1.1,KAL068,WINCOR SP PROBASE/C 1.1,KAL068,,,
+工银亚洲,WINCOR,WINCOR_2100,存取款一体机(CRS),XP,诺顿,有,WINCOR SP PROBASE/C 1.1,KAL068,WINCOR SP PROBASE/C 1.1,KAL068,,,
+工银亚洲,WINCOR,WINCOR_2150,存取款一体机(CRS),XP,诺顿,无,WINCOR SP PROBASE/C 1.1,KAL068,WINCOR SP PROBASE/C 1.1,KAL068,,,
+光大银行,WINCOR,WINCOR_1500,取款机(ATM),XP,无,有,ProDevice4160,Kal068,ProDevice4160,KAL068/KAL030,,,设备数量：28台
+光大银行,WINCOR,WINCOR_1500XE,取款机(ATM),,,,,,SP4160,KAL068,,,设备数量:313台
+光大银行,WINCOR,WINCOR_2000,取款机(ATM),XP,无,无,ProDevice4160,Kal068,ProDevice4160,KAL068/KAL030,,,设备数量：24台
+光大银行,WINCOR,WINCOR_2000XE,取款机(ATM),,,,,,SP4160,KAL068,,,设备数量:42台
+光大银行,WINCOR,WINCOR_2050,取款机(ATM),XP,无,有,ProDevice4160,Kal068,ProDevice4160,KAL068/KAL030,,,设备数量：27台
+光大银行,WINCOR,WINCOR_2050XE,取款机(ATM),,,,,,SP4160,KAL068,,,设备数量：70台
+光大银行,WINCOR,WINCOR_400,取款机(ATM),XP,无,无,ProDevice4160,Kal068,ProDevice4160,KAL068/KAL030,,,设备数量：2台
+光大银行,WINCOR,WINCOR_4000,存取款一体机(CRS),XP,无,有,ProbaseC,,ProbaseC,KAL068/KAL030,,,设备数量：64台
+光大银行,WINCOR,WINCOR_4060,存取款一体机(CRS),XP SP3,无,有,ProBase11.20 B6,Kal068,ProBase11.20 B6,Kal068,,,设备数量：13台
+光大银行,WINCOR,WINCOR_450,取款机(ATM),XP,无,无,ProDevice4160,Kal068,ProDevice4160,KAL068/KAL030,,,
+光大银行,迪堡,DIEBOLD_10XX,取款机(ATM),XP,无,无,,,3.2.0.11_2009.Q2B,KAL068/KAL030,,,该机型已在生产上被淘汰！请知晓！！！
+光大银行,迪堡,DIEBOLD_3030,存取款一体机(CRS),XP,无,有,,,3.2.0.11_2009.Q2B,KAL068/KAL030,,,"该机型已在生产上被淘汰！请知晓！！！
+设备数量：4台"
+光大银行,东信,东信_2000,取款机(ATM),,,,SP4160,,SP4160,KAL068,,,设备数量：92台
+光大银行,东信,东信_2000XE,取款机(ATM),,,,,,SP4160,KAL068,,,设备数量：954台
+光大银行,东信,东信_2050,取款机(ATM),,,,,,SP4160,KAL068,,,设备数量：75台
+光大银行,东信,东信_2050L,取款机(ATM),,,,,,SP4160,KAL068,,,设备数量：33台
+光大银行,东信,东信_2050XE,取款机(ATM),,,,,,SP1170,KAL068,,,设备数量：1024台
+光大银行,东信,东信_8100,取款机(ATM),,,,SP2.0.6.2,,SP2.0.6.2,KAL068,,,设备数量：65台
+光大银行,东信,东信_8501,存取款一体机(CRS),XP,,,SP2.0.9.1,Kal068,SP2.0.6.38,Kal068,,,
+光大银行,广电,DT E22L,取款机(ATM),,,无,,,SPV4.3.12.63,KAL068,,,设备数量：20台
+光大银行,广电,DT E68L,存取款一体机(CRS),XP SP3,无,无,GRG SP4.3.12.63,Kal068,GRG SP4.3.12.63,KAL068,,,设备数量：15台
+光大银行,广电,DT H22L,取款机(ATM),,,无,,,SPV4.3.12.63,KAL068,,,设备数量：132台
+光大银行,广电,DT H22NL,取款机(ATM),,,,,,SPV4.3.12.63,KAL068,,,设备数量：34台
+光大银行,广电,DT H68L,存取款一体机(CRS),XP SP3,无,有,GRG SP4.3.12.63.0803,Kal068,GRG SP4.3.12.63.0803,KAL068,,,设备数量：154台
+光大银行,广电,DT H68NL,存取款一体机(CRS),XP SP3,无,有,GRG SP4.3.13.04.0266,Kal068,GRG SP4.3.12.63.0803,KAL068,,,设备数量：56台
+光大银行,广电,GRG_E22,取款机(ATM),XP,无,无,GRG SP4.3.12.63,,GRG SP4.3.12.63,Kal068,,,设备数量：17台
+光大银行,广电,GRG_E68,存取款一体机(CRS),XP,无,有,GRG SP4.3.12.63.0803,,GRG SP4.3.12.63.0803,Kal068,,,设备数量：52台
+光大银行,广电,GRG_F16,取款机(ATM),XP,无,无,GRG SP4.3.12.63,,GRG SP4.3.12.63,Kal068,,,设备数量：2台
+光大银行,广电,GRG_H22,取款机(ATM),XP,无,有,GRG SP4.3.12.63,Kal068,GRG SP4.3.12.63,Kal068,,,设备数量：233台
+光大银行,广电,GRG_H22N,取款机(ATM),XP,无,有,GRG SP4.3.12.63,,GRG SP4.3.12.63,KAL068/KAL030,,,设备数量：72台
+光大银行,广电,GRG_H68,存取款一体机(CRS),XP,无,无,GRG SP4.3.13.04.0266,,GRG SP4.3.12.63,KAL068/KAL030,,,设备数量：249台
+光大银行,广电,GRG_H68N,存取款一体机(CRS),XP,无,有,GRG SP4.3.12.63.0803,,GRG SP4.3.12.63,KAL068/KAL030,,,设备数量：105台
+光大银行,和美,ACI6100,发卡机,XP,,有,HMSP_V1.0.4,Kal068,HMSP_V1.0.3,Kal068,1,,
+光大银行,恒银,CASH37AG-JR1L,查询机,XP,无,,,,,,,,
+光大银行,聚龙股份,JL8220,存取款一体机(CRS),XP SP3,无,有,JLXFS300V1.0.0.2,Kal068,,,0,,
+光大银行,浪潮,浪潮_1511,查询机,XP SP2,无,有,3.1.22,Kal068,3.1.22,Kal068,,,
+光大银行,浪潮,浪潮_1511,发卡机,XP,,有,V3.2.29,Kal068,V3.2.28\V3.2.29,Kal068,486,,生产设备数量未剔除已撤销设备
+光大银行,浪潮,浪潮_1511TN,发卡机,XP,,有,V3.2.31,Kal068,V3.2.31\V3.2.29,Kal068,450,,生产设备数量未剔除已撤销
+光大银行,浪潮,浪潮_1711TN,VTM,WIN7,无,有,3.7.6,ZJAX,3.7.5,ZJAX2.0,20,,
+光大银行,南天,南天_4200,查询机,XP SP2,无,有,3.0.025,Kal068,3.0.025,Kal068,,,
+光大银行,日立,HT_2845SR_12款,存取款一体机(CRS),XP SP3,无,有,5.65,Kal068,5.65,Kal068,,,
+光大银行,日立,HT_2845V,存取款一体机(CRS),XP SP3,无,有,SP100411,Kal068,SP100327,Kal068,,,设备数量：1305台
+光大银行,晓星,HYOSUNG_5050,取款机(ATM),,,,,,SPV20120322,KAL068,,,设备数量：377台
+光大银行,晓星,HYOSUNG_5600,取款机(ATM),,,,,,SPV20110531,KAL068,,,设备数量：102台
+光大银行,晓星,HYOSUNG_CDUM,取款机(ATM),,,,,,SPV20120322,KAL068,,,设备数量：16台
+光大银行,晓星,HYOSUNG_MX8000A,存取款一体机(CRS),,,,,,CEB_WOSA_UPDATE_MX8000A_SERIES(20140320),KAL068,,,设备数量：21台
+光大银行,晓星,HYOSUNG_TTW,取款机(ATM),XP,无,有,,,SPV20120322,KAL068/KAL030,,,设备数量：31台
+光大银行,晓星,HYOSUNG_TTW3,取款机(ATM),XP,无,无,,,SPV20120322,KAL068/KAL030,,,设备数量：58台
+光大银行,证通,ZT2071_大堂,查询机,XP SP3,无,有,SP3.1.12,Kal068,SP3.1.12,Kal068,,,
+光大银行,证通,ZT2832_壁挂,查询机,XP SP3,无,有,SP3.1.12,Kal068,SP3.1.12,Kal068,,,
+汉口银行,NCR,NCR_58XX,取款机(ATM),XP,NOD,有,5.0.1,Kal075,5.0.1,Kal075,19,,
+汉口银行,NCR,NCR_6622,取款机(ATM),XP,NOD,无,5.0.1,Kal075,5.0.1,Kal075,7,,
+汉口银行,NCR,NCR_6625,取款机(ATM),XP,NOD,有,5.0.1,Kal075,5.0.1,Kal075,126,,
+汉口银行,NCR,NCR_6633,存取款一体机(CRS),XP,NOD,有,1.0.1.3,Kal075,暂未投产,暂未投产,,,
+汉口银行,OKI,OKI_21S,存取款一体机(CRS),XP,NOD,有,1.9.9.0,Kal075,1.9.9.0,Kal075,30,,
+汉口银行,OKI,OKI_21SE,存取款一体机(CRS),XP,NOD,有,2.1.7.0,Kal075,2.1.7.0,Kal075,2,,
+汉口银行,WINCOR,WINCOR_2000,取款机(ATM),XP,NOD,有,Probase 11.10,Kal075,Probase 11.10,Kal075,22,,
+汉口银行,WINCOR,WINCOR_285,取款机(ATM),XP,NOD,有,Probase 11.30.07,Kal075,Probase 11.30.07,Kal075,1,,
+汉口银行,浪潮,浪潮_1511TN,查询机,XP,NOD,无,3.1.14,Kal075,3.1.14,Kal075,13,,
+汉口银行,浪潮,浪潮_1511W,查询机,XP,NOD,有,3.1.14,Kal075,3.1.14,Kal075,85,,
+汉口银行,南天,南天_4230,查询机,XP,NOD,有,3.0.0.4,Kal075,3.0.0.4,Kal075,52,,
+汉口银行,日立,HT_2845A,存取款一体机(CRS),NT,NOD,无,SP100201,Kal075,SP100201,Kal075,,,此机型没有切换到跨平台，使用旧系统。
+汉口银行,日立,HT_2845AE,存取款一体机(CRS),XP,NOD,无,SP100201,Kal075,SP100201,Kal075,,,此机型没有切换到跨平台，使用旧系统
+汉口银行,日立,HT_2845V,存取款一体机(CRS),XP,NOD,有,SP100330,Kal075,SP100327,Kal075,126,,SP在使用IC卡项目时升级到316版本
+汉口银行,晓星,HYOSUNG_MX5600T,取款机(ATM),XP,NOD,,CB(HK)_WOSA_UPDATE_MX5600_SERIES(20140507),Kal075,,Kal075,,,暂未上线
+汉口银行,怡化,YH_6040W,存取款一体机(CRS),XP,NOD,有,YHSP_V5.1.2.23_Build193,Kal075,YHSP_V5.1.2.23_Build193,Kal075,5,,
+杭州银行,NCR,NCR_58XX,取款机(ATM),XP,无,有,4.5.1,KAL068,4.5.1,KAL068,81,,5877、5887共计88台左右
+杭州银行,NCR,NCR_6622,取款机(ATM),XP,无,无,,KAL068,4.5.1,KAL068,2,,
+杭州银行,NCR,NCR_6625,取款机(ATM),XP,无,有,4.5.1,KAL068,4.5.1,KAL068,63,,
+杭州银行,OKI,OKI_21S,存取款一体机(CRS),XP,无,无,,KAL068,1.9.7.0,Kal068,2,,
+杭州银行,OKI,OKI_21SE,存取款一体机(CRS),XP SP3,,有,1.9.5.0,Kal068,1.9.7.0,,,,生产上无此机型
+杭州银行,迪堡,OPTEVA_569,取款机(ATM),XP SP3,,有,2014Q1A,,,,1,,无生产机型，SP及应用测试通过，行方未正式采购。SP版本需要等厂商修改后提交正式版本上线
+杭州银行,东信,东信_8100,取款机(ATM),XP,无,有,SP1285+2.0.6.36,KAL068,SP1285,Kal068,9,,SP版本目前正在转换使用新的版本2.0.6.36，新装机机器使用该版本
+杭州银行,广电,GRG_G22,取款机(ATM),XP,无,有,GRG SP4.3.12.47,KAL068,GRG SP4.3.12.47,Kal068,10,,已上线（5台，2台在用）
+杭州银行,广电,GRG_H22N,取款机(ATM),XP SP3,,有,4.3.13.04.0227,Kal068,4.3.13.04.0227,Kal068,79,,生产上H22N和H22NL共计60
+杭州银行,日立,HT_2845SR,存取款一体机(CRS),XP SP3,,无,HIT-SR-SP-06055S,Kal068,HIT-SR-SP-06055S,,103,,
+杭州银行,日立,HT_2845V,存取款一体机(CRS),XP,无,有,SP100410P,KAL068,SP100410P,KAL068,192,,
+杭州银行,怡化,YH_6040W,存取款一体机(CRS),XP SP3,,有,YHSPupdate_CDS6040T&W_V003.002.004,Kal068,YHSPupdate_CDS6040T&W_V003.002.004,Kal068,68,,
+华兴银行,NCR,NCR_6635,存取款一体机(CRS),XP SP3,,有,1.1.1.0,Kal075,1.0.1.9,KAL075,5,,生产环境5台机器(全部在汕头)
+华兴银行,长城,BST312,查询机,XP,,,,,,,4,,BST312G
+华兴银行,长城,BST802,回单机|填单机,WIN7,无,有,1.0.1.0,ZJAXV2_0_0_Update_018P_T2,1.0.1.0,ZJAXV2_0_0_Update_018P_T2,,华腾,
+华兴银行,长城湘计,湘计_305G,查询机,XP SP3,,有,3.0.5,Kal075,3.0.5,KAL075,5,,生产环境2台机器（广州汕头各一台）
+华兴银行,长城湘计,湘计_306G,查询机,XP SP3,,无,3.0.5,Kal075,3.0.5,Kal075,2,,生产环境3台
+华兴银行,广电,GRG_H22N,取款机(ATM),XP SP3,,有,4.3.13.04.0266,Kal075,4.3.12.63,KAL075,10,,"4.3.12.63增加冠字号功能
+
+4.3.13.04.0266新版人民币支持（20151118目前生产还未升级）"
+华兴银行,广电,GRG_H68N,存取款一体机(CRS),XP SP3,,有,4.3.13.04.0266,Kal075,4.3.12.63,KAL075,17,,"4.3.12.63支持冠字号功能
+4.3.13.04.0266新版人民币支持（20151118目前生产一台设备已升级）"
+华兴银行,恒银,CASH39AG_JR1,查询机,XP SP3,,有,1.3.1（V20131206）,Kal075,1.3.1（V20131206）,Kal075,2,,"已在东莞分行投产
+正式版本为《Update_HY_3.0.0.0_SP(1.3.1) V20131206(华兴银行BSM)》"
+华兴银行,恒银,CASH80AWG,存取款一体机(CRS),XP SP3,,有,1.3.3.0（V20140708）,Kal075,1.3.1(20131119),Kal075,3,,"目前已投产3台设备
+正式版本为 Cashway CEN XFS SP setup(20131119)
+
+sp测试版本生产版本不一致说明：1.3.3.0（V20140708）20151009在测试机房升级进行测试，后续升级到生产"
+华兴银行,新达通,C90-NH3260,存取款一体机(CRS),XP,无,无,华兴银行跨平台SP安装V1.0.2,Kal075,华兴银行跨平台SP安装V1.0.2,Kal075,0,,入场测试，后未采购
+华兴银行,银之杰,H7000,回单机|填单机,WIN7,,无,,,,,,,投标中。未中标，目前无该设备
+华兴银行,怡化,YH_6040W,存取款一体机(CRS),XP SP3,,无,003.002.001,Kal075,003.002.001,Kal075,7,,"支持冠字号功能
+正式版本：YHSPupdate_CDS6040T&W_V003.002.001"
+徽商银行,NCR,NCR_5877,取款机(ATM),XP,,无,5.0.1,ZJAXV2_0_0_Update_012P,5.0.1,ZJAXV2_0_0_Update_012P,45,,
+徽商银行,NCR,NCR_5886,取款机(ATM),XP,无,无,5.0.1,ZJAXV2_0_0_Update_012P,5.0.1,ZJAXV2_0_0_Update_012P,21,,
+徽商银行,NCR,NCR_5887,取款机(ATM),XP,无,有,5.0.1,ZJAXV2_0_0_Update_012P,5.0.1,ZJAXV2_0_0_Update_012P,115,,
+徽商银行,NCR,NCR_6622,取款机(ATM),XP,无,无,5.0.1,ZJAXV2_0_0_Update_012P,5.0.1,ZJAXV2_0_0_Update_012P,14,,
+徽商银行,NCR,NCR_6625_new,取款机(ATM),XP,无,无,6.1.1,ZJAXV2_0_0_Update_012P,6.1.1,ZJAXV2_0_0_Update_012P,6,,
+徽商银行,NCR,NCR_6625_old,取款机(ATM),XP,无,有,5.0.1,ZJAXV2_0_0_Update_012P,5.0.1,ZJAXV2_0_0_Update_012P,192,,
+徽商银行,奥拓,AS8000L,回单机|填单机,WIN7,无,有,,ZJAXV2_0_0_Update_019P,1.0.0.1,ZJAXV2_0_0_Update_019P,,紫金,
+徽商银行,北京兆维,CWEA01,回单机|填单机,WIN7,无,有,,ZJAXV2_0_0_Update_016P,暂未投产,暂未投产,,紫金,
+徽商银行,辰通,TC4000,发卡机,XP SP3,无,有,V2.0.0.0,ZJAXV2_0_0_Update_012P,V2.0.0.0,ZJAXV2_0_0_Update_012P,1,紫金,
+徽商银行,辰通,TC7000,查询机,XP,无,有,V2.0.0.0,ZJAXV2_0_0_Update_018P,V2.0.0.0,ZJAXV2_0_0_Update_018P,,,
+徽商银行,迪堡,OPTEVA_378FL,存取款一体机(CRS),XP,,无,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,1,,
+徽商银行,迪堡,OPTEVA_512,取款机(ATM),XP,,有,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,22,,
+徽商银行,迪堡,OPTEVA_522FL,取款机(ATM),XP,,无,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,3,,
+徽商银行,迪堡,OPTEVA_562,取款机(ATM),XP,,有,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,63,,
+徽商银行,迪堡,OPTEVA_562C,取款机(ATM),XP,,有,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,Opteva-XFS-4.0.3.8-2014Z1A,ZJAXV2_0_0_Update_012P,19,,
+徽商银行,广电,DT_7000P5800,柜员现金循环出钞机(TCR),XP,无,无,4.3.13.04.0266,ZJAXV2_0_0_Update_018P,4.3.13.04.0266,ZJAXV2_0_0_Update_018P,,紫金,
+徽商银行,国光,GS1010,发卡机,XP,无,有,ggspSetup_HSYH_V1.7,ZJAXV2_0_0_Update_012P,ggspSetup_HSFKJ_2016-07-04_V1.1.1.1,ZJAXV2_0_0_Update_019P,1,紫金,
+徽商银行,国光,GS1550B,回单机|填单机,WIN7,无,有,ggspSetup_HSHDJ_V2.0,ZJAXV2_0_0_Update_016P,ggspSetup_HSHDJ_V1.1.1.1,暂未投产,10,紫金,
+徽商银行,国光,GT5800F,柜员现金循环出钞机(TCR),XP,无,无,ggsp_V1.0.1,ZJAXV2_0_0_Update_018P,ggsp_V1.0.1,ZJAXV2_0_0_Update_018P,,紫金,
+徽商银行,国光,HT_2845SR,存取款一体机(CRS),XP,,有,STD060405,ZJAXV2_0_0_Update_012P,STE060501,ZJAXV2_0_0_Update_012P,12,,
+徽商银行,国光,HT_2845V,存取款一体机(CRS),XP,,有,SP100327,ZJAXV2_0_0_Update_012P,SP100409,ZJAXV2_0_0_Update_012P,302,,
+徽商银行,国光,NB2031B+,查询机,XP,无,有,ggspSetup_Common_V1.1.1.1,,ggspSetup_Common_V1.1.1.1,,,紫金,
+徽商银行,国光,NB2050B2,三农终端,XP,无,有,ggspSetup_Common_V1.1.1.1,,ggspSetup_Common_V1.1.1.1,,,紫金,
+徽商银行,三泰,ST-NC01,回单机|填单机,WIN7,无,无,1.0.0.5,ZJAXV2_0_0_Update_015P,1.0.0.5,ZJAXV2_0_0_Update_016P,,紫金,
+徽商银行,证通,ZT2507,三农终端,XP,,有,,,V3.00.001,,,紫金,
+徽商银行,怡化,YH_6040T,存取款一体机(CRS),XP,,无,YHSP_V5.1.2.24_Build312,ZJAXV2_0_0_Update_012P,5.1.3.3 Build698,ZJAXV2_0_0_Update_012P,22,,
+徽商银行,怡化,YH_6040W,存取款一体机(CRS),XP,,有,YHSP_V5.1.2.24_Build312,ZJAXV2_0_0_Update_012P,5.1.3.3 Build698,ZJAXV2_0_0_Update_012P,55,,
+建设银行,NCR,NCR_58XX,取款机(ATM),NT,McAfee,无,4.1.1,Kal068,4.1.1/4.2.1,KAL030/KAL061/KAL068,,,
+建设银行,NCR,NCR_58XX,取款机(ATM),XP SP2,McAfee,无,4.1.1,Kal068,4.1.1/4.2.1,KAL030/KAL061/KAL068,,,
+建设银行,NCR,NCR_58XX（BNA）,存取款一体机(CRS),XP SP2,McAfee,无,4.1.1,Kal068,4.1.1/4.2.1,KAL030/KAL061/KAL068,3142,,上海有生产机器
+建设银行,NCR,NCR_6625,取款机(ATM),XP SP3,McAfee,无,5.1.0,Kal068,4.5.1/5.1.0,KAL030/KAL061/KAL068,,,
+建设银行,NCR,NCR_6674,存款机(CDM),XP SP2,McAfee,无,4.2.1,Kal068,4.2.1,KAL030/KAL061/KAL068,,,
+建设银行,NCR,NCR_6676,存取款一体机(CRS),XP SP2,McAfee,无,4.2.1,Kal068,4.2.1,KAL030/KAL061/KAL068,,,
+建设银行,WINCOR,WINCOR_2050XE,取款机(ATM),XP SP2,McAfee,有,ProBase11.11/WOSA 41.61,Kal068,ProBase11.10/WOSA 41.60,KAL030/KAL061/KAL068,10387,,ProBase11.11/WOSA 41.61版本支持非接IC卡
+建设银行,长城湘计,1000B,VTM,WIN7,,有,1.0.2.3,Kal075,1.0.2.3,Kal075,15,,
+建设银行,长城湘计,700B,VTM,WIN7,,有,1.0.2.3,Kal075,1.0.2.3,Kal075,10,,
+建设银行,长城湘计,湘计_305G,查询机,XP SP2,McAfee,有,V1.0.3,Kal068,V1.0.3,Kal065/Kal068,183,,
+建设银行,辰通,TC4000,查询机,XP SP2,McAfee,有,3.0.0.1.3,Kal068,3.0.0.1.3,Kal065/Kal068,613,,
+建设银行,迪堡,DIEBOLD_10XX,取款机(ATM),NT,McAfee,无,2010Q3F,Kal068,2009Q4F,KAL030/KAL061/KAL068,13104,,
+建设银行,迪堡,DIEBOLD_3030,存取款一体机(CRS),XP SP2,McAfee,无,3.2.0.11-2009Q2B,Kal068,2008Q2D,KAL030/KAL061/KAL068,,,
+建设银行,迪堡,OPTEVA_328,存取款一体机(CRS),XP SP2,McAfee,有,Opteva-XFS-3.9.0.6-2013Y2B,Kal068,2009Q4F/2010Q3F/2012Q1A/2012Y2B/2013Y2B,KAL030/KAL061/KAL068,,,"Opteva-XFS-3.9.0.6-2012Q1A支持冠字号
+Opteva-XFS-3.9.0.6-2012Y2B支持非接IC卡"
+建设银行,迪堡,OPTEVA_522,取款机(ATM),XP SP2,McAfee,无,Opteva-XFS-3.9.0.6-2013Y2B,Kal068,2009Q4F/2010Q3F/2012Q1A/2012Y2B/2013Y2B,KAL030/KAL061/KAL068,,,Opteva-XFS-3.9.0.6-2012Y2B支持非接IC卡
+建设银行,迪堡,OPTEVA_562,取款机(ATM),XP SP2,McAfee,有,Opteva-XFS-3.9.0.6-2013Y2B,Kal068,2009Q4F/2010Q3F/2012Q1A/2012Y2B/2013Y2B,KAL030/KAL061/KAL068,,,Opteva-XFS-3.9.0.6-2012Y2B支持非接IC卡
+建设银行,迪堡,OPTEVA_760,取款机(ATM),XP SP2,McAfee,无,Opteva-XFS-3.9.0.6-2013Y2B,Kal068,2009Q4F/2010Q3F/2012Q1A/2012Y2B/2013Y2B,KAL030/KAL061/KAL068,,,Opteva-XFS-3.9.0.6-2012Y2B支持非接IC卡
+建设银行,方迪,ST-9850,查询机,XP SP2,McAfee,无,20110707,Kal068,20110707,Kal068,38,,
+建设银行,方迪,ST-9870,查询机,XP SP2,McAfee,有,20110707,Kal068,20110707,Kal065/Kal068,112,,
+建设银行,广电,GRG_F16,取款机(ATM),XP SP2,McAfee,无,GRG SP4.3.12.63.0505,Kal068,GRG SP4.3.12.37/GRG SP4.3.12.63,KAL030/KAL061/KAL068,6718,,"SP4.3.12.37支持IC卡
+SP4.3.12.63.0505支持非接IC卡（对应大版本号GRG XFS SP4.0 WITH SP10）"
+建设银行,广电,GRG_H22,取款机(ATM),XP SP2,McAfee,有,GRG SP4.3.12.63.0505,Kal068,GRG SP4.3.12.37/GRG SP4.3.12.63,KAL030/KAL061/KAL068,,,"SP4.3.12.37支持IC卡
+SP4.3.12.63.0505支持非接IC卡（对应大版本号GRG XFS SP4.0 WITH SP10）"
+建设银行,广电,GRG_H22N,取款机(ATM),XP SP2,McAfee,有,GRG SP4.3.12.63.0505,Kal068,GRG SP4.3.12.37/GRG SP4.3.12.63,Kal068,,,"SP4.3.12.37支持IC卡
+SP4.3.12.63.0505支持非接IC卡（对应大版本号GRG XFS SP4.0 WITH SP10）"
+建设银行,广电,GRG_H68N,存取款一体机(CRS),XP SP2,McAfee,有,,Kal068,,Kal068,,,
+建设银行,广电,I60,VTM,WIN7,,有,4.3.0.12.0000,Kal075,4.3.0.12.0000,Kal075,20,,
+建设银行,广电,I61,VTM,WIN7,,有,4.3.0.12.0000,Kal075,4.3.0.12.0000,Kal075,10,,
+建设银行,国光,NB2031B,查询机,XP SP2,McAfee,有,3.1.0,Kal068,3.1.0,Kal068,265,,
+建设银行,恒银,CASH80AWI,取款机(ATM),XP SP2,McAfee,有,,Kal068,,Kal068,,,
+建设银行,浪潮,浪潮_1511,查询机,XP SP2,McAfee,有,3.1.11,Kal068,3.1.11,Kal065/Kal068,495,,
+建设银行,联迪,ACM-8900,查询机,XP SP2,McAfee,有,3.0.4,Kal068,3.0.4,Kal065/Kal068,49,,
+建设银行,南天,南天_4200Z20,查询机,XP SP2,McAfee,有,3.0.014,Kal068,3.0.014,Kal065/Kal068,866,,
+建设银行,日立,HT_2845AE,存取款一体机(CRS),XP SP2,McAfee,无,,Kal068,SP10002/SP100201/SP100309/SP100311,KAL030/KAL061/KAL068,0,,SP100311解决国际IC卡吞卡问题
+建设银行,日立,HT_2845SR_13款,存取款一体机(CRS),XP SP3,McAfee,有,VDA655,Kal068,,Kal068,,,
+建设银行,日立,HT_2845V,存取款一体机(CRS),XP SP2,McAfee,有,SP100328,Kal068,SP100201/SP100305/SP100309/SP100311/SP100315/SP100318/SP100319/SP100321/SP100324/SP100327/SP100328,KAL030/KAL061/KAL068,14285,,"SP100311解决国际IC卡吞卡问题
+SP100315支持冠字号功能
+SP100321支持非接IC卡"
+建设银行,日立,HT_2845W,存取款一体机(CRS),XP SP2,McAfee,无,SP100321,Kal068,SP10002/SP100201/100305/100309/100311/SP100315,KAL061/KAL068,10,,福建有生产机器
+建设银行,御银,KingTeller_A5,取款机(ATM),XP SP2,McAfee,有,1.0.9,Kal068,1.0.5/1.0.6/1.0.7/1.0.8/1.0.9,Kal068,4515,,1.0.8支持非接IC卡
+建设银行,御银,KingTeller_K3,存取款一体机(CRS),XP SP2,McAfee,有,,Kal068,,,,,
+建设银行,证通,ZT2071,查询机,XP SP2,McAfee,有,SP400001,Kal068,SP400001,Kal065/Kal068,1738,,
+建设银行,怡化,YH_6040T,存取款一体机(CRS),XP SP2,McAfee,有,077,Kal068,072/074/075/076/077,Kal068,16054,,"072支持冠字号功能
+074支持非接IC卡
+075增加对T设备的冠字号功能支持
+077支持退卡器模块"
+建设银行,怡化,YH_6040W,存取款一体机(CRS),XP SP2,McAfee,有,077,Kal068,072/074/075/076/077,KAL068,,,"072支持冠字号功能
+074支持非接IC卡
+077支持退卡器模块"
+交通银行,NCR,NCR_58XX,取款机(ATM),XP SP2,无,有,,,NCR-SP(04.02.01),KAL068,1923,棠棣和国光合作开发,
+交通银行,NCR,NCR_6622,取款机(ATM),XP,无,无,,Kal068,04.05.01;NCR SP 06.01.01,Kal068,,,
+交通银行,NCR,NCR_6625,取款机(ATM),XP SP2,无,有,NCR-SP(04.05.01)、NCR SP 06.01.01、NCR退卡器SPV1.0.0_20141210,,NCR-SP(04.05.01)、NCR SP 06.01.01、NCR退卡器SPV1.0.0_20141210,KAL068,,,
+交通银行,NCR,NCR_6626,取款机(ATM),XP SP3,无,无,,,NCR-SP(04.05.01)、NCR SP 06.01.01、NCR退卡器SPV1.0.0_20141210,KAL068,,,
+交通银行,OKI,OKI_21S,存取款一体机(CRS),XP SP3,无,有,1.9.8.0,,1.9.8.0,KAL068,1374,,有：前面机、后面机
+交通银行,OKI,OKI_21SE,存取款一体机(CRS),XP SP3,无,有,2.1.3.0,,2.1.3.0,KAL068,,,有：前面机、后面机
+交通银行,WINCOR,WINCOR_2000,取款机(ATM),XP SP2,无,无,,,SP 1.03,KAL068,916,,有：前面机、后面机
+交通银行,WINCOR,WINCOR_2050XE,取款机(ATM),XP SP2,无,有,,,Probase 11.10,KAL068,,,"有：前面机、后面机；
+2050新机器安装的系统为XP SP3"
+交通银行,WINCOR,WINCOR_4000,取款机(ATM),XP SP2,无,无,,,SP 1.03,KAL068,,,有：前面机、后面机
+交通银行,WINCOR,WINCOR_8050,取款机(ATM),XP SP2,无,无,,,Probase 11.10,KAL068,,,机房测试机系统为XP SP3
+交通银行,迪堡,DIEBOLD_10XX,取款机(ATM),XP SP3,无,无,DIEBOLD 1000-XFS-1.39-2009Q2,,DIEBOLD SIU-OPTEVA-3.9.0.6-2010Q3F,KAL068,4179,,有：ImpactReceiptPrinter\ThermalReceiptPrinter
+交通银行,迪堡,DIEBOLD_3030,存取款一体机(CRS),XP SP3,无,有,DIEBOLD SIU-XFS-3.2.0.11-2009Q2B,,DIEBOLD SIU-OPTEVA-3.9.0.6-2010Q3F,KAL068,,,机房测试机系统为XP SP2
+交通银行,迪堡,OPTEVA,取款机(ATM),XP SP3,无,无,DIEBOLD Opteva-XFS-3.9.0.6-2009Q2B,,DIEBOLD SIU-OPTEVA-3.9.0.6-2010Q3F,KAL068,,,有：前面机、后面机
+交通银行,迪堡,OPTEVA_328,存取款一体机(CRS),XP SP3,无,有,SIU-OPTEVA-XFS-4.0.0.0-2012Q1B-XV-BOCOM;非接XGD_IC_BOCOM,,SIU-OPTEVA-XFS-4.0.0.0-2012Q1B-XV-BOCOM,KAL068,,,"有：前面机、后面机
+机房测试机系统为XP SP2
+Diebold328生产上部分机器进行了改造支持冠字号功能，SP版本为BOCOM-SNR_forBV5+；剩余机器未改造仍用老版本SP，不支持冠字号功能。"
+交通银行,迪堡,OPTEVA_368,存取款一体机(CRS),XP SP3,,有,SIU-OPTEVA-XFS-4.0.3.8-2014Q1A-BOCOM-HQ-7;非接XGD_IC_BOCOM,Kal068,SIU-OPTEVA-XFS-4.0.3.8-2014Q1A-BOCOM-HQ-7;非接XGD_IC_BOCOM,KAL068,,,该机型和SP版本支持冠字号功能
+交通银行,迪堡,OPTEVA_529,取款机(ATM),XP SP3,无,有,SIU-OPTEVA-XFS-4.0.0.0-2012Q1B-XV-BOCOM,Kal068,SIU-OPTEVA-XFS-4.0.0.0-2012Q1B-XV-BOCOM,Kal068,,,
+交通银行,东信,东信_8100,取款机(ATM),XP,无,有,Eastcom_SP_2.0.6.36,Kal068,Eastcom_SP_2.0.6.36,Kal068,9,,
+交通银行,广电,GRG_E22,取款机(ATM),XP SP3,无,有,GRG_SP_UPDATE_4.3.12.63.0917_20140310,,GRG_SP_UPDATE_4.3.12.63.0917_20140310,KAL068,7937,,
+交通银行,广电,GRG_E68,取款机(ATM),XP SP3,无,无,,,GRG_SP_UPDATE_4.3.12.63.0917_20140310,KAL068,,,
+交通银行,广电,GRG_F16,取款机(ATM),XP SP3,无,无,,,GRG XFS SP 4.0 PR3 WITH SP10,KAL068,,,
+交通银行,广电,GRG_H22,取款机(ATM),XP SP3,无,无,,,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,KAL068,,,
+交通银行,广电,GRG_H22N,取款机(ATM),XP SP3,无,有,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,KAL068,,,
+交通银行,广电,GRG_H38N,取款机(ATM),XP SP3,无,无,,,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,KAL068,,,
+交通银行,广电,GRG_H68,存取款一体机(CRS),XP SP3,无,有,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,KAL068,,,
+交通银行,广电,GRG_H68N,存取款一体机(CRS),XP SP3,无,有,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,,交行ATM_GRG_SP_UPDATE_4.3.13.04.0106_20141124,KAL068,,,
+交通银行,恒银,CASH80AWG,存取款一体机(CRS),XP SP3,无,有,恒银CASHWAY_CEN_XFS SP_1.2.8,Kal068,恒银CASHWAY_CEN_XFS SP_1.2.8,Kal068,3,,
+交通银行,青湖,青湖_COMNET8800,取款机(ATM),XP SP2,无,无,,,8800_2011.03.28,KAL068,153,,
+交通银行,青湖,青湖_EXCD3,取款机(ATM),XP SP2,无,有,,,8800_2011.03.28,KAL068,,,
+交通银行,日立,HT_2845,存取款一体机(CRS),XP SP2,无,,,,SP100309,KAL068,2790,,有：前面机、后面机
+交通银行,日立,HT_2845SR-12款,存取款一体机(CRS),XP SP3,无,无,,Kal068,HIT-SR-STEY60505,Kal068,,棠棣和国光合作开发,
+交通银行,日立,HT_2845SR-14款,存取款一体机(CRS),XP SP3,无,有,HIT-SR-STEY60505,Kal068,HIT-SR-STEY60505,Kal068,,棠棣和国光合作开发,
+交通银行,日立,HT_2845V,存取款一体机(CRS),XP SP2,无,有,SP100327,,SP100327,KAL068,,,有：前面机、后面机，06、10、11、12、14款，测试机房为14款机型
+交通银行,晓星,HYOSUNG_5050W,取款机(ATM),XP SP3,无,无,,,,KAL068,,,已完成淘汰
+交通银行,晓星,HYOSUNG_MX5600T,取款机(ATM),XP SP3,无,无,UPDATE_MX5600_SERIES(20120522),KAL068,,,,,未上生产
+交通银行,晓星,HYOSUNG_MX8000A,存取款一体机(CRS),XP SP3,无,无,UPDATE_MX8000A_SERIES(20120522),KAL068,,,,,未上生产
+交通银行,晓星,HYOSUNG_MX8000T,存取款一体机(CRS),XP SP3,无,无,,,hyosungMX8000T_20110527,KAL068,,,"有：前面机、后面机
+已完成淘汰"
+交通银行,中钞科堡,KEBA_C6,存取款一体机(CRS),XP,无,有,CK-SP_Inst_C6BOCOMM_01_20140925及配置补丁,KAL068,CK-SP_Inst_C6BOCOMM_01_20140925及配置补丁,Kal068,1947,,
+交通银行,中钞科堡,KEBA_R5,存取款一体机(CRS),XP SP2,无,有,,,KEBA_SP_UPDATE_111216,KAL068,,,
+交通银行,中钞科堡,KEBA_R6,存取款一体机(CRS),XP SP3,无,有,CK-SP_Patch_CM_CRT-730-A160_R6BOCOMM_01_20150108(退卡器SP),,CK-SP_Patch_IDC-V2CU+V2XU_R6BOCOMM_02_20141210,KAL068,,,
+金华银行,东信,8600R,存取款一体机(CRS),XP SP3,无,有,2.3.0.16,ZJAXV2_0_0_Update_019P,2.3.0.16,ZJAXV2_0_0_Update_019P,3,紫金,
+金华银行,东信,东信_8800T,取款机(ATM),XP SP3,无,有,2.3.0.16,ZJAXV2_0_0_Update_019P,2.3.0.16,ZJAXV2_0_0_Update_019P,3,紫金,
+金华银行,广电,GRG_H22N,取款机(ATM),XP,无,有,4.3.13.04.0340,,4.3.13.04.0266+4.3.13.04.0340,,47,,47台
+金华银行,广电,GRG_H22NL,取款机(ATM),XP SP3,无,无,4.3.13.04.0340,,4.3.13.04.0266+4.3.13.04.0340,,1,,1台
+金华银行,广电,GRG_H68,存取款一体机(CRS),XP SP3,无,无,4.3.13.04.0266,,4.3.13.04.0266+4.3.13.04.0340,,6,,6台
+金华银行,广电,GRG_H68N,存取款一体机(CRS),XP,无,无,4.3.13.04.0266,,4.3.13.04.0266+4.3.13.04.0340,,18,,18台
+金华银行,御银,KingTeller_A4,取款机(ATM),XP,无,有,2.0.9,,2.0.9,,1,,1台
+金华银行,御银,KingTeller_A4（08）,取款机(ATM),XP,无,有,2.0.9,,2.0.9,,2,,2台
+金华银行,御银,KingTeller_A5,取款机(ATM),XP,无,无,2.0.9,,2.0.9,,26,,26台
+金华银行,御银,KingTeller_A5（08）,取款机(ATM),XP,无,有,2.0.9,,2.0.9,,33,,33台
+金华银行,御银,KingTeller_K1（08）,存取款一体机(CRS),XP,无,无,2.0.9,,2.0.9,,4,,4台
+金华银行,御银,KingTeller_K3（08）,存取款一体机(CRS),XP,无,有,2.0.9,,2.0.9,,10,,10台
+金华银行,怡化,YH_6040WR,存取款一体机(CRS),XP SP3,无,有,5.1.5.2,ZJAXV2_0_0_Update_019P,5.1.5.2,ZJAXV2_0_0_Update_019P,0,紫金,
+晋中银行,广电,DT H22NL,取款机(ATM),WIN7,,有,4.3.13.04.0000,,,,6,,
+晋中银行,广电,GRG_H22N,取款机(ATM),WIN7,,有,4.3.13.04.0000,,,,11,,
+晋中银行,御银,KingTeller_A4(08),取款机(ATM),WIN7,,有,KTWSP V2.1.0,,,,8,,
+晋中银行,御银,KingTeller_A5(08),取款机(ATM),WIN7,,有,KTWSP V2.1.0,,,,8,,
+晋中银行,御银,KingTeller_A5(09),取款机(ATM),WIN7,,,KTWSP V2.1.0,,,,2,,
+晋中银行,御银,KingTeller_K1（08）,存取款一体机(CRS),WIN7,,无,KTWSP V2.1.0,,,,3,,
+晋中银行,御银,KingTeller_K2（08）,存取款一体机(CRS),WIN7,,有,KTWSP V2.1.0,,,,1,,
+晋中银行,御银,KingTeller_K3,存取款一体机(CRS),WIN7,,无,KTWSP V2.1.0,,,,10,,
+晋中银行,御银,KingTeller_K4,存取款一体机(CRS),WIN7,,无,KTWSP V2.1.0,,,,7,,
+晋中银行,怡化,YH_6040W,存款机(CDM),WIN7,金山杀毒软件企业版,有,5.1.3.1 Build614,,5.1.3.3 Build698,,1,神码,
+昆仑银行,迪堡,OPTEVA_328,存取款一体机(CRS),XP,无,有,3.9.0.6 2010-Q3F,ZJAXV2_0_0_Update_011P,3.9.0.6 2010-Q3F,ZJAXV2_0_0_Update_011P,,,迪堡设备数量共计：66台
+昆仑银行,迪堡,OPTEVA_368,存取款一体机(CRS),XP SP3,无，黑白名单,有,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_011P,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_011P,,,
+昆仑银行,迪堡,OPTEVA_522,取款机(ATM),XP,无,无,3.9.0.6 2010-Q3F,ZJAXV2_0_0_Update_011P,3.9.0.6 2010-Q3F,ZJAXV2_0_0_Update_011P,,,"单屏
+迪堡设备数量共计：66台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_008P_T1（add by wangxybj-2014-4-9）"
+昆仑银行,迪堡,OPTEVA_562,取款机(ATM),XP,无,无,Opteva-XFS-4.0.3.8-2014Z1A-Kunlun-Patch01,ZJAXV2_0_0_Update_011P,Opteva-XFS-4.0.3.8-2014Z1A-Kunlun-Patch01,ZJAXV2_0_0_Update_011P,,,"双屏
+迪堡设备数量共计：66台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_008P_T1（add by wangxybj-2014-4-9）"
+昆仑银行,迪堡,OPTEVA_569,取款机(ATM),XP SP3,无，黑白名单,有,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_011P,4.0.0.0_2012Q1B_Patch01,ZJAXV2_0_0_Update_011P,,,
+昆仑银行,广电,GRG_H22,取款机(ATM),XP,无,无,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,,,"TTU
+广电设备数量：345台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_008P_T1（add by wangxybj-2014-4-9）"
+昆仑银行,广电,GRG_H22N,取款机(ATM),XP,无,无,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,,,"双屏
+广电设备数量：345台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_008P_T1（add by wangxybj-2014-4-9）"
+昆仑银行,广电,GRG_H22NL,取款机(ATM),XP,无,无,GRG SP4.3.13.04.0227,ZJAXV2_0_0_Update_011P,GRG SP4.3.13.04.0227,ZJAXV2_0_0_Update_011P,,,"单屏
+广电设备数量：345台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_008P_T1（add by wangxybj-2014-4-9）"
+昆仑银行,广电,GRG_H68,存取款一体机(CRS),XP,无,无,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,345,,"TTU
+广电设备数量：345台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_008P_T1（add by wangxybj-2014-4-9）"
+昆仑银行,广电,GRG_H68N,存取款一体机(CRS),XP,无,有,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,GRG SP4.3.12.63,ZJAXV2_0_0_Update_011P,345,,"双屏
+广电设备数量：345台"
+昆仑银行,日立,HT_2845V,存取款一体机(CRS),XP,无,有,ZJHTSP_10013S,ZJAXV2_0_0_Update_011P,ZJHTSP_10013S,ZJAXV2_0_0_Update_011P,35,,"穿墙双屏、大堂单屏
+设备数量共计：35台"
+昆仑银行,御银,KingTeller_A4,取款机(ATM),XP,无,有,V2.0.7.3_kl(昆仑银行专用版),ZJAXV2_0_0_Update_011P,V2.0.7.3_kl(昆仑银行专用版),ZJAXV2_0_0_Update_011P,34,,"单屏
+御银设备数量共计：34台"
+昆仑银行,御银,KingTeller_A5,取款机(ATM),XP,无,无,V2.0.7.4_kl(昆仑银行专用版),ZJAXV2_0_0_Update_011P,V2.0.7.4_kl(昆仑银行专用版),ZJAXV2_0_0_Update_011P,34,,"双屏
+御银设备数量共计：34台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_008P_T1（add by wangxybj-2014-4-9）"
+昆仑银行,御银,KingTeller_K3,存取款一体机(CRS),XP SP3,无，黑白名单,有,V2.0.7补丁3,ZJAXV2_0_0_Update_011P,V2.0.7补丁3,ZJAXV2_0_0_Update_011P,,,
+柳州银行,OKI,OKI_21S,存取款一体机(CRS),XP SP3,诺顿,无,1.8.4.0,ZJAXV2_0_0_Update_010P,1.8.4.0,ZJAXV2_0_0_Update_010P,0,,OKI退出柳州银行，由神码设备替代
+柳州银行,OKI,OKI_21SX,存取款一体机(CRS),XP SP3,诺顿,无,1.4.6.0,ZJAXV2_0_0_Update_010P,1.4.6.0,ZJAXV2_0_0_Update_010P,0,,由神码C7000替换
+柳州银行,长城,BST306B,发卡机,XP SP2,趋势,,,,,,46,紫金,"厂商应用
+统计时间2016-10-26"
+柳州银行,长城,PZ850-A,存取款一体机(CRS),XP SP3,诺顿,无,V1.0.0.9,ZJAXV2_0_0_Update_010P,,,0,,银行最后未采购
+柳州银行,国光,NB2031E,查询机,XP SP3,诺顿,有,江苏国光CEN/XFS SP(V1.3.0),ZJAXV2_0_0_Update_010P,1.3.0,ZJAXV2_0_0_Update_010P,73,紫金,统计时间2016-10-26生产上73台
+柳州银行,日立,HT_2845SR_12款,存取款一体机(CRS),XP SP3,诺顿,有,ZJHTSP_10020D,ZJAXV2_0_0_Update_019P,ZJHTSP_10016D_T6，ZJHTSP_10020D,ZJAXV2_0_0_Update_019P,21,,统计时间2016-10-26生产上21台
+柳州银行,神州数码,神码_C3004,取款机(ATM),XP SP2,诺顿,无,1.1.0,ZJAXV2_0_0_Update_006P,1.1.0,ZJAXV2_0_0_Update_006P,0,,20140127截止生产上0台
+柳州银行,神州数码,神码_C3006,取款机(ATM),XP SP2,诺顿,无,1.1.0,ZJAXV2_0_0_Update_006P,1.1.0,ZJAXV2_0_0_Update_006P,0,,截止20140127生产上0台
+柳州银行,神州数码,神码_C6000,取款机(ATM),XP SP3,诺顿,有,1.7.5,ZJAXV2_0_0_Update_019P,1.7.5,ZJAXV2_0_0_Update_019P,78,,统计时间2016-10-26生产上78台
+柳州银行,神州数码,神码_C7000,存取款一体机(CRS),XP SP3,诺顿,有,1.7.5,ZJAXV2_0_0_Update_019P,1.7.5,ZJAXV2_0_0_Update_019P,315,,统计时间2016-10-26生产上315台
+柳州银行,神州数码,神码_C9000,存取款一体机(CRS),XP SP3,诺顿,有,神码C9000_CTL(1.0.0.7),ZJAXV2_0_0_Update_019P,神码C9000_CTL(1.0.0.7),ZJAXV2_0_0_Update_019P,2,紫金,统计时间2016-10-26
+平安银行,NCR,NCR_58XX,取款机(ATM),XP,Solidcore,有,01003,kal085,01003,kal085,207,,"银行有58系列的测试机两台：NCR5877（大堂机）与NCR5887（穿墙机）
+58xx系列合计：223
+NCR_5875	1
+NCR_5877	14
+NCR_5884	42
+NCR_5885	3
+NCR_5887	147"
+平安银行,NCR,NCR_6635,存取款一体机(CRS),XP SP3,Solidcore,有,01008,kal085,01008,kal085,64,,"NCR的SP以日期命名;6633是6635的前屏机
+NCR_6633	15	
+NCR_6635	49"
+平安银行,OKI,OKI_21SE,存取款一体机(CRS),XP SP3,Solidcore,有,01004,kal085,01004,kal085,23,,
+平安银行,WINCOR,WINCOR_2000XE,取款机(ATM),XP SP3,Solidcore,有,WINCOR SP PROBASE 1120/1170 B06,kal085,WINCOR SP PROBASE 1120/1170 B06,kal085,86,,"WINCOR_2000	4
+WINCOR_2000XE	65
+WINCOR_2000XE-USB	17"
+平安银行,WINCOR,WINCOR_2050XE,取款机(ATM),XP SP3,Solidcore,有,01019,kal085,01018,kal085,372,,"WINCOR_2050	24
+WINCOR_2050XE	114
+WINCOR_2050XE-USB	234"
+平安银行,WINCOR,WINCOR_4060XE,存取款一体机(CRS),XP SP3,Solidcore,有,01019,kal085,01018,kal085,239,,"有两台测试机，一台前屏，一台双屏
+合计：255"
+平安银行,迪堡,OPTEVA,取款机(ATM),XP,Solidcore,有,3.9.0.6-2013Y2B,kal085,3.9.0.6-2013Y2B,kal085,26,,"OPTEVA522 	5
+OPTEVA562 	19
+OPTEVA520	         2"
+平安银行,东信,东信_2000,取款机(ATM),XP SP3,Solidcore,有,01003,kal085,01003,kal085,9,,
+平安银行,东信,东信_2000XE,取款机(ATM),XP SP3,Solidcore,有,01003,kal085,01003,kal085,191,,"东信_2000XE	186
+东信_2000XE-USB	5"
+平安银行,东信,东信_2050XE,取款机(ATM),XP SP3,Solidcore,有,01003,kal085,01003,kal085,211,,"东信_2050	         34
+东信_2050XE	142
+东信_2050XE-USB	35"
+平安银行,广电,GRG_E22,取款机(ATM),XP,Solidcore,有,01009,kal085,01008,kal085,31,,"E22	8
+E22L	23"
+平安银行,广电,GRG_H22,取款机(ATM),XP,Solidcore,有,01009,kal085,01008,kal085,66,,
+平安银行,广电,GRG_H22N,取款机(ATM),XP,Solidcore,有,01009,kal085,01008,kal085,316,,"H22N	118
+H22NL	198"
+平安银行,广电,GRG_H68N,存取款一体机(CRS),XP SP3,Solidcore,有,01009,kal085,01008,kal085,73,,"H68N    71
+H68NL   2"
+平安银行,日立,HT_2845A,存取款一体机(CRS),NT,Solidcore,有,SP090001,kal085,SP090001,kal085,3,,
+平安银行,日立,HT_2845AE,存取款一体机(CRS),XP,Solidcore,无,SP090001,kal085,SP090001,kal085,3,,
+平安银行,日立,HT_2845SR,存取款一体机(CRS),XP SP3,Solidcore,有,01007,kal085,01007,kal085,117,,
+平安银行,日立,HT_2845V,存取款一体机(CRS),XP SP3,Solidcore,有,01007,kal085,01007,kal085,2019,,
+平安银行,神州数码,神码_C7000,存取款一体机(CRS),XP SP3,Solidcore,有,01003,kal085,01003,kal085,27,,
+平安银行,晓星,HybridATM,VTM,XP SP3,Solidcore,有,01002,kal085,01002,kal085,4,,
+平安银行,新达通,NDT_F2112,取款机(ATM),XP SP3,Solidcore,无,01005,kal085,01005,kal085,4,,"F2112	          1
+C90-NF3020         2
+C90-NF3120         1"
+秦皇岛银行,恒银,CASH80AWG,存取款一体机(CRS),XP SP2,暂无使用,有,1.3.1.1,ZJAXV2_0_0_Update_011D,1.3.1.1,ZJAXV2_0_0_Update_011D,18,,"生产上恒银设备AWI和AWG一共18台，后面了解到具体各多少台后进行修改完善。
+已经上线终端冠字号功能"
+秦皇岛银行,恒银,CASH80AWI,取款机(ATM),XP SP2,暂无使用,有,1.3.1.1,ZJAXV2_0_0_Update_011D,1.3.1.1,ZJAXV2_0_0_Update_011D,18,,生产上恒银设备AWI和AWG一共18台，后面了解到具体各多少台后进行修改完善。
+秦皇岛银行,御银,KingTeller_A5（08）,取款机(ATM),XP SP2,暂无使用,有,2.0.9,ZJAXV2_0_0_Update_011D,2.0.9,ZJAXV2_0_0_Update_011D,36,,
+日照银行,NCR,NCR_5877,取款机(ATM),XP SP3,,无,6.1.1,,,,3,文思海辉,
+日照银行,NCR,NCR_5887,取款机(ATM),XP SP3,,无,6.1.1,,,,22,文思海辉,
+日照银行,NCR,NCR_6622,取款机(ATM),XP SP3,,无,6.1.1,,,,5,文思海辉,
+日照银行,NCR,NCR_6625,取款机(ATM),XP SP3,,无,6.1.1,,,,85,文思海辉,
+日照银行,NCR,NCR_6633,存取款一体机(CRS),XP SP3,,无,20141113,,,,1,文思海辉,
+日照银行,NCR,NCR_6635,存取款一体机(CRS),XP SP3,,无,20141113,,,,82,文思海辉,
+日照银行,NCR,NCR_6636,存取款一体机(CRS),XP SP3,,无,6.1.1,,,,5,文思海辉,
+日照银行,NCR,NCR_6674,存取款一体机(CRS),XP SP3,,无,6.1.1,,,,5,文思海辉,
+日照银行,NCR,NCR_6683,存取款一体机(CRS),XP,,有,06.03.00,ZJAXV2_0_0_Update_018P,,,,文思海辉,
+日照银行,长城,GWI312,查询机,XP,,无,,,,ZJAXV2_0_0_Update_018P,40,文思海辉,
+日照银行,长城,PZ720-A,取款机(ATM),WIN7,,有,,,,ZJAXV2_0_0_Update_018P,,文思海辉,
+日照银行,长城,PZ850-A,存取款一体机(CRS),WIN7,,无,,,,ZJAXV2_0_0_Update_018P,3,,
+日照银行,恒银,CASH80AWB,存取款一体机(CRS),WIN7,,有,,,,ZJAXV2_0_0_Update_018P,,文思海辉,
+日照银行,恒银,CASH80AWI,取款机(ATM),WIN7,,有,,,,ZJAXV2_0_0_Update_018P,,文思海辉,
+日照银行,南天,南天_4200,查询机,XP,,无,,,,ZJAXV2_0_0_Update_018P,40,文思海辉,
+日照银行,日立,HT_2845SR-12款,存取款一体机(CRS),WIN7,,无,,,,ZJAXV2_0_0_Update_018P,1,文思海辉,
+绍兴银行,NCR,NCR_58XX,取款机(ATM),XP,趋势,有,5.0.1,KAL068,5.0.1,KAL068,27,紫金,27台
+绍兴银行,OKI,21SE,存取款一体机(CRS),XP SP3,无,有,3.5.4.0,KAL068,3.5.4.0,KAL068,1,紫金,
+绍兴银行,东信,8600R,存取款一体机(CRS),XP SP3,无,有,2.3.0.16,KAL068,2.3.0.16,KAL068,1,紫金,
+绍兴银行,东信,东信_8100,取款机(ATM),XP,趋势,有,SP2062,KAL068,SP1285,KAL068,40,紫金,
+绍兴银行,广电,H68N,存取款一体机(CRS),XP SP3,无,有,4.3.13.04.0340,KAL068,4.3.13.04.0340,KAL068,1,紫金,
+绍兴银行,浪潮,BCM1511TN(BC),发卡机,WIN7,微点,无,,ZJAXV2_0_0_Update_018P,,,,,
+绍兴银行,浪潮,PCM710,发卡机,WIN7,微点,无,26.2.1,ZJAXV2_0_0_Update_018P,26.2.1,,1,紫金,
+绍兴银行,南天,南天_4230,查询机,XP SP3,无,有,3.0.015,ZJAXV2_0_0_Update_006P_T1,3.0.015,ZJAXV2_0_0_Update_008P,14,紫金,14台
+绍兴银行,日立,HT_2845SR-14款,存取款一体机(CRS),XP SP3,无,有,ZJHTSP_10017P,Kal068,,Kal065/Kal068,3,紫金,
+绍兴银行,日立,HT_2845V,存取款一体机(CRS),XP SP3,趋势,有,ZJHTSP_10013P,KAL068,ZJHTSP_10016D_T4,KAL068,62,紫金,62台
+苏州银行,NCR,NCR_6625,取款机(ATM),XP SP3,Symantec,有,6.1.1,ZJAXV2_0_0_Update_020P_T2,6.1.1,ZJAXV2_0_0_Update_020P_T2,,联银通,
+苏州银行,迪堡,OPTEVA_520C,取款机(ATM),XP SP3,Symantec,有,Opteva-XFS-4.0.3.8-2014Z1B,ZJAXV2_0_0_Update_020P_T2,Opteva-XFS-4.0.3.8-2014Z1B,ZJAXV2_0_0_Update_020P_T2,,联银通,
+苏州银行,迪堡,OPTEVA_569,取款机(ATM),XP SP3,Symantec,有,Opteva-XFS-4.0.3.8-2014Z1B,ZJAXV2_0_0_Update_020P_T2,Opteva-XFS-4.0.3.8-2014Z1B,ZJAXV2_0_0_Update_020P_T2,,联银通,
+苏州银行,国光,GS1010,发卡机,WIN7,Symantec,有,ggspSetup_SZFKJ_V1.9,ZJAXV2_0_0_Update_020P_T2,ggspSetup_SZFKJ_V1.9,ZJAXV2_0_0_Update_020P_T2,,联银通,
+苏州银行,南天,5200,查询机,XP SP3,Symantec,有,SEA_NTBST_SZYH_3_0_002,ZJAXV2_0_0_Update_020P_T2,SEA_NTBST_SZYH_3_0_002,ZJAXV2_0_0_Update_020P_T2,,联银通,
+苏州银行,证通,ZT2074,查询机,XP SP3,Symantec,有,V2.00.003,ZJAXV2_0_0_Update_020P_T2,V2.00.003,ZJAXV2_0_0_Update_020P_T2,,联银通,
+苏州银行,怡化,YH_6040WF,存取款一体机(CRS),WIN7,Symantec,有,YHSP_V5.1.3.3_Build860,ZJAXV2_0_0_Update_020P_T2,YHSP_V5.1.3.3_Build860,ZJAXV2_0_0_Update_020P_T2,,联银通,
+台州银行,NCR,NCR_58XX,取款机(ATM),XP,瑞星,无,5.0.1,ZJAXV2_0_0_Update_010P,5.0.1,ZJAXV2_0_0_Update_010P,35,,已上线
+台州银行,NCR,NCR_6622,取款机(ATM),XP,瑞星,无,5.0.1,ZJAXV2_0_0_Update_010P,5.0.1,ZJAXV2_0_0_Update_010P,2,,已上线
+台州银行,NCR,NCR_6625,取款机(ATM),XP,瑞星,有,5.0.1,ZJAXV2_0_0_Update_011P_T1,5.0.1,ZJAXV2_0_0_Update_010P,70,,已上线
+台州银行,NCR,NCR_6636,存取款一体机(CRS),XP,瑞星,有,5.0.1,ZJAXV2_0_0_Update_011P_T1,5.0.1,ZJAXV2_0_0_Update_010P,10,,已上线
+台州银行,NCR,NCR_6674,存取款一体机(CRS),XP,瑞星,无,5.0.1,ZJAXV2_0_0_Update_011P_T1,5.0.1,ZJAXV2_0_0_Update_010P,1,,已上线
+台州银行,长城,BST306B,发卡机,XP SP3,无,有,GWIXFS_SP_1.0.6.3_台州银行,ZJAXV2_0_0_Update_018P,,暂未投产,0,,未上线
+台州银行,广电,GRG_H38N,取款机(ATM),XP SP3,瑞星,有,SP4.0 WITH SP10_0908,ZJAXV2_0_0_Update_011P_T1,SP4.0 WITH SP10_0908,ZJAXV2_0_0_Update_010P,2,,已上线
+台州银行,南天,NT_GKJ_001,发卡机,XP SP3,无,有,SEA_NTBST_TZYH_3_0_013,ZJAXV2_0_0_Update_018P,SEA_NTBST_TZYH_3_0_013,,1,,已上线
+台州银行,南天,南天_4230,查询机,XP,瑞星,有,SEA_NTBST_TZYH_3_0_003,ZJAXV2_0_0_Update_004P,SEA_NTBST_TZYH_3_0_003,ZJAXV2_0_0_Update_004P,3,,已上线
+台州银行,南天,南天_5230,查询机,XP,瑞星,有,,ZJAXV2_0_0_Update_004P,,ZJAXV2_0_0_Update_004P,49,,已上线
+台州银行,日立,HT_2845SR,存取款一体机(CRS),XP,,有,,,,,10,,
+台州银行,日立,HT_2845V,存取款一体机(CRS),XP,瑞星,有,SP100311,ZJAXV2_0_0_Update_011P_T1,SP100321,ZJAXV2_0_0_Update_010P,223,,已正式上线
+泰隆银行,长城,BST306B,发卡机,WIN7,无,有,GWI SP For CEN/XFS 3.10 1.0.0.3,ZJAXV2_0_0_Update_019P,,,,,
+天津滨海农商行,NCR,NCR_5887,取款机(ATM),XP SP2,暂无使用,无,5.0.1,ZJAXV2_0_0_Update_014P,5.0.1,ZJAXV2_0_0_Update_014P,7,银联商务,
+天津滨海农商行,NCR,NCR_58XX,取款机(ATM),XP SP2,暂无使用,无,5.0.1,ZJAXV2_0_0_Update_014P,5.0.1,ZJAXV2_0_0_Update_014P,10,,"设备数量：10台；
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-4-9）"
+天津滨海农商行,NCR,NCR_6625,取款机(ATM),XP SP2,暂无使用,无,6.1.1,ZJAXV2_0_0_Update_014P,5.0.1,ZJAXV2_0_0_Update_014P,34,,"设备数量：14台；
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-4-9）"
+天津滨海农商行,NCR,NCR_6635,存取款一体机(CRS),XP SP2,暂无使用,无,旧设备20110819（新装机：131204）,ZJAXV2_0_0_Update_014P,NCR_XP_SP_121212(XFSSP_1.0.1.7),ZJAXV2_0_0_Update_014P,10,,"-->生产上NCR新增机器机型为6635的设备，SP安装为131204，设备量1台，中间件为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-7-19）
+
+
+设备数量：2台；
+该设备SP未经测试部测试，经和银行沟通，暂不测试。直接在生产中试运行。试运行开始日期：2013-03-20 执行人：胡鹏
+-->该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-4-9）"
+天津滨海农商行,WINCOR,WINCOR_2000XE,取款机(ATM),XP,暂无使用,无,ProBase11.10,ZJAXV2_0_0_Update_014P,ProBase11.10,ZJAXV2_0_0_Update_014P,1,,"设备数量：1台；
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-4-9）"
+天津滨海农商行,WINCOR,WINCOR_2050XE,取款机(ATM),XP,暂无使用,无,ProBase11.10,ZJAXV2_0_0_Update_014P,ProBase11.10,ZJAXV2_0_0_Update_014P,29,,"设备数量：38台；
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-4-9）"
+天津滨海农商行,WINCOR,WINCOR_4000,存取款一体机(CRS),XP,暂无使用,无,ProBase11.10,ZJAXV2_0_0_Update_014P,ProBase11.10,ZJAXV2_0_0_Update_014P,1,,"设备数量：4台；
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-4-9）"
+天津滨海农商行,WINCOR,WINCOR_4000XS,存取款一体机(CRS),XP SP3,暂无使用,无,ProBase11.10,ZJAXV2_0_0_Update_014P,ProBase11.10,ZJAXV2_0_0_Update_014P,1,,"设备数量：1台
+该机型无测试机，中间件测试版本以之前登记为准，生产为ZJAXV2_0_0_Update_010P（add by wangxybj-2014-4-9）"
+天津滨海农商行,光荣,光荣100,柜员现金循环出钞机(TCR),WIN7,暂无使用,有,,,,,,,
+天津滨海农商行,恒银,CASH80AWG,存取款一体机(CRS),XP SP3,暂无使用,有,无,ZJAXV2_0_0_Update_014P,1.2.3 update016,ZJAXV2_0_0_Update_014P,25,,"SP未经过测试部测试，由厂商出具正式承诺函保证设备安全运行后上线。
+恒银设备数量：12台"
+天津滨海农商行,恒银,CASH80AWI,取款机(ATM),XP SP3,暂无使用,有,无,ZJAXV2_0_0_Update_014P,1.2.3 update016,ZJAXV2_0_0_Update_014P,41,,"SP未经过测试部测试，由厂商出具正式承诺函保证设备安全运行后上线。
+恒银设备数量：19台"
+天津滨海农商行,辽宁聚龙,JL303,柜员现金循环出钞机(TCR),嵌入式系统,暂无使用,有,,,,,,,
+天津滨海农商行,速必得,S1600（A）,点钞机,嵌入式系统,暂无使用,有,,,,,,,
+天津滨海农商行,中钞信达,XD2018A,点钞机,嵌入式系统,暂无使用,有,,,,,,,
+武汉农商,WINCOR,WINCOR_8050,取款机(ATM),XP SP3,,有,Probase 11.10,ZJAXV2_0_0_Update_007P,Probase 11.10,ZJAXV2_0_0_Update_007P,1,,
+武汉农商,北京兆维,TELLER-590-G,取款机(ATM),XP SP3,,有,2,ZJAXV2_0_0_Update_019P_T2,,ZJAXV2_0_0_Update_019P_T2,,,
+武汉农商,北京兆维,TELLER-730-G,存取款一体机(CRS),XP SP3,,有,2,ZJAXV2_0_0_Update_019P_T2,,ZJAXV2_0_0_Update_019P_T2,,,
+武汉农商,长城,BST308,查询机,XP SP3,,有,3.2.0,ZJAXV2_0_0_Update_010P_T2,3.2.0,ZJAXV2_0_0_Update_010P_T2,52,,
+武汉农商,迪堡,OPTEVA_368,存取款一体机(CRS),XP SP3,无,有,4.0.3.8_2016Z1A,ZJAXV2_0_0_Update_019P_T2,4.0.3.8_2015Z1A,ZJAXV2_0_0_Update_019P_T2,13,,
+武汉农商,迪堡,OPTEVA_378,存取款一体机(CRS),XP SP3,,有,XFS4.0.0.0_2013Y1C,ZJAXV2_0_0_Update_007P,XFS4.0.0.0_2013Y1C,ZJAXV2_0_0_Update_007P,,,
+武汉农商,迪堡,OPTEVA_522,取款机(ATM),XP SP3,,有,XFS4.0.0.0_2013Y1C,ZJAXV2_0_0_Update_007P,XFS4.0.0.0_2013Y1C,ZJAXV2_0_0_Update_007P,5,,
+武汉农商,迪堡,OPTEVA_529,取款机(ATM),XP SP3,,,XFS4.0.0.0_2013Y1C,ZJAXV2_0_0_Update_007P,XFS4.0.0.0_2013Y1C,ZJAXV2_0_0_Update_007P,26,,
+武汉农商,迪堡,OPTEVA_562,取款机(ATM),XP SP3,,有,4.0.3.8_2015Z1B,ZJAXV2_0_0_Update_019P_T2,4.0.3.8_2015Z1B,ZJAXV2_0_0_Update_019P_T2,85,,
+武汉农商,迪堡,OPTEVA_569,取款机(ATM),XP SP3,,有,4.0.3.8_2015Z1B,ZJAXV2_0_0_Update_019P_T2,4.0.3.8_2015Z1B,ZJAXV2_0_0_Update_019P_T2,32,,
+武汉农商,富士康,GM660,取款机(ATM),XP SP3,,有,2.0.0.8,ZJAXV2_0_0_Update_007P,2.0.0.8,ZJAXV2_0_0_Update_007P,40,,
+武汉农商,广电,GRG_H22N,取款机(ATM),XP SP3,,有,SP10-4.3.13.04.0266,ZJAXV2_0_0_Update_019P_T2,SP10-4.3.13.04.0266,ZJAXV2_0_0_Update_019P_T2,51,,
+武汉农商,广电,GRG_H38N,取款机(ATM),XP SP3,,有,SP10-4.3.13.04.0266,ZJAXV2_0_0_Update_019P_T2,SP10-4.3.13.04.0266,ZJAXV2_0_0_Update_019P_T2,15,,
+武汉农商,广电,GRG_H68N,存取款一体机(CRS),XP SP3,,有,SP10-4.3.13.04.0266,ZJAXV2_0_0_Update_019P_T2,SP10-4.3.13.04.0266,ZJAXV2_0_0_Update_019P_T2,124,,
+武汉农商,国光,NB2031C,查询机,XP SP3,,无,3.1.0,ZJAXV2_0_0_Update_010P_T2,3.1.0,ZJAXV2_0_0_Update_010P_T2,29,,
+武汉农商,国光,NB2031D,查询机,XP SP3,无,有,3.1.0,ZJAXV2_0_0_Update_010P_T2,3.1.0,ZJAXV2_0_0_Update_010P_T2,122,,
+武汉农商,浪潮,BCM1711TN,查询机,XP SP2,,,SP10.1.2,,SP10.1.2,,,,
+武汉农商,日立,HT_2845V,存取款一体机(CRS),XP SP2,,有,SP100501,ZJAXV2_0_0_Update_019P_T2,SP100409,,8,,国光维护
+星展银行,NCR,NCR_58XX,取款机(ATM),XP SP3,Solidcore,无,,,4.5.1,ZJAX2.0,0,,已完成淘汰，目前生产上已不存在NCR机型
+星展银行,NCR,NCR_6622,取款机(ATM),XP SP3,Solidcore,无,,,5.1.0,ZJAX2.0,0,,已完成淘汰，目前生产上已不存在NCR机型
+星展银行,NCR,NCR_6625,取款机(ATM),XP SP3,Solidcore,无,,,5.1.0,ZJAX2.0,0,,已完成淘汰，目前生产上已不存在NCR机型
+星展银行,迪堡,OPTEVA_520,取款机(ATM),WIN7,Solidcore,有,,,3.9.0.6_2010Q3F,ZJAX2.0,3,,
+星展银行,迪堡,OPTEVA_562,取款机(ATM),XP SP2,Solidcore,无,,,3.9.0.6_2010Q3F,ZJAX2.0,0,,
+星展银行,日立,HT_2845SR,存取款一体机(CRS),WIN7,Solidcore,无,,ZJAX2.0,,ZJAXV2_0_0_Update_012P,2,,
+星展银行,日立,HT_2845V,存取款一体机(CRS),WIN7,Solidcore,有,,,ZJHTSP_10018D,ZJAX2.0,26,,目前星展日立2845v10款、11款、12款（1台）共26款，7台切换WIN7系统。
+兴业银行,NCR,NCR_6622,取款机(ATM),XP SP2,McAfee,无,4.5.1,,5.1.0,Kal076F,5,,无测试机
+兴业银行,NCR,NCR_6625,取款机(ATM),XP SP2,McAfee,有,5.1.0,Kal076F,5.1.0,Kal076F,13,,
+兴业银行,WINCOR,WINCOR_1500,取款机(ATM),XP,McAfee,无,ProBase11.20 B6,Kal075,,,,,用我们应用的分行没有此设备
+兴业银行,WINCOR,WINCOR_2000XE,取款机(ATM),XP SP3,McAfee,无,ProBase11.20 B6,,Probase11.20,Kal076F,35,,
+兴业银行,WINCOR,WINCOR_2050XE,取款机(ATM),XP SP3,McAfee,有,ProBase11.20 B6,Kal076F,Probase11.20,Kal076F,46,,测试机已换热敏打印机
+兴业银行,WINCOR,WINCOR_4000,存取款一体机(CRS),XP SP3,McAfee,无,ProBase11.20,,ProBase11.20,Kal076F,113,,
+兴业银行,WINCOR,WINCOR_4000TTU,存取款一体机(CRS),XP SP3,McAfee,有,ProBase11.20 B6,Kal076F,ProBase11.20,Kal076F,,,测试SP版本略低，弘策说不影响。
+兴业银行,WINCOR,WINCOR_4060,存取款一体机(CRS),XP SP3,McAfee,有,Probase11.30 B7 1242,Kal076F,Probase11.30 B7 1242,Kal076F,96,,
+兴业银行,迪堡,DIEBOLD_10XX,取款机(ATM),XP,McAfee,无,,,,,,,23台。机器太老，不上跨平台
+兴业银行,迪堡,DIEBOLD_3030,存取款一体机(CRS),XP,McAfee,无,,,,,,,机器太老，淘汰
+兴业银行,迪堡,OPTEVA_368,存取款一体机(CRS),,McAfee,有,Opteva-XFS-4.0.3.8-2014Z1B-CDT,Kal076F,,,,,
+兴业银行,迪堡,OPTEVA_520,取款机(ATM),XP SP2,McAfee,有,4.0.3.8-2014Z1B,Kal076F,3.9.0.6_2010Q3F,Kal076F,336,,
+兴业银行,迪堡,OPTEVA_529,取款机(ATM),XP SP3,McAfee,无,,,4.0.0.0_2013Y1B,Kal076F,,,测试机已移走。
+兴业银行,迪堡,OPTEVA_560,取款机(ATM),XP SP2,McAfee,无,,,3.9.0.6_2010Q3F,Kal076F,99,,无测试机。
+兴业银行,迪堡,OPTEVA_562,取款机(ATM),XP SP2,McAfee,有,4.0.3.8-2014Z1B,Kal076F,4.0.0.0_2014Z1B,Kal076F,613,,
+兴业银行,迪堡,OPTEVA_569,取款机(ATM),XP SP3,McAfee,有,4.0.3.8-2014Z1B,Kal076F,,Kal076F,1,,
+兴业银行,迪堡,OPTEVA_720,取款机(ATM),XP SP2,McAfee,无,4.0.3.8-2014Z1B,Kal076F,3.9.0.6_2010Q3F,Kal076F,90,,
+兴业银行,迪堡,OPTEVA_760,取款机(ATM),XP SP2,McAfee,无,4.0.3.8-2014Z1B,,3.9.0.6_2010Q3F,Kal076F,118,,
+兴业银行,广电,GRG_H22N,取款机(ATM),XP SP3,McAfee,有,4.3.12.63  0908,Kal076F,4.3.12.63  0908,Kal076F,1,,
+兴业银行,广电,GRG_H68N,存取款一体机(CRS),XP SP3,McAfee,有,4.3.12.63  0908,Kal076F,4.3.12.63  0908,Kal076F,3,,
+兴业银行,广电,I61,VTM,WIN7,McAfee,有,GRG SP4.3.12.63.0917,ZJAXV2_0_0_Update_013P,GRG SP4.3.12.63.0917,ZJAXV2_0_0_Update_013P,5,,
+兴业银行,日立,HT_2845SR,存取款一体机(CRS),XP SP2,McAfee,有,ZJHTSP_10019P,Kal076F,ZJHTSP_10019P,Kal076F,203,,
+兴业银行,日立,HT_2845V,存取款一体机(CRS),XP SP2,McAfee,有,ZJHTSP_10019P,KAL076F,ZJHTSP_10019P,Kal076F,754,,
+兴业银行,晓星,BS900,VTM,WIN7,McAfee,有,,ZJAXV2_0_0_Update_013P,,ZJAXV2_0_0_Update_013P,1,,
+兴业银行,怡化,YH_6040T,存取款一体机(CRS),XP SP3,McAfee,有,074,Kal076F,074,Kal076F,30,,
+兴业银行,怡化,YH_6040W,存取款一体机(CRS),XP SP3,McAfee,有,074,Kal076F,074,Kal076F,481,,
+浙江农信,NCR,NCR_5887,取款机(ATM),XP,,有,6.1.1,ZJAXV2_0_0_Update_015P,,,,,
+浙江农信,NCR,NCR_6625,取款机(ATM),XP,,有,6.1.1,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,NCR,NCR_6635,存取款一体机(CRS),XP,,有,20141113,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,NCR,NCR_6683,存取款一体机(CRS),XP,,,06.02.00,ZJAXV2_0_0_Update_018P,,,,,
+浙江农信,OKI,OKI_21S,存取款一体机(CRS),XP,,有,2.1.5.0,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,OKI,OKI_21SE,存取款一体机(CRS),XP,,有,2.9.1.0,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,WINCOR,WINCOR_4000XS,存取款一体机(CRS),XP,,有,ProBase11.30,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,WINCOR,WINCOR_4060,存取款一体机(CRS),XP,,有,ProBase11.30,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,WINCOR,WINCOR_8050,取款机(ATM),XP,,有,ProBase11.30,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,巴高,巴高,三农终端,XP,无，黑白名单,有,bgxfs_setup,,,ZJAXV2_0_0_Update_007P,,,
+浙江农信,长城,BST306B,发卡机,XP SP2,无，黑白名单,有,GWIXFS_SP_V1.0.4.2,ZJAXV2_0_0_Update_007P,GWIXFS_SP_V1.0.4.2,ZJAXV2_0_0_Update_010P,47,,
+浙江农信,长城湘计,湘计_305G,查询机,XP,无，黑白名单,有,3.0.0,ZJAXV2_0_0_Update_001P_Beta3,,ZJAXV2_0_0_Update_007P,2559,,
+浙江农信,长城湘记,湘计_305G（助农）,三农终端,XP,无，黑白名单,有,3.0.0,,,ZJAXV2_0_0_Update_007P,,,
+浙江农信,迪堡,OPTEVA_328,存取款一体机(CRS),XP,,有,2014Z1B,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,迪堡,OPTEVA_562,取款机(ATM),XP,,有,2014Z1B,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,迪堡,OPTEVA_569,取款机(ATM),XP,,有,2014Z1B,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,东信,8600R,存取款一体机(CRS),XP SP3,,有,2.3.0.16,ZJAXV2_0_0_Update_018P,,,,,
+浙江农信,东信,东信_8100,取款机(ATM),XP SP3,,有,2.3.0.16,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,广电,H68N,存取款一体机(CRS),XP SP3,趋势,有,4.3.13.04.0266,ZJAXV2_0_0_Update_018P,,,,,
+浙江农信,国光,GS1010,发卡机,XP SP2,无，黑白名单,有,ggspSetup_ZJNX_V1.3,ZJAXV2_0_0_Update_007P,,ZJAXV2_0_0_Update_010P,5,,
+浙江农信,国光,NB2031B+,查询机,XP,无，黑白名单,有,0.0.2,ZJAXV2_0_0_Update_001P_Beta3,,ZJAXV2_0_0_Update_007P,399,,
+浙江农信,恒银,CASH80AWG,存取款一体机(CRS),XP SP2,趋势,有,1.3.3.0_021,ZJAXV2_0_0_Update_018P,,,,,
+浙江农信,金大,KSTFK,发卡机,WIN7,,有,NXFKJWIN7 V1.1,ZJAXV2_0_0_Update_018P,,,,,
+浙江农信,金大,KSTFK,发卡机,XP SP2,无，黑白名单,有,,ZJAXV2_0_0_Update_007P,,ZJAXV2_0_0_Update_010P,3,,
+浙江农信,金大,KTC-ZZ567-000,查询机,XP,无，黑白名单,有,WosaSetup 1.0.0.2,ZJAXV2_0_0_Update_001P_Beta3,,ZJAXV2_0_0_Update_007P,520,,
+浙江农信,金大,KTC-ZZ567-000(助农),三农终端,XP,无，黑白名单,有,WosaSetup 1.0.0.2,,,ZJAXV2_0_0_Update_007P,,,
+浙江农信,浪潮,浪潮_1511,查询机,XP,无，黑白名单,有,3.6,ZJAXV2_0_0_Update_001P_Beta3,,ZJAXV2_0_0_Update_007P,399,,
+浙江农信,浪潮,浪潮_1511TN,发卡机,XP SP2,无，黑白名单,有,15.1.6,ZJAXV2_0_0_Update_007P,,ZJAXV2_0_0_Update_010P,6,,
+浙江农信,南天,南天_3200,查询机,XP,无，黑白名单,有,3.0.002,ZJAXV2_0_0_Update_001P_Beta3,,ZJAXV2_0_0_Update_007P,34,,
+浙江农信,日立,HT_2845SR,存取款一体机(CRS),WIN7,,有,6055T,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,日立,HT_2845V,存取款一体机(CRS),XP,,有,4.1.1,ZJAXV2_0_0_Update_014P,,,,,
+浙江农信,瑞至,RICH8500,查询机,XP SP2,无，黑白名单,有,,ZJAXV2_0_0_Update_007P,1.0.0.3,ZJAXV2_0_0_Update_007P,501,,
+浙江农信,瑞至,RICH8500(助农),三农终端,XP,无，黑白名单,有,1.0.0.3,,,ZJAXV2_0_0_Update_007P,,,
+浙江农信,实达,A-7800,查询机,XP,无，黑白名单,有,3.0.5.32,ZJAXV2_0_0_Update_001P_Beta3,,ZJAXV2_0_0_Update_007P,13,,
+浙江农信,御银,KingTeller_A5(08),取款机(ATM),XP,,有,2.1.0,ZJAXV2_0_0_Update_014P,,,,,
+浙商银行,NCR,NCR_58XX,取款机(ATM),XP,,无,5.0.1,ZJAXV2_0_0_Update_002P_Beta1,,ZJAXV2_0_0_Update_006P_T,,,
+浙商银行,NCR,NCR_6625,取款机(ATM),XP,,,5.0.1,ZJAXV2_0_0_Update_002P_Beta1,,ZJAXV2_0_0_Update_006P_T,,,
+浙商银行,长城,BST306B,发卡机,WIN7,,有,GWI_XFS310_浙商银行发卡机_v1.0.0.4,ZJAXV2_0_0_Update_018P,,,,,"发卡机发卡模块使用三个发卡箱，一个读卡器的模式；
+目前正在测试中。"
+浙商银行,长城,BST306Desktop,发卡机,WIN7,,有,GWI SP for CEN/XFS 3.10 1.0.0.0,ZJAXV2_0_0_Update_019P,GWI SP for CEN/XFS 3.10 1.0.0.0+补丁包1.0.0.1,ZJAXV2_0_0_Update_019P,,,便携式发卡机
+浙商银行,长城湘计,湘计_306B,查询机,WIN7,,无,GWIXFS_SP_V3.1.1基线版本_浙商银行,ZJAXV2_0_0_Update_007P,,ZJAXV2_0_0_Update_007P,,,
+浙商银行,广电,H68N_CENL,存取款一体机(CRS),WIN7,,有,ATM_GRG_XFS_SP4.0_WITH_SP11_0340_20160317,,ATM_GRG_XFS_SP4.0_WITH_SP11_0340_20160317,,,,
+浙商银行,金大,KST300,查询机,XP SP3,,无,JDZSZZJSetUp1.04,ZJAXV2_0_0_Update_006P,,ZJAXV2_0_0_Update_007P,,,
+浙商银行,日立,HT_2845V,存取款一体机(CRS),XP,,有,ZJHTSP_10023P,ZJAXV2_0_0_Update_002P_Beta1,ZJHTSP_10018P,ZJAXV2_0_0_Update_006P_T,136,,12款
+重庆三峡银行,NCR,NCR_6626,取款机(ATM),XP,卡巴斯基,无,5.0.1,ZJAXV2_0_0_Update_005P,5.0.1,ZJAXV2_0_0_Update_014P,13,紫金,
+重庆三峡银行,OKI,OKI_21SE,存取款一体机(CRS),XP,卡巴斯基,无,1.4.3.0,ZJAXV2_0_0_Update_004P_T2,1.4.3.0,ZJAXV2_0_0_Update_014P,17,紫金,
+重庆三峡银行,OKI,OKI_21SE,存取款一体机(CRS),XP SP3,,无,3.0.7.0,ZJAXV2_0_0_Update_014P,,ZJAXV2_0_0_Update_014P,,紫金,
+重庆三峡银行,WINCOR,WINCOR_4060,存取款一体机(CRS),XP,无,有,ProBase11301182,ZJAXV2_0_0_Update_014P,ProBase11301290,ZJAXV2_0_0_Update_014P,6,,
+重庆三峡银行,北京立德,TELLER-580,取款机(ATM),XP,卡巴斯基,无,CQSPSetupF510GongDa V5801,ZJAXV2_0_0_Update_005P,CQSPSetupF510GongDa V5801,ZJAXV2_0_0_Update_014P,17,紫金,TELLER-580\TELLER-590合计17台
+重庆三峡银行,东信,东信_8100,取款机(ATM),XP,,有,2.3.0.2,ZJAXV2_0_0_Update_014P,,ZJAXV2_0_0_Update_014P,,,
+重庆三峡银行,东信,东信_8600,存取款一体机(CRS),XP,,有,2.3.0.16,ZJAXV2_0_0_Update_014P,,ZJAXV2_0_0_Update_014P,,,
+重庆三峡银行,御银,KingTeller_A4（08）,取款机(ATM),XP,卡巴斯基,无,2.0.8,ZJAXV2_0_0_Update_004P,2.0.8,ZJAXV2_0_0_Update_014P,5,紫金,
+重庆三峡银行,御银,KingTeller_A5（08）,取款机(ATM),XP,卡巴斯基,有,2.0.8,ZJAXV2_0_0_Update_004P,2.0.8,ZJAXV2_0_0_Update_014P,107,紫金,
+重庆三峡银行,证通,ZT2074,查询机,XP SP3,,有,2.00.001,ZJAXV2_0_0_Update_014P,,ZJAXV2_0_0_Update_018P_T2,,紫金,
+重庆三峡银行,中钞科堡,KEBA_R6,存取款一体机(CRS),XP SP3,卡巴斯基,有,20400P+rapup180,ZJAXV2_0_0_Update_004P,20400P+rapup180,ZJAXV2_0_0_Update_014P,83,紫金,
+重庆银行,OKI,OKI_21S,存取款一体机(CRS),XP,无,无,1.8.0.0,KAL075,2.2.2.0,KAL075,13,紫金,支持冠字号及存取款模块优化升级包
+重庆银行,OKI,OKI_21SE,存取款一体机(CRS),XP,无,无,2.2.2.0,KAL075,2.2.2.0,KAL075,95,紫金,支持冠字号及存取款模块优化升级包
+重庆银行,WINCOR,WINCOR_2050XE,取款机(ATM),XP,无,无,ProDevice4160,KAL068,ProDevice4160,KAL068,15,紫金,
+重庆银行,WINCOR,WINCOR_2050XEUSB,取款机(ATM),XP,无,有,ProDevice4160,KAL068,ProDevice4160,KAL068,13,紫金,
+重庆银行,北京兆维,CWEA01,回单机|填单机,WIN7,,有,,ZJAXV2_0_0_Update_014P,,ZJAXV2_0_0_Update_016P,,紫金,
+重庆银行,东信,东信_2000XE,取款机(ATM),XP,无,无,ProDevice4160,KAL068,ProDevice4160,KAL068,28,紫金,14台
+重庆银行,东信,东信_8100,取款机(ATM),XP,,有,2.3.0.2,KAL075,,Kal075,,,
+重庆银行,东信,东信_8600,存取款一体机(CRS),XP,,有,2.3.0.16,KAL075,,Kal075,,,
+重庆银行,恒银,CASH80ALG,存取款一体机(CRS),XP,无,无,1.3.1.0(补丁1),KAL075,1.3.1.0(补丁1),KAL075,0,紫金,"补丁1优化读卡器IC卡读卡故障
+0台"
+重庆银行,恒银,CASH80ALI(80ALN),取款机(ATM),XP,无,无,1.3.1.0(补丁2),KAL075,1.3.1.0(补丁2),KAL075,1,紫金,"补丁1优化读卡器IC卡读卡故障
+补丁2优化密码键盘参数输入"
+重庆银行,恒银,CASH80AWF(90ALN),存取款一体机(CRS),XP,无,无,1.3.1.0(补丁1),KAL075,1.3.1.0(补丁1),KAL075,0,紫金,"补丁1优化读卡器IC卡读卡故障
+0台"
+重庆银行,恒银,CASH80AWG,存取款一体机(CRS),XP,无,有,1.3.1.0(补丁3),KAL075,1.3.1.0(补丁3),KAL075,86,紫金,补丁3 支持冠字号功能
+重庆银行,恒银,CASH80AWI,取款机(ATM),XP,无,有,1.3.1.0(补丁1),KAL075,1.3.1.0(补丁1),KAL075,61,紫金,补丁1优化读卡器IC卡读卡故障
+重庆银行,浪潮,浪潮_1511,查询机,XP SP2,无,有,3.1.15,Kal075,3.1.15,Kal075,116,紫金,
+重庆银行,浪潮,浪潮_1711,查询机,XP SP2,无,无,3.1.15,Kal075,3.1.15,Kal075,29,紫金,
+重庆银行,神州数码,神码_C6000,取款机(ATM),XP,无,无,1.0.9,KAL075,1.0.9,KAL075,1,紫金,
+重庆银行,御银,KingTeller_A4（08）,取款机(ATM),XP,无,无,2.0.7,KAL075,2.0.7（补丁3）,KAL075,50,紫金,"需使用补丁2版本SP安装包
+补丁3优化部分银行IC卡读卡功能"
+重庆银行,御银,KingTeller_A5（08）,取款机(ATM),XP,无,有,2.0.7,KAL075,2.0.7（补丁3）,KAL075,172,紫金,"需使用补丁2版本SP安装包
+补丁3优化部分银行IC卡读卡功能"
+重庆银行,御银,KingTeller_K1（08）,存取款一体机(CRS),XP,无,无,2.0.7,KAL075,2.0.7（补丁4）,KAL075,25,紫金,"需使用补丁2版本SP安装包
+补丁3优化部分银行IC卡读卡功能
+补丁4支持冠字号功能"
+重庆银行,御银,KingTeller_K2（08）,存取款一体机(CRS),XP,无,无,2.0.7,KAL075,2.0.7（补丁4）,KAL075,5,紫金,"需使用补丁2版本SP安装包
+补丁3优化部分银行IC卡读卡功能
+补丁4支持冠字号功能"
+重庆银行,御银,KingTeller_K3,存取款一体机(CRS),XP SP3,无,,2.0.7（补丁4）,KAL075,2.0.7（补丁4）,KAL075,50,紫金,补丁4 支持冠字号功能
+鄞州银行,长城,BST260A,查询机,WIN7,,有,GWI_XFS310_基线版本_v1.1.1.3_鄞州银行,ZJAXV2_0_0_Update_018P,GWI_XFS310_基线版本_v1.1.1.3_鄞州银行,ZJAXV2_0_0_Update_018P,7,,
+鄞州银行,长城,BST260B,发卡机,WIN7,,有,GWI_XFS310_鄞州银行发卡机_v1.0.0.2,ZJAXV2_0_0_Update_018P,GWI_XFS310_鄞州银行发卡机_v1.0.0.2,ZJAXV2_0_0_Update_018P,10,,
+鄞州银行,长城湘计,VTM1000B,VTM,WIN7,无,有,1.0.1.4,ZJAXV2_0_0_Update_010P,GWI_XFS310_鄞州银行VTM_v1.0.1,暂未投产,1,,
+鄞州银行,长城湘计,湘计_305G,查询机,XP SP2,无,有,3.0.6.3,ZJAXV2_0_0_Update_006P,3.0.4,ZJAXV2_0_0_Update_006P,350,,
+鄞州银行,广电,DT-7000 I63C,VTM,WIN7,无,有,无,ZJAXV2_0_0_Update_010P,,暂未投产,0,,
+缙云村镇银行,日立,HT_2845SR-14款,存取款一体机(CRS),XP SP3,,有,ZJ_SP_10019S,ZJAXV2_0_0_Update_014P,ZJ_SP_10019S,ZJAXV2_0_0_Update_014P,3,,"杭州银行缙云村镇,与杭州银行版本分开,使用紫金SP及ZJAX中间件。"

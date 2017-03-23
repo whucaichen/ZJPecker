@@ -68,6 +68,6 @@
 //};
 //console.log(isJson(str));
 
-console.log("haha");
-var vm = require("vm");
-vm.runInThisContext('console.log("haha");');
+// console.log("haha");
+// var vm = require("vm");
+// vm.runInThisContext('console.log("haha");');

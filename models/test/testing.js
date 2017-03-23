@@ -35,13 +35,17 @@ var child = require("child_process");
 // console.log(Array.isArray(b));
 // console.log(b instanceof Array);
 
-// var p = 5;
-// global.p = 11;
-// var script = fs.readFileSync("./testJson.js", 'utf-8');
-// vm.runInThisContext("console.log('ok', p)");// 显示global下的11
-// console.log(p);// 显示5
-// vm.runInThisContext(script);
-// // console.log(func(1, 2));
+// try {
+//     var p = 5;
+//     global.p = 11;
+//     var script = fs.readFileSync("./testJson.js", 'utf-8');
+//     vm.runInThisContext("console.log('ok', p)");// 显示global下的11
+//     console.log(p);// 显示5
+//     vm.runInThisContext(script);
+// } catch (e) {
+//     console.error(e.stack);
+// }
+// console.log(func(1, 2));
 
 // var copyfile = function (src, dst) {
 //     fs.createReadStream(src).pipe(fs.createWriteStream(dst));
@@ -114,7 +118,7 @@ var child = require("child_process");
 // console.log(path.resolve(__dirname, "../../"));
 // var string = "1 projectVCX projectV1 pro1x pro2 prox4 prox3 prox2 prox1";
 // var strs = string.trim().split(/\s+/);
-// // console.log(strs);
+// console.log(strs);
 // console.log(strs.slice(1));
 
 // rd.eachSync("../", function (f, s) {
@@ -137,6 +141,9 @@ var child = require("child_process");
 // testClass.add();
 // testClass.add();
 // var testChild = child.fork("./testJson.js");
+// setTimeout(function () {
+//     console.log(testChild);
+// }, 3000);
 
 
 // var formatLen = function (num, length, cover) {
@@ -207,9 +214,10 @@ var child = require("child_process");
 // }
 
 // var d = new Date();
+// console.log(d);
 // console.log(d.toLocaleString());
-// console.log(new Date().toLocaleDateString());
-// console.log(new Date().toLocaleTimeString());
+// console.log(d.toLocaleDateString());
+// console.log(d.toLocaleTimeString());
 // console.log("" + d.getFullYear() + (d.getMonth() + 1) + d.getDate());
 
 // console.log(Math.round(Math.random() * 100 / 10));
@@ -228,11 +236,14 @@ var child = require("child_process");
 // }
 // console.log(JSON.parse(c));
 
-// console.log(new Date().toLocaleTimeString());
+// var date = function () {
+//     return new Date().toLocaleTimeString();
+// };
 // setInterval(function () {
-//     console.log(new Date().toLocaleTimeString());
-//     console.log(new Date().getMilliseconds());
-// }, 100);
+//     console.log(date());
+//     // console.log(new Date().toLocaleTimeString());
+//     // console.log(new Date().getMilliseconds());
+// }, 1000);
 
 // var os = require('os');
 // console.log(os.hostname());
@@ -254,9 +265,154 @@ var child = require("child_process");
 // } catch (e) {
 //     console.log(e.stack);
 // }
-var m = 0;
-var a = [1, 2, 3, 4, 5];
-for (; m < a.length; m++) {
-    if (a[m] === 0) break;
-}
-console.log(m);
+// var m = 0;
+// var a = [1, 2, 3, 4, 5];
+// for (; m < a.length; m++) {
+//     if (a[m] === 0) break;
+// }
+// console.log(m);
+
+// var DB_HOST = fs.readFileSync("../settings.json", "ascii").toString();
+// console.log(JSON.parse(DB_HOST)["DB_HOST"]);
+
+// var jsdom = require("jsdom").jsdom;ion
+// var document = jsdom("hello world");
+// var window = document.defaultView;
+//
+// console.log(window.document.documentElement.outerHTML);
+// // output: "<html><head></head><body>hello world</body></html>"
+// console.log(window.innerWidth);// output: 1024
+// console.log(typeof window.document.getElementsByClassName);// outputs: funct
+
+// require("../utils/report").generateReport();
+// var mime = require("../utils/mime").mime;
+// console.log(mime.lookupExtension(path.extname("haha.doc")));
+// console.log("haha.doc".substring("haha.doc".lastIndexOf(".")));
+
+// var parse = require("csv-parse");
+// // fs.readFile("../res/deviceInfo.csv", function (err, data) {
+// fs.readFile("../res/银行设备信息明细.csv", function (err, data) {
+//     data = iconv.decode(data, "gbk");
+//     parse(data, function (err, data) {
+//         console.log(data.toString().length, data);
+//     });
+// });
+
+// var DeviceInfo = require("../db/db_device_info");
+// DeviceInfo.addInfoFromCSV("../res/deviceInfo.csv", function (err, result) {
+//     console.log(err, result);
+// });
+// DeviceInfo.getInfos({}, {}, function (err, result) {
+//     // console.log(err, result);
+//     finished = false;
+//     return result;
+// });
+// var Atmap = require("../db/db_atmaps");
+// Atmap.addAtmap([
+//     {testClientID: "1", testClientIP: "1", machineType: "1", company: "1"},
+//     {testClientID: "2", testClientIP: "2", machineType: "2", company: "2"},
+//     {testClientID: "3", testClientIP: "3", machineType: "3", company: "3"}
+// ], function (err, result) {
+//     err && console.error(err);
+// });
+// Atmap.updateAtmap({testClientID: "1"}, {$set: {testClientIP: "2"}}, function (err, result) {
+//     console.log(result);
+// });
+
+// var d = new Date();
+// console.log(d.getMilliseconds(), d.toLocaleTimeString());
+// for (var i = 0; i < 100000000; i++) {
+// }
+// var d = new Date();
+// console.log(d.getMilliseconds(), d.toLocaleTimeString());
+// var ObjectID = require('mongodb').ObjectId;
+// var ProjectCase = require("../db/db_project_case");
+// ProjectCase.getProjectCases2({caseProjectId: ObjectID("58b92ceed4e482212403538a")}, {}, function (err, result) {
+//     if (err) {
+//         console.error(TAG(), err);
+//         // callback(null);
+//         return;
+//     }
+//     var ret = [];
+//     result.forEach(function (data) {
+//         var temp = {
+//             caseResult: data.testInfo && data.testInfo.result,
+//             // projectName: global.Global.getCurrentProjectName(),
+//             projectID: data.caseProjectId,
+//             caseName: data.caseCaption,
+//             caseId: data._id,
+//             // caseParamKey: data.caseParamKey
+//             caseParamInfo: data.caseParamKey
+//         };
+//         ret.push(temp);
+//     });
+//     // callback(ret);
+//     console.log(ret);
+// });
+
+
+// var a = [1, 2, 3];
+// console.log(a.length, JSON.stringify(a));
+// delete a[1];
+// console.log(a.length, JSON.stringify(a));
+
+// var varCaseFilePath = "./log_test/子流程测试";
+// var pre = varCaseFilePath.indexOf("/");
+// var next = varCaseFilePath.lastIndexOf("/");
+// console.log(varCaseFilePath.substring(pre+1, next));
+// console.log(varCaseFilePath.substring(next+1));
+
+
+// var script = "(function func(){" +
+//     "console.log('haha');" +
+//     "console.log('haha);" +
+//     "console.log('haha');" +
+//     "})();";
+// try {
+//     vm.runInThisContext(script);
+// } catch (e) {
+//     console.error(e.stack);
+// }
+
+// console.log(path.resolve("E:\\Workspaces\\VSProjects\\DesignPattern\\DesignPattern","../"));
+
+// /*[基本控件1]----------------------------------------------*/
+// var TAG = "[基本控件1]: ";
+// function EntryAction() {
+//     var msg = TAG;
+//     var clientID = "IDC" + Global.getTestClientID();
+//     ZJPeckerComm.sendCommMsg(clientID, msg);
+//     ZJPeckerComm.onCommMsg(clientID, onResult);
+//     changeStatus("RESERVE");
+// }
+// function onResult(msg) {
+//     if (msg === "e") {
+//         console.error(TAG, "error");
+//         changeStatus("Error");
+//         return;
+//     }
+//     console.log(TAG, msg);
+//     changeStatus("OK");
+// }
+//
+// /*[基本控件2]----------------------------------------------*/
+// var TAG = "[基本控件2]: ";
+// function EntryAction() {
+//     console.log(TAG);
+//     changeStatus("OK");
+// }
+
+// "" ? console.log("True") : console.log("False");
+
+// var jsonData = {a: "aa", b: "bb", c: "cc"};
+// for (var j in jsonData) {
+//     console.log(j, jsonData[j]);
+// }
+
+// var params = {body:{_id1:"a"}}
+// console.log(params.body._id && {_id: params.body._id} || {});
+// console.log(global);
+
+// global.haha="haha";
+// 0 && console.log(haha);
+

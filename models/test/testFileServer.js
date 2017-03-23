@@ -10,7 +10,7 @@ var fs=require("fs"),
     http=require("http"),
     url=require("url"),
     path=require("path"),
-    mime=require("./res/mime").mime,
+    mime=require("./../utils/mime").mime,
     util=require('util');
 
 //www根目录

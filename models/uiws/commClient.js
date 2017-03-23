@@ -2,18 +2,35 @@
  * Created by Chance on 16/11/17.
  */
 
-var TAG = "[commClient.js](" + new Date().toLocaleTimeString() + "): ";
-var LoginID = "Chance";
+var TAG = function () {
+    return "[commClient.js](" + new Date().toLocaleTimeString() + "): ";
+};
 var net = require('net');
+var fs = require("fs");
+var path = require("path");
 var ExBuffer = require('ExBuffer');
 var iconv = require('iconv-lite');
 var jschardet = require("jschardet");
 var crypt = require('../utils/crypt');
+// var SETTINGS = fs.readFileSync(path.join(__dirname, "../settings.json"));
+// try {
+//     SETTINGS = JSON.parse(SETTINGS.toString());
+// } catch (e) {
+//     console.error(TAG(), e);
+// }
+var PeckerConfigs = process.argv[2];
+PeckerConfigs = JSON.parse(PeckerConfigs);
+var LoginID = PeckerConfigs.Pecker_LoginID || "ZJPecker";
+LoginID = LoginID + "_" + PeckerConfigs.testClientID;
+// console.error(TAG(), LoginID, PeckerConfigs);
 var options = {
     port: 60001,
     // host: "10.34.10.233"
-    host: "10.34.10.245"
+    host: PeckerConfigs.CommServer_IP || "10.34.10.245"
 };
+// var testClientID = process.argv[2];
+// LoginID = LoginID + "_" + testClientID;
+
 function CommData(logindata) {
     this.msgid = logindata.msgid;
     this.msgtype = logindata.msgtype;
@@ -39,7 +56,7 @@ var client = new net.Socket();
 // client.setEncoding("hex");
 client.connect(options, function () {
     send(loginData);
-    console.log(TAG, 'CONNECTED TO: ' + options.host + ":" + options.port);
+    console.log(TAG(), 'CONNECTED TO: ' + options.host + ":" + options.port);
 });
 client.on('data', function (chunk) {
     exBuffer.put(chunk);
@@ -47,22 +64,22 @@ client.on('data', function (chunk) {
 //当客户端收到完整的数据包时
 exBuffer.on('data', function (buffer) {
     if (buffer.length === 0) return;
-    // console.error(TAG, "buffer.length", buffer.length);
+    // console.error(TAG(), "buffer.length", buffer.length);
     var encoding = jschardet.detect(buffer).encoding;
     (encoding !== "utf8" || encoding !== "utf-8") && (buffer = iconv.decode(buffer, "gbk"));
     var data = buffer.toString("binary");
     data = data.substr(0, data.length - 16);
-    // console.error(TAG, encoding, data);
+    // console.error(TAG(), encoding, data);
     try {
         var retData = JSON.parse(data);
         (retData.processid === "login") && (isLogin = true);
         (retData.processid === "senddata") && (retData.request.data !== "login") && process.send(retData);
     } catch (e) {
-        console.error(TAG, e.stack);
+        console.error(TAG(), e.stack);
     }
 });
 client.on('close', function () {
-    console.log(TAG, 'Connection closed');
+    console.log(TAG(), 'Connection closed');
     send(logoutData);
 });
 

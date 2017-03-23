@@ -12,6 +12,7 @@ function Project(project) {
     this.caseLibId = project.caseLibId;
     this.caseLibName = project.caseLibName;
     this.deviceType = project.deviceType;
+    this.company = project.company;
     this.testSite = project.testSite;
     this.projectCreateTime = project.projectCreateTime || new Date().toLocaleString();
     this.testStartTime = project.testStartTime;
@@ -23,6 +24,7 @@ function Project(project) {
     this.environment.OSVersion = project.environment && project.environment.OSVersion;
     this.environment.systemPatchVersion = project.environment && project.environment.systemPatchVersion;
     this.projectStatus = project.projectStatus;
+    this.testClientID = project.testClientID;
 }
 
 //添加工程

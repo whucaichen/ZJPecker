@@ -99,7 +99,8 @@ function wsapscript() {
         try {
             varScript.runInThisContext();
         } catch (e) {
-            require("../utils/logFile").log(e.stack);
+            console.error(varName, "节点运行错误：", e.stack);
+            require("../utils/logFile").log(varName + "-节点运行错误：" + e.stack);
         }
         return true;
     };

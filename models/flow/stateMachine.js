@@ -45,6 +45,7 @@ function onChangeState(varResult) {
         console.log('onChangeState\(' + varResult + '\), g_bDealChangeState is in processing discard!');
         return;
     }
+    (varResult !== "RESERVE") && global.ZJPeckerComm && global.ZJPeckerComm.updateLisenter();
     wait.launchFiber(fiberChangeState, varResult);
 }
 
