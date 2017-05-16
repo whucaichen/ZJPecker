@@ -26,7 +26,8 @@ global.PeckerConfigs = {
     CommServer_IP: SETTINGS.CommServer_IP,
     Pecker_LoginID: SETTINGS.Pecker_LoginID,
     State_Delay: SETTINGS.State_Delay,
-    WebSocket_Port: SETTINGS.WebSocket_Port
+    WebSocket_Port: SETTINGS.WebSocket_Port,
+    IsCrypted: SETTINGS.IsCrypted
 };
 
 var child = require("child_process");
@@ -61,7 +62,7 @@ var resetProjectStatus = function () {
 };
 resetProjectStatus();
 
-var wsServer = Utils.forkBug("./uiws/wsServer.js", [global.PeckerConfigs.WebSocket_Port]);
+var wsServer = Utils.forkBug("./uiws/wsServer.js", [global.PeckerConfigs.WebSocket_Port, global.PeckerConfigs.IsCrypted]);
 console.log(TAG(), "websocket server listening.");
 wsServer.on("message", function (msg) {
     console.log(TAG(), msg);
@@ -115,8 +116,7 @@ var execWorkflow = function (projectTarget, start) {
     projectTarget.flowWorker.on("message", function (msg) {
         if (msg === "SingleFinished") {
             console.error(">>>>>>>>>> [SingleFinished]: " + projectTarget.workflows[start]);
-            changeProjectCaseStatus(projectTarget.workflows[start][0], "TESTED", projectTarget.workProject);
-            projectTarget.runNode = start + 1;
+            // projectTarget.runNode = start + 1;
             try {
                 projectTarget.flowWorker && projectTarget.flowWorker.send("SingleExit");
             } catch (e) {
@@ -132,7 +132,20 @@ var execWorkflow = function (projectTarget, start) {
         }
     });
     projectTarget.flowWorker.on("exit", function (code) {
-        start += 1;
+        console.error("#############", code, projectTarget.workProject);
+        if (code === 0) {
+            changeProjectCaseStatus(projectTarget.workflows[start][0], "TESTED", projectTarget.workProject);
+        } else if (code === 1) {
+            changeProjectCaseStatus(projectTarget.workflows[start][0], "ERROR", projectTarget.workProject);
+        } else if (code === 110) {
+            changeProjectCaseStatus(projectTarget.workflows[start][0], "WAITING", projectTarget.workProject);
+            changeProjectStatus(projectTarget.workProject, "SUSPEND", function (code) {
+            });
+            isClientTesting[projectTarget.workflows[start][7]] = false;
+            projectTarget.isSuspendTest = true;
+            start--;
+        }
+        projectTarget.runNode = ++start;
         if (start < projectTarget.workflows.length) {
             execWorkflow(projectTarget, start);
         } else {
@@ -183,6 +196,8 @@ var flowInit = function (caseProjectId, callback) {
                     result[i]._id,   //与状态机共用
                     result[i].fileTitle + ".js",
                     result[i].fileTitle + ".xml",
+                    // result[i].fileTitle + (global.PeckerConfigs.IsCrypted ? ".zjs" : ".js"),
+                    // result[i].fileTitle + (global.PeckerConfigs.IsCrypted ? ".zjx" : ".xml"),
                     false,
                     caseLibName,    //指定流程脚本路径
                     result[i].testInfo.caseFilePath,    //提供给脚本测试文件路径
@@ -228,11 +243,11 @@ var StartTest = function (caseProjectId) {
 };
 var SuspendTest = function (caseProjectId) {
     if ((TestProjects[caseProjectId] && TestProjects[caseProjectId].workProject) === caseProjectId) {
-        TestProjects[caseProjectId].isSuspendTest = true;
         changeProjectStatus(caseProjectId, "SUSPEND", function (code) {
             wsServer.send({retcode: code, type: "SuspendTest"});
             isClientTesting[TestProjects[caseProjectId].workflows[0][7]] = false;
-            TestProjects[caseProjectId].flowWorker = null;
+            TestProjects[caseProjectId].isSuspendTest = true;
+            TestProjects[caseProjectId].flowWorker.send("SingleExit");
         });
     } else {
         wsServer.send({retcode: "01", type: "SuspendTest", err: "工程不存在或未开始测试"});
@@ -244,7 +259,8 @@ var ResumeTest = function (caseProjectId) {
 var StopTest = function (caseProjectId) {
     if ((TestProjects[caseProjectId] && TestProjects[caseProjectId].workProject) === caseProjectId) {
         isClientTesting[TestProjects[caseProjectId].workflows[0][7]] = false;
-        TestProjects[caseProjectId].flowWorker = null;
+        TestProjects[caseProjectId].isSuspendTest = true;
+        TestProjects[caseProjectId].flowWorker.send("SingleExit");
         TestProjects[caseProjectId].runNode = 0;
         TestProjects[caseProjectId].isFinish = true;
         changeProjectStatus(caseProjectId, "TERMINATED", function (code) {

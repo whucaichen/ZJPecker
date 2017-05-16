@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by yaguo (zjft) -->
+<root>
+<Group name="系统节点类">
+<Control Id="-6" Caption="出口控件" Action="Connection" IconIndex="6" inparam="" outparam="">
+<Description>出口控件
+</Description>
+</Control>
+<Control Id="-5" Caption="跳转点" Action="NoAction" IconIndex="6" inparam="" outparam="">
+<Description>方便用户操作的控件
+</Description>
+</Control>
+</Group>
+</root>

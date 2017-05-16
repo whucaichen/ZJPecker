@@ -1,7 +1,8 @@
 {
-  "DB_HOST": "localhost",
-  "CommServer_IP": "localhost",
+  "DB_HOST": "10.34.10.245",
+  "CommServer_IP": "10.34.10.245",
   "Pecker_LoginID": "ZJPecker",
   "State_Delay": 1000,
-  "WebSocket_Port": 8080
+  "WebSocket_Port": 8080,
+  "IsCrypted": true
 }

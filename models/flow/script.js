@@ -101,6 +101,7 @@ function wsapscript() {
         } catch (e) {
             console.error(varName, "节点运行错误：", e.stack);
             require("../utils/logFile").log(varName + "-节点运行错误：" + e.stack);
+            throw new Error("案例执行异常");
         }
         return true;
     };

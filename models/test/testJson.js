@@ -71,3 +71,9 @@
 // console.log("haha");
 // var vm = require("vm");
 // vm.runInThisContext('console.log("haha");');
+setInterval(function () {
+    console.log(new Date().toLocaleTimeString());
+}, 1000);
+process.on("message", function (msg) {
+    if (msg === "END") process.exit(0);
+});

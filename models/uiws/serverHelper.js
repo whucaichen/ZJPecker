@@ -218,6 +218,8 @@ try {
                     (typeof callback === "function") && (callback(result));
                     return;
                 }
+                var Wsapcrypt = require("../flow/wsapcrypt.js");
+                var wsapcrypt = new Wsapcrypt();
                 //拷贝所有案例流程和脚本文件到resource的案例库文件夹下
                 rd.eachSync(tempFile, function (f, s) {
                     // console.log('file: %s', f);
@@ -226,11 +228,17 @@ try {
                     if (name === caseLibName) {
                         //不拷贝索引文件
                         // } else if (name == "userLib") { //用户自定义库
-                    } else {    //案例流程和案例脚本
+                    } else if (type.length > 0) {
+                        var file = f.substring(f.lastIndexOf("\\") + 1);
                         if (type === "js" || type === "xml") {
-                            var file = f.substring(f.lastIndexOf("\\") + 1);
-                            fs.createReadStream(f).pipe(
-                                fs.createWriteStream(caseLibDir + "/" + file));
+                            fs.createReadStream(f).pipe(fs.createWriteStream(caseLibDir + "/" + file));
+                        } else if (type === "zjs" || type === "zjx") {//加密文件
+                            // if (global.IsCrypted)
+                            var tempType = "";
+                            type === "zjs" && (tempType = "js");
+                            type === "zjx" && (tempType = "xml");
+                            file = file.substring(0, file.lastIndexOf(".") + 1) + tempType;
+                            fs.writeFileSync(caseLibDir + "/" + file, wsapcrypt.readFileSync(f));
                         }
                     }
                 });
@@ -295,9 +303,11 @@ try {
                     }
                 });
             });
-            // deleteFolderRecursive(path.resolve(__dirname, "../../resource/" + caseLibName));
-            // fs.existsSync(path.resolve(__dirname, "../../temp/" + caseLibName + ".zip"))
-            // && fs.unlinkSync(path.resolve(__dirname, "../../temp/" + caseLibName + ".zip"));
+            Project.getProject2({caseLibId: ObjectId(caseLibId)}, {}, function (err, result) {
+                result && deleteFolderRecursive(path.resolve(__dirname, "../../resource/" + caseLibName));
+                // fs.existsSync(path.resolve(__dirname, "../../temp/" + caseLibName + ".zip"))
+                // && fs.unlinkSync(path.resolve(__dirname, "../../temp/" + caseLibName + ".zip"));
+            });
         });
     };
     var QueryCaseLibGroup = function (params, callback) {
@@ -512,7 +522,7 @@ try {
                 } catch (e) {
                     console.error(TAG, "QueryTestProjectDetail", result, e.stack);
                 }
-                console.error(result);
+                // console.error(result);
                 (typeof callback === "function") && (
                     err1 ? callback({retcode: "03", err: err1})
                         : callback(result));
@@ -560,6 +570,68 @@ try {
                     !result ? callback({retcode: "03", err: "密码错误"})
                         : callback({retcode: "00"}));
             });
+        });
+    };
+    var AddUser = function (params, callback) {
+        var username = params.body && params.body.username;
+        var userinfo = params.body && params.body.userinfo;
+        if (!(username && userinfo && userinfo.username && userinfo.password)) {
+            (typeof callback === "function") && (callback({retcode: "01", err: "用户名或密码为空"}));
+            return;
+        }
+        User.getUser2({username: username}, {}, function (err, result) {
+            if (err || !result) {
+                (typeof callback === "function") && (callback({retcode: "02", err: username + "不存在"}));
+                return;
+            }
+            var role = result.role;//权限控制 不低于userinfo.role
+        });
+    };
+    var DeleteUser = function (params, callback) {
+        var username = params.body && params.body.username;
+        var userinfo = params.body && params.body.userinfo;
+        if (!(username && userinfo && userinfo.username)) {
+            (typeof callback === "function") && (callback({retcode: "01", err: "用户名或密码为空"}));
+            return;
+        }
+        User.getUser2({username: username}, {}, function (err, result) {
+            if (err || !result) {
+                (typeof callback === "function") && (callback({retcode: "02", err: username + "不存在"}));
+                return;
+            }
+            var role = result.role;//权限控制 不低于userinfo.role
+        });
+    };
+    var QueryUser = function (params, callback) {
+        var username = params.body && params.body.username;
+        if (!(username)) {
+            (typeof callback === "function") && (callback({retcode: "01", err: "用户名或密码为空"}));
+            return;
+        }
+        User.getUser2({username: username}, {}, function (err, result) {
+            if (err || !result) {
+                (typeof callback === "function") && (callback({retcode: "02", err: username + "不存在"}));
+                return;
+            }
+            var role = result.role;//权限控制 不低于userinfo.role
+            User.getUsers2({}, {}, function (err, result) {
+
+            });
+        });
+    };
+    var UpdateUser = function (params, callback) {
+        var username = params.body && params.body.username;
+        var userinfo = params.body && params.body.userinfo;
+        if (!(username && userinfo && userinfo.username && userinfo.password)) {
+            (typeof callback === "function") && (callback({retcode: "01", err: "用户名或密码为空"}));
+            return;
+        }
+        User.getUser2({username: username}, {}, function (err, result) {
+            if (err || !result) {
+                (typeof callback === "function") && (callback({retcode: "02", err: username + "不存在"}));
+                return;
+            }
+            var role = result.role;//权限控制 不低于userinfo.role
         });
     };
 

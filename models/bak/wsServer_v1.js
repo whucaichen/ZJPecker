@@ -5,13 +5,15 @@
 var TAG = "[wsServer.js]: ";
 var fs = require('fs');
 var path = require("path");
+var iconv = require("iconv-lite");
 // var helper = require("./serverHelper");
 var formidable = require('formidable');
 var http_server = require('http').createServer(function (req, res) {
-    if (req.url === '/upload/' && req.method.toLowerCase() === 'post') {
+    console.log(req.url, req.method);
+    if (req.url === '/upload' && req.method.toLowerCase() === 'post') {
         try {
             var form = new formidable.IncomingForm();   //创建上传表单
-            // form.encoding = 'utf-8';		//设置编码
+            form.encoding = 'utf-8';		//设置编码
             form.uploadDir = "../../temp/";	 //缓存路径
             // form.multiples = true;	 //多文件上传
             form.keepExtensions = true;	 //保留后缀
@@ -26,6 +28,7 @@ var http_server = require('http').createServer(function (req, res) {
                 }
                 console.log(TAG, JSON.stringify(files));
                 var fileName = files.upload && files.upload.name;
+                console.log(iconv.decode(fileName, "ascii"));
                 if (!fileName) {
                     res.end("upload data is null");
                     return;
@@ -52,15 +55,15 @@ var http_server = require('http').createServer(function (req, res) {
         }
         return;
     }
-    // res.writeHead(200, {'content-type': 'text/html'});
+    res.writeHead(200, {'content-type': 'text/html'});
     // // var page = fs.readFileSync("./uiws/index.html").toString();
     // // res.end(page);
-    // res.end(
-    //     '<form action="/upload" enctype="multipart/form-data" method="post">' +
-    //     '<input type="file" name="upload" multiple="multiple"><br>' +
-    //     '<input type="submit" value="Upload">' +
-    //     '</form>'
-    // );
+    res.end(
+        '<form action="/upload" enctype="multipart/form-data" method="post">' +
+        '<input type="file" name="upload" multiple="multiple"><br>' +
+        '<input type="submit" value="Upload">' +
+        '</form>'
+    );
     console.log(TAG, new Date().toLocaleString());
     // res.end();
 }).listen(8888);

@@ -187,6 +187,19 @@ var deleteField = function () {
             err && console.error(err);
         })
 };
+
+ProjectCase.updateProjectCase2({caseLibId: ObjectId("58c602fc699b9e4150f61ebb")}, {
+    $set: {
+        traceParameter: [
+            {traceLevel: "test", traceContent: "test", screenPicName: null},
+            {traceLevel: "test", traceContent: "test", screenPicName: null},
+            {traceLevel: "test", traceContent: "test", screenPicName: null}
+        ]
+    }
+}, function (err, result) {
+    err && console.error(err);
+});
+
 // deleteField();
 
 /**

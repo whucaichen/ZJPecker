@@ -8,6 +8,8 @@ var TAG = function () {
 var fs = require('fs');
 var url = require("url");
 var path = require("path");
+var util = require('util');
+global.IsCrypted = process.argv[3] || false;
 var helper = require("./serverHelper");
 var ObjectID = require('mongodb').ObjectId;
 var DeviceInfo = require("../db/db_device_info");
@@ -18,6 +20,48 @@ if (!fs.existsSync(root)) {
     fs.mkdirSync(root);
 }
 var http_server = require('http').createServer(function (req, res) {
+    try {
+        if (req.url === '/httpupload' && req.method.toLowerCase() === 'post') {
+            var form = formidable.IncomingForm(); //实例化formidable对象，然后调用该对象下的IncomingForm()方法
+            form.uploadDir = root; //调用form.uploadDir属性设置文件上传的路径
+            form.parse(req, function (err, fields, files) { //调用form.parse()方法表单提交的所有数据，字段、文件等
+                if (err) { //如果出错则终止程序并抛出错误
+                    throw err;
+                } else {
+                    //console.log(fields,files);
+                    var fileFolder = root + "/" + fields.name;
+                    if (mkdirsSync(fileFolder)) {
+                        var oldpath = files.files.path; //files.files.path与form.uploadDir相关
+
+                        var newpath = fileFolder + '/' + files.files.name;
+                        fs.rename(oldpath, newpath, function (err) {
+                            //如果出错则终止程序并抛出错误
+                            if (err) {
+                                throw Error("upload error");
+                            }
+                            //设置MIME类型
+                            res.writeHead(200, {"Content-Type": "text/html;charset=UTF-8"});
+                            //打印检查信息
+                            res.end(util.inspect({fields: fields, files: files}));
+                            //响应结束，输出结果信息
+                            res.end("success");
+                        });
+                    } else {
+                        console.log("mk dir error");
+                        res.writeHead(400, {"Content-Type": "text/html;charset=UTF-8"});
+                        //打印检查信息
+                        res.end(util.inspect({fields: fields, files: files}));
+                        //响应结束，输出结果信息
+                        res.end("success");
+                    }
+                }
+            });
+            return;
+        }
+    } catch (ex) {
+        console.log("server.on(request) error,ex=" + ex);
+    }
+
     //将url地址的中的%20替换为空格，不然Node.js找不到文件
     var pathname = url.parse(req.url).pathname.replace(/%20/g, ' '),
         re = /(%[0-9A-Fa-f]{2}){3}/g;
@@ -486,4 +530,29 @@ function write404(req, res) {
     });
     res.write(body);
     res.end();
+}
+
+function mkdirsSync(dirpath, mode) {
+    try {
+        if (!fs.existsSync(dirpath)) {
+            var pathtmp;
+            dirpath.replace(/\//g, '\\').split(path.sep).forEach(function (dirname) {
+                if (pathtmp) {
+                    pathtmp = path.join(pathtmp, dirname);
+                }
+                else {
+                    pathtmp = dirname;
+                }
+                if (!fs.existsSync(pathtmp)) {
+                    if (!fs.mkdirSync(pathtmp, mode)) {
+                        return false;
+                    }
+                }
+            });
+        }
+        return true;
+    } catch (ex) {
+        console.log("mkdirsSync ex=" + ex);
+        return false;
+    }
 }

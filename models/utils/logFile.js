@@ -21,7 +21,7 @@ var fileName = "LogFile.txt";
 var logFile = function (data) {
     var tempDir = url + new Date().toLocaleDateString();
     !fs.existsSync(tempDir) && fs.mkdirSync(tempDir);
-    if (!fs.existsSync(url + fileName)) {
+    if (!fs.existsSync(tempDir + "/" + fileName)) {
         fs.writeFileSync(tempDir + "/" + fileName, getTime() + data + "\n");
     } else {
         fs.appendFileSync(tempDir + "/" + fileName, getTime() + data + "\n");

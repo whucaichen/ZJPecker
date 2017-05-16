@@ -413,6 +413,76 @@ var child = require("child_process");
 // console.log(params.body._id && {_id: params.body._id} || {});
 // console.log(global);
 
-// global.haha="haha";
-// 0 && console.log(haha);
+// try {
+//     var haha = "haha";
+//     function p() {
+//         try {
+//             console.log(JSON.parse(haha));
+//         } catch (e) {
+//             console.log(1, e.message);
+//             throw new Error("案例执行异常");
+//         }
+//     }
+//     p();
+// } catch (e) {
+//     console.log(2, e.message)
+// }
 
+// console.log(1 ? 1 : 0);
+
+// var haha = require("../flow/wsapcrypt.js");
+// // fs.writeFileSync("Actionlib.js", new haha().readFileSync("../res/Actionlib.zjs"));
+// fs.writeFileSync("basectrl.xml", new haha().readFileSync("../res/basectrl.zjx"));
+
+var t = child.fork("testJson.js");
+setTimeout(function () {
+    console.log("END");
+    t.send("END");
+    // process.exit(0);
+}, 5000);
+
+var AddUser = {
+    "head": {
+        "action": "AddUser"
+    },
+    "body": {
+        "username": "SuperAdmin",//超级管理员，可进行所有操作
+        "userinfo": {
+            "username": "Admin1",
+            "password": "Admin1",
+            "roles": 1  //管理员，可以管理案例库和工程，增删查改普通用户
+        }
+    }
+};
+var DeleteUser = {
+    "head": {
+        "action": "DeleteUser"
+    },
+    "body": {
+        "username": "SuperAdmin",
+        "userinfo": {
+            "username": "Admin1"
+        }
+    }
+};
+var QueryUser = {
+    "head": {
+        "action": "QueryUser"
+    },
+    "body": {
+        "username": "SuperAdmin"
+    }
+};
+var UpdateUser = {
+    "head": {
+        "action": "UpdateUser"
+    },
+    "body": {
+        "username": "SuperAdmin",
+        "userinfo": {
+            "username": "Admin1",
+            "password": "Admin2",
+            "roles": 2  //默认，普通用户，只有查看状态和修改个人信息
+        }
+    }
+};
